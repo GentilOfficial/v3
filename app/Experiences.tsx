@@ -17,7 +17,7 @@ function formatDate(date?: string) {
 export default function Experiences({ experiences }: { experiences: any[] }) {
   const { lang } = useLanguage()
 
-  const MotionTimelineItem = motion(Timeline.Item)
+  const MotionTimelineItem = motion.create(Timeline.Item)
 
   return (
     <div className="min-h-screen bg-zinc-50">
