@@ -1,0 +1,18 @@
+"use client"
+
+import { useLanguage } from "@/app/providers/LanguageContext"
+import { Button } from "@/components/ui/button"
+
+export function LanguageSwitcher() {
+  const { lang, setLang } = useLanguage()
+
+  return (
+    <Button
+      size="xs"
+      variant="ghost"
+      onClick={() => setLang(lang === "en" ? "it" : "en")}
+    >
+      {lang.toUpperCase()}
+    </Button>
+  )
+}

@@ -1,8 +1,8 @@
-import { LanguageSwitcher } from "./LanguageSwitcher"
+import { LanguageSwitcher } from "../ui/LanguageSwitcher"
 
 export default function Navbar() {
   return (
-    <nav className=" w-full backdrop-blur-md bg-white/30 shadow-md border-b border-gray-200">
+    <nav className=" w-full backdrop-blur-md shadow-md border-b border-gray-200">
       <div className="flex items-center justify-between max-w-7xl mx-auto p-5">
         <div className="flex items-center justify-center w-fit gap-5">
           <div>LOGO</div>
