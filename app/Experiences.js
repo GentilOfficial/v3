@@ -10,11 +10,11 @@ import { useLanguage } from "./LanguageContext"
 dayjs.extend(relativeTime)
 dayjs.locale("en")
 
-function formatDate(date?: string) {
+function formatDate(date) {
   return date ? dayjs(date).format("MMM YYYY") : "Present"
 }
 
-export default function Experiences({ experiences }: { experiences: any[] }) {
+export default function Experiences({ experiences }) {
   const { lang } = useLanguage()
 
   const MotionTimelineItem = motion.create(Timeline.Item)
