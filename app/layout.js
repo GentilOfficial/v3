@@ -6,7 +6,7 @@ import {
   mantineHtmlProps,
 } from "@mantine/core"
 import { LanguageProvider } from "@/app/providers/LanguageContext"
-import { LanguageSwitcher } from "@/app/components/LanguageSwitcher"
+import Navbar from "./components/Navbar"
 
 export const metadata = {
   title: "Federico Gentili",
@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         <ColorSchemeScript />
         <LanguageProvider>
           <MantineProvider>
-            <LanguageSwitcher />
+            <Navbar />
             {children}
           </MantineProvider>
         </LanguageProvider>
