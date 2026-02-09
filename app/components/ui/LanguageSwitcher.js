@@ -11,6 +11,7 @@ export function LanguageSwitcher() {
       size="xs"
       variant="ghost"
       onClick={() => setLang(lang === "en" ? "it" : "en")}
+      className="hover:cursor-pointer"
     >
       {lang.toUpperCase()}
     </Button>
