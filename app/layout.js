@@ -1,8 +1,9 @@
 import "./globals.css"
-import { LanguageProvider } from "@/app/providers/LanguageContext"
-import Navbar from "./components/layout/Navbar"
+import { LanguageProvider } from "@/providers/LanguageContext"
+import Navbar from "../components/layout/Navbar"
 import DarkVeil from "@/components/ui/DarkVeil"
 import ClickSpark from "@/components/ui/ClickSPark"
+import LenisScroll from "@/providers/LenisScroll"
 
 export const metadata = {
   title: "Federico Gentili",
@@ -13,6 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="dark">
+        <LenisScroll />
         <ClickSpark
           sparkColor="#fff"
           sparkSize={5}

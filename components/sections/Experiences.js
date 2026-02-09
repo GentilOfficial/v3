@@ -4,7 +4,7 @@ import { motion } from "motion/react"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import "dayjs/locale/en"
-import { useLanguage } from "../../providers/LanguageContext"
+import { useLanguage } from "@/providers/LanguageContext"
 
 dayjs.extend(relativeTime)
 dayjs.locale("en")

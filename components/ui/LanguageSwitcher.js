@@ -1,6 +1,6 @@
 "use client"
 
-import { useLanguage } from "@/app/providers/LanguageContext"
+import { useLanguage } from "@/providers/LanguageContext"
 import { Button } from "@/components/ui/button"
 
 export function LanguageSwitcher() {
