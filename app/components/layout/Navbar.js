@@ -1,8 +1,32 @@
+"use client"
+import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import { LanguageSwitcher } from "../ui/LanguageSwitcher"
+import { useState } from "react"
 
 export default function Navbar() {
+  const { scrollY } = useScroll()
+  const [hidden, setHidden] = useState(false)
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0
+
+    if (latest > previous && latest > 80) {
+      setHidden(true)
+    } else {
+      setHidden(false)
+    }
+  })
+
   return (
-    <nav className=" w-full backdrop-blur-lg bg-background/50 border-b border-foreground/5">
+    <motion.nav
+      className=" w-full sticky top-0 backdrop-blur-md bg-background/20 border-b border-foreground/5 shadow shadow-foreground/5"
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "-100%" },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.25, ease: "easeInOut" }}
+    >
       <div className="flex items-center justify-between max-w-7xl mx-auto p-5">
         <div className="flex items-center justify-center w-fit gap-5">
           <div>LOGO</div>
@@ -11,6 +35,6 @@ export default function Navbar() {
         </div>
         <LanguageSwitcher />
       </div>
-    </nav>
+    </motion.nav>
   )
 }
