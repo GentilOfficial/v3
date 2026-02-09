@@ -6,11 +6,27 @@ export default async function Home() {
   const KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? ""
   const supabase = createClient(URL, KEY)
 
-  const { data, error } = await supabase.from("experiences").select()
+  const { data: jobs, error } = await supabase.from("jobs").select()
 
   if (error) {
     throw new Error(error.message)
   }
 
-  return <Experiences experiences={data} />
+  const jobsWithIcons = await Promise.all(
+    jobs.map(async (job) => {
+      if (job.company_icon_path?.bucket && job.company_icon_path?.path) {
+        const { data: imageData } = supabase.storage
+          .from(job.company_icon_path.bucket)
+          .getPublicUrl(job.company_icon_path.path)
+
+        return {
+          ...job,
+          company_icon_url: imageData.publicUrl,
+        }
+      }
+      return { ...job, company_icon_url: null }
+    }),
+  )
+
+  return <Experiences experiences={jobsWithIcons} />
 }

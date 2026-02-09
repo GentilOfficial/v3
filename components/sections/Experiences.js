@@ -13,7 +13,7 @@ function formatDate(date) {
   return date ? dayjs(date).format("MMM YYYY") : "Present"
 }
 
-export default function Experiences({ experiences }) {
+export default function Experiences({ experiences, img }) {
   const { lang } = useLanguage()
 
   return (
@@ -45,6 +45,13 @@ export default function Experiences({ experiences }) {
               {formatDate(experience.started_at)} -{" "}
               {formatDate(experience.ended_at)}
             </p>
+            {experience.company_icon_url && (
+              <img
+                src={experience.company_icon_url}
+                alt={`${experience.company} logo`}
+                className="h-12 w-12"
+              />
+            )}
           </motion.div>
         ))}
       </main>
