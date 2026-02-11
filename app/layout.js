@@ -34,7 +34,9 @@ export default function RootLayout({ children }) {
           />
           <LanguageProvider>
             <Navbar />
-            {children}
+            <div className="min-h-screen">
+              <main className="mx-auto max-w-7xl px-4 py-12">{children}</main>
+            </div>
           </LanguageProvider>
         </ClickSpark>
       </body>
