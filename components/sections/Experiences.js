@@ -22,11 +22,11 @@ export default function Experiences({ experiences, img }) {
         {experiences.map((experience, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 30, x: -30 }}
+            whileInView={{ opacity: 1, y: 0, x: 0 }}
             transition={{
               duration: 0.6,
-              ease: "easeOut",
+              ease: "easeInOut",
               delay: index * 0.1,
             }}
             viewport={{ once: true }}

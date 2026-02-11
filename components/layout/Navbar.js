@@ -44,8 +44,8 @@ export default function Navbar() {
               className="logo size-7 text-white"
             />
           </div>
-          <div className="h-6 w-px bg-linear-to-b from-foreground/5 via-foreground/50 to-foreground/5 rounded-full"></div>
-          <div className="flex gap-10">
+          <div className="hidden md:block h-6 w-px bg-linear-to-b from-foreground/5 via-foreground/50 to-foreground/5 rounded-full"></div>
+          <div className="hidden gap-10 md:flex">
             {routes.map((route, index) => (
               <Link href={route.href} key={index}>
                 <Button
