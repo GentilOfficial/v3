@@ -6,6 +6,7 @@ import DarkVeil from "@/components/ui/DarkVeil"
 import ClickSpark from "@/components/ui/ClickSPark"
 import LenisScroll from "@/providers/LenisScroll"
 import GradualBlur from "@/components/ui/GradualBlur";
+import CustomCursor from "@/components/ui/CustomCursor";
 
 const font = DM_Sans({
   subsets: ['latin'],
@@ -33,12 +34,13 @@ export default function RootLayout({ children }) {
             hueShift={25}
             noiseIntensity={0}
             scanlineIntensity={0}
-            speed={1.2}
+            speed={1.5 }
             scanlineFrequency={0}
             warpAmount={1}
             resolutionScale={1}
           />
           <LanguageProvider>
+            <CustomCursor />
             <Navbar />
             <div className="min-h-screen">
               <main className="mx-auto max-w-7xl px-8 py-12">{children}</main>
