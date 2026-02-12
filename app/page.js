@@ -6,12 +6,12 @@ export default function Home() {
         <div className="flex flex-col gap-8">
           <div className="h-8 w-32 rounded-md border-foreground/5 bg-foreground/5 backdrop-blur-2xl"></div>
           <h1 className="text-5xl">
-            <span className="block">Premium Agency</span><span>for Creatives.</span>
+            <span className="block">Lorem Ipsum</span><span>dolor sit amet.</span>
           </h1>
-          <p className="text-muted-foreground">Harnessing the power of artificial intelligence to evolutionize industries and enhance human experiences.</p>
+          <p className="text-muted-foreground">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi facilis in ipsa maiores possimus reiciendis voluptatem!</p>
           <div className="flex flex-wrap gap-4">
-            <Button size="lg">Connect With Us</Button>
-            <Button variant="secondary" size="lg">What i Landing?</Button>
+            <Button size="lg">A</Button>
+            <Button variant="secondary" size="lg">B</Button>
           </div>
         </div>
       </div>
