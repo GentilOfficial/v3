@@ -1,9 +1,15 @@
+import { DM_Sans } from 'next/font/google'
 import "./globals.css"
 import { LanguageProvider } from "@/providers/LanguageContext"
 import Navbar from "../components/layout/Navbar"
 import DarkVeil from "@/components/ui/DarkVeil"
 import ClickSpark from "@/components/ui/ClickSPark"
 import LenisScroll from "@/providers/LenisScroll"
+import GradualBlur from "@/components/ui/GradualBlur";
+
+const font = DM_Sans({
+  subsets: ['latin'],
+})
 
 export const metadata = {
   title: "Federico Gentili",
@@ -12,7 +18,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={font.className}>
       <body className="dark">
         <LenisScroll />
         <ClickSpark
@@ -35,8 +41,18 @@ export default function RootLayout({ children }) {
           <LanguageProvider>
             <Navbar />
             <div className="min-h-screen">
-              <main className="mx-auto max-w-7xl px-4 py-12">{children}</main>
+              <main className="mx-auto max-w-7xl px-8 py-12">{children}</main>
             </div>
+            <GradualBlur
+                target="page"
+                position="bottom"
+                height="7rem"
+                strength={1}
+                divCount={2}
+                curve="bezier"
+                exponential={false}
+                opacity={1}
+            />
           </LanguageProvider>
         </ClickSpark>
       </body>
