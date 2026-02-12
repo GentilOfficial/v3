@@ -35,7 +35,7 @@ export default function Navbar() {
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.25, ease: "easeInOut" }}
     >
-      <div className="flex items-center justify-between max-w-7xl mx-auto p-4">
+      <div className="flex items-center justify-between max-w-7xl mx-auto py-4 px-8">
         <div className="flex items-center justify-center w-fit gap-10">
           <div>
             <Image
