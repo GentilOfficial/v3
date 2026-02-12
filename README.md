@@ -1,8 +1,15 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Portfolio — Next.js App
+
+This is my personal **portfolio web application** built with [Next.js](https://nextjs.org/) and deployed on the [Vercel](https://vercel.com/) platform.
+It showcases my projects, skills, and experiments in modern web development.
+
+## Overview
+
+The portfolio is designed to be fast, accessible, and visually engaging, leveraging the latest features of Next.js such as the App Router, server components, and optimized asset loading.
 
 ## Getting Started
 
-First, run the development server:
+Run the development server:
 
 ```bash
 npm run dev
@@ -14,23 +21,30 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Font
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project uses **DM Sans** as the primary font, optimized via `next/font` for performance and automatic loading.
 
-## Learn More
+## Tech Stack & Libraries
 
-To learn more about Next.js, take a look at the following resources:
+### UI & Styling
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* **[shadcn/ui](https://ui.shadcn.com/)** — accessible and customizable UI components
+* **[Magic UI](https://magicui.design/)** — prebuilt UI patterns and visual effects
+* **[React Bits](https://reactbits.dev/)** — reusable React components and utilities
+* **[Motion](https://motion.dev/)** — animation library for fluid interactions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Backend & Database
 
-## Deploy on Vercel
+* **[Supabase](https://supabase.com/)** — PostgreSQL database, authentication, and backend services
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* Responsive and modern UI
+* Animated interactions and transitions
+* Project showcase with dynamic content
+* Integration with Supabase for data
+* Optimized performance with Next.js and Vercel
+
