@@ -16,24 +16,20 @@ export default function Navbar() {
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0
 
-    if (latest > previous && latest > 80) {
-      setHidden(true)
-    } else {
-      setHidden(false)
-    }
+    setHidden(latest > previous)
   })
 
   const pathname = usePathname()
 
   return (
     <motion.nav
-      className=" w-full sticky top-0 backdrop-blur-lg bg-background/30 border-b border-foreground/5 shadow shadow-foreground/5"
+      className=" w-full sticky top-0 z-100 backdrop-blur-lg bg-background/30 border-b border-foreground/5 shadow shadow-foreground/5"
       variants={{
         visible: { y: 0 },
         hidden: { y: "-100%" },
       }}
       animate={hidden ? "hidden" : "visible"}
-      transition={{ duration: 0.25, ease: "easeInOut" }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <div className="flex items-center justify-between max-w-7xl mx-auto py-4 px-8">
         <div className="flex items-center justify-center w-fit gap-10">
