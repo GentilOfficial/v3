@@ -34,10 +34,10 @@ const CustomCursor = () => {
     }, []);
 
     return (
-        <div className="pointer-events-none fixed z-50">
+        <div className="pointer-events-none fixed -z-10">
             <div
                 ref={cursorRef}
-                className="follower size-3 rounded-full bg-foreground fixed mix-blend-difference -left-1.5"
+                className="follower size-3 rounded-full bg-secondary-foreground/50 fixed mix-blend-difference -left-1.5"
                 style={{ opacity: 0 }}
             />
         </div>
