@@ -7,6 +7,7 @@ import ClickSpark from "@/components/ui/ClickSPark"
 import LenisScroll from "@/providers/LenisScroll"
 import GradualBlur from "@/components/ui/GradualBlur";
 import CustomCursor from "@/components/ui/CustomCursor";
+import ConsoleSignature from "@/components/layout/ConsoleSignature";
 
 const font = DM_Sans({
   subsets: ['latin'],
@@ -57,6 +58,7 @@ export default function RootLayout({ children }) {
             />
           </LanguageProvider>
         </ClickSpark>
+      <ConsoleSignature />
       </body>
     </html>
   )
