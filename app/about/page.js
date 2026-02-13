@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js"
-import Experiences from "@/components/sections/Experiences"
+import Experiences from "@/components/sections/about/Experiences"
 
 export default async function About() {
   const URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""

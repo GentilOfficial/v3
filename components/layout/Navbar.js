@@ -40,17 +40,21 @@ export default function Navbar() {
               className="logo size-7 text-white"
             />
           </div>
-          <div className="hidden md:block h-6 w-px bg-linear-to-b from-foreground/5 via-foreground/50 to-foreground/5 rounded-full"></div>
+          <div className="hidden md:block h-6 w-px bg-linear-to-b from-foreground/5 via-foreground/20 to-foreground/5 rounded-full"></div>
           <div className="hidden gap-10 md:flex">
             {routes.map((route, index) => (
-              <Link href={route.href} key={index}>
-                <Button
-                  size="sm"
-                  variant={pathname === route.href ? "secondary" : "ghost"}
-                  className="hover:cursor-pointer"
-                >
+              <Link
+                  href={route.href}
+                  key={index}
+                  className={`
+                  ${
+                    pathname === route.href 
+                      ? "text-foreground/80" 
+                      : "text-foreground/50 hover:text-foreground/80"
+                  } 
+                  transition duration-300
+                  `}>
                   {route.name}
-                </Button>
               </Link>
             ))}
           </div>

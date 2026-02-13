@@ -1,7 +1,7 @@
 import { DM_Sans } from 'next/font/google'
 import "./globals.css"
 import { LanguageProvider } from "@/providers/LanguageContext"
-import Navbar from "../components/layout/Navbar"
+import Navbar from "@/components/layout/Navbar"
 import DarkVeil from "@/components/ui/DarkVeil"
 import ClickSpark from "@/components/ui/ClickSPark"
 import LenisScroll from "@/providers/LenisScroll"
@@ -43,9 +43,11 @@ export default function RootLayout({ children }) {
           <LanguageProvider>
             <CustomCursor />
             <Navbar />
-            <div className="min-h-screen">
-              <main className="mx-auto max-w-7xl px-8 py-12">{children}</main>
-            </div>
+              <main className="min-h-[calc(100vh-61px)]">
+                <div className="mx-auto max-w-7xl px-8 py-12">
+                  {children}
+                </div>
+              </main>
             <GradualBlur
                 target="page"
                 position="bottom"
