@@ -5,6 +5,7 @@ import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import "dayjs/locale/en"
 import { useLanguage } from "@/providers/LanguageContext"
+import Image from "next/image";
 
 dayjs.extend(relativeTime)
 dayjs.locale("en")
@@ -13,7 +14,7 @@ function formatDate(date) {
   return date ? dayjs(date).format("MMM YYYY") : "Present"
 }
 
-export default function Experiences({ experiences, img }) {
+export default function Experiences({ experiences }) {
   const { lang } = useLanguage()
 
   return experiences.map((experience, index) => (
@@ -42,7 +43,7 @@ export default function Experiences({ experiences, img }) {
         {formatDate(experience.started_at)} - {formatDate(experience.ended_at)}
       </p>
       {experience.company_icon_url && (
-        <img
+        <Image
           src={experience.company_icon_url}
           alt={`${experience.company} logo`}
           className="h-12 w-12"
