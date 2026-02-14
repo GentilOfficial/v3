@@ -46,7 +46,9 @@ export default function Experiences({ experiences }) {
         <Image
           src={experience.company_icon_url}
           alt={`${experience.company} logo`}
-          className="h-12 w-12"
+          width={64}
+          height={64}
+          className="size-12"
         />
       )}
     </motion.div>
