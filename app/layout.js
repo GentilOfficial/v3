@@ -43,8 +43,8 @@ export default function RootLayout({ children }) {
           <LanguageProvider>
             <CustomCursor />
             <Navbar />
-              <main className="min-h-[calc(100vh-61px)]">
-                <div className="mx-auto max-w-7xl px-8 py-12">
+              <main className="min-h-screen">
+                <div className="mx-auto max-w-7xl px-8 py-32">
                   {children}
                 </div>
               </main>
