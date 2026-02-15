@@ -31,15 +31,17 @@ export default function RootLayout({ children }) {
           duration={300}
           extraScale={0.5}
         >
-          <DarkVeil
-            hueShift={25}
-            noiseIntensity={0}
-            scanlineIntensity={0}
-            speed={1.5 }
-            scanlineFrequency={0}
-            warpAmount={1}
-            resolutionScale={1}
-          />
+          <div className="absolute w-screen h-screen top-0 left-0">
+            <DarkVeil
+                hueShift={25}
+                noiseIntensity={0}
+                scanlineIntensity={0}
+                speed={1.5 }
+                scanlineFrequency={0}
+                warpAmount={1}
+                resolutionScale={1}
+            />
+          </div>
           <LanguageProvider>
             <CustomCursor />
             <Navbar />
