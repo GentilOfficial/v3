@@ -9,6 +9,7 @@ import Link from "next/link"
 import { HamburgerButton } from "@/components/ui/HamburgerButton"
 import { usePathname } from "next/navigation"
 import { NavbarMobileMenu } from "./NavbarMobileMenu"
+import {ThemeToggle} from "@/components/ui/ThemeToggle"
 
 const navVariants = {
   visible: { y: 0 },
@@ -63,6 +64,7 @@ export default function Navbar() {
             </div>
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
+              <ThemeToggle />
               <HamburgerButton open={open} setOpen={setOpen} />
             </div>
           </div>

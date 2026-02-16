@@ -1,8 +1,9 @@
 import { DM_Sans } from 'next/font/google'
 import "./globals.css"
 import { LanguageProvider } from "@/providers/LanguageContext"
+import { ThemeProvider } from "@/providers/ThemeProvider"
 import Navbar from "@/components/layout/Navbar"
-import DarkVeil from "@/components/ui/DarkVeil"
+import ColorBends from "@/components/ui/ColorBends"
 import ClickSpark from "@/components/ui/ClickSPark"
 import LenisScroll from "@/providers/LenisScroll"
 import GradualBlur from "@/components/ui/GradualBlur";
@@ -20,8 +21,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={font.className}>
-      <body className="dark">
+    <html lang="en" className={font.className} suppressHydrationWarning>
+      <body>
+      <ThemeProvider>
         <LenisScroll />
         <ClickSpark
           sparkColor="#fff"
@@ -31,15 +33,19 @@ export default function RootLayout({ children }) {
           duration={300}
           extraScale={0.5}
         >
-          <div className="absolute w-screen h-screen top-0 left-0">
-            <DarkVeil
-                hueShift={25}
-                noiseIntensity={0}
-                scanlineIntensity={0}
-                speed={1.5 }
-                scanlineFrequency={0}
-                warpAmount={1}
-                resolutionScale={1}
+          <div className="absolute w-screen h-screen top-0 left-0 -z-20">
+            <ColorBends
+                rotation={80}
+                speed={0.25}
+                colors={["#004cff","#1100ff","#006eff","#263fc0"]}
+                transparent
+                autoRotate={0.45}
+                scale={1}
+                frequency={1}
+                warpStrength={1}
+                mouseInfluence={0.5}
+                parallax={1}
+                noise={0}
             />
           </div>
           <LanguageProvider>
@@ -62,6 +68,7 @@ export default function RootLayout({ children }) {
             />
           </LanguageProvider>
         </ClickSpark>
+      </ThemeProvider>
       <ConsoleSignature />
       </body>
     </html>
