@@ -9,6 +9,7 @@ import LenisScroll from "@/providers/LenisScroll"
 import GradualBlur from "@/components/ui/GradualBlur";
 import CustomCursor from "@/components/ui/CustomCursor";
 import ConsoleSignature from "@/components/layout/ConsoleSignature";
+import {cn} from "@/lib/utils";
 
 const font = DM_Sans({
   subsets: ['latin'],
@@ -33,19 +34,27 @@ export default function RootLayout({ children }) {
           duration={300}
           extraScale={0.5}
         >
-          <div className="absolute w-screen h-screen top-0 left-0 -z-20">
+          <div className="absolute -z-20 size-full max-h-180 dark:opacity-50 blur-lg">
             <ColorBends
-                rotation={80}
-                speed={0.25}
-                colors={["#004cff","#1100ff","#006eff","#263fc0"]}
+                rotation={120}
+                speed={0.5}
+                colors={[
+                  "#006fff",
+                  "#0004ff",
+                  "#0a4885",
+                ]}
+                color=""
                 transparent
-                autoRotate={0.45}
-                scale={1}
+                autoRotate={1}
+                scale={2}
                 frequency={1}
                 warpStrength={1}
-                mouseInfluence={0.5}
-                parallax={1}
+                mouseInfluence={0}
+                parallax={0}
                 noise={0}
+                className={cn(
+                    "mask-[linear-gradient(to_bottom,transparent,white,transparent)]"
+                )}
             />
           </div>
           <LanguageProvider>

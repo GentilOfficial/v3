@@ -1,18 +1,36 @@
-import {Button} from "@/components/ui/button";
+import welcome from "@/config/content.config";
+import routes from "@/config/routes.config";
+import {Terminal, AnimatedSpan, TypingAnimation} from "@/components/ui/terminal";
 
 export default function Welcome() {
+    const { terminal, title, secondTitle, description } = welcome;
     return (
-        <div className="py-4 flex gap-4">
-            <div className="flex flex-col gap-8">
-                <div className="h-8 w-32 rounded-md border-foreground/5 bg-foreground/5 backdrop-blur-2xl"></div>
-                <h1 className="text-5xl">
-                    <span className="block">Lorem Ipsum</span><span>dolor sit amet.</span>
+        <div className="flex flex-col lg:flex-row gap-4 min-h-180">
+            <div className="flex flex-col gap-8 flex-1">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl">
+                    <span className="block">{title}</span>
+                    <span>{secondTitle}</span>
                 </h1>
-                <p className="text-muted-foreground">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi facilis in ipsa maiores possimus reiciendis voluptatem!</p>
-                <div className="flex flex-wrap gap-4">
-                    <Button size="lg">A</Button>
-                    <Button variant="secondary" size="lg">B</Button>
-                </div>
+                <p className="text-muted-foreground max-w-4/5">{description}</p>
+            </div>
+
+            <div className="flex-1 flex items-start justify-center lg:justify-end">
+                <Terminal className="max-w-lg h-fit">
+                    <TypingAnimation>{terminal.command}</TypingAnimation>
+
+                    {terminal.output.map((line, i) => (
+                        <AnimatedSpan key={i}>{line}</AnimatedSpan>
+                    ))}
+
+                    {routes.map((route, i) => (
+                        <AnimatedSpan key={`route-${i}`}>
+                            {i === 0 ? "┌" : i === routes.length - 1 ? "└" : "├"} ○ {route.href}
+                        </AnimatedSpan>
+                    ))}
+
+                    <AnimatedSpan></AnimatedSpan>
+                    <TypingAnimation>{terminal.success}</TypingAnimation>
+                </Terminal>
             </div>
         </div>
     )
