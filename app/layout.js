@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
           duration={300}
           extraScale={0.5}
         >
-          <div className="absolute -z-20 size-full max-h-180 dark:opacity-50 blur-lg">
+          <div className="absolute -z-20 size-full min-h-screen max-h-180 dark:opacity-50 blur-lg">
             <ColorBends
                 rotation={120}
                 speed={0.5}
@@ -53,7 +53,7 @@ export default function RootLayout({ children }) {
                 parallax={0}
                 noise={0}
                 className={cn(
-                    "mask-[linear-gradient(to_bottom,transparent,white,transparent)]"
+                    "mask-[linear-gradient(to_bottom,white,transparent)]"
                 )}
             />
           </div>
