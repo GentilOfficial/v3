@@ -1,141 +1,92 @@
 "use client"
 
-import { useTheme } from "next-themes"
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu"
-import { flushSync } from "react-dom"
-import { useEffect, useState, useCallback, useRef } from "react"
-import { Sun, Moon, Laptop, Loader } from "lucide-react"
-
-function ThemeMenuItem({
-  value,
-  icon: Icon,
-  label,
-  theme,
-  animateThemeChange,
-}) {
-  return (
-    <DropdownMenuItem
-      onClick={() => animateThemeChange(value)}
-      className="flex items-center justify-between hover:cursor-pointer"
-    >
-      <div className="flex items-center gap-2">
-        <Icon className="size-4" />
-        {label}
-      </div>
-      {theme === value && <span className="size-2 rounded-full bg-primary" />}
-    </DropdownMenuItem>
-  )
-}
+import {useTheme} from "next-themes"
+import {Button} from "@/components/ui/button"
+import {flushSync} from "react-dom"
+import {useCallback, useEffect, useRef, useState} from "react"
+import {Loader, Moon, Sun} from "lucide-react"
 
 export function ThemeToggle() {
-  const { setTheme, theme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  const buttonRef = useRef(null)
+    const {setTheme, theme, resolvedTheme} = useTheme()
+    const [mounted, setMounted] = useState(false)
+    const buttonRef = useRef(null)
 
-  useEffect(() => {
-    requestAnimationFrame(() => setMounted(true))
-  }, [])
+    useEffect(() => {
+        requestAnimationFrame(() => setMounted(true))
+    }, [])
 
-  const animateThemeChange = useCallback(
-    async (newTheme) => {
-      await document.startViewTransition(() => {
-        flushSync(() => {
-          setTheme(newTheme)
+    const runClipAnimation = (rect) => {
+        const x = rect.left + rect.width / 2
+        const y = rect.top + rect.height / 2
+
+        const maxRadius = Math.hypot(
+            Math.max(rect.left, window.innerWidth - rect.left),
+            Math.max(rect.top, window.innerHeight - rect.top),
+        )
+
+        document.documentElement.animate(
+            {
+                clipPath: [
+                    `circle(0px at ${x}px ${y}px)`,
+                    `circle(${maxRadius}px at ${x}px ${y}px)`,
+                ],
+            },
+            {
+                duration: 400,
+                easing: "ease-in-out",
+                pseudoElement: "::view-transition-new(root)",
+            },
+        )
+    }
+
+    const toggleTheme = useCallback(async () => {
+        if (!mounted) return
+
+        const current = resolvedTheme ?? theme
+        const nextTheme = current === "dark" ? "light" : "dark"
+
+        const rect = buttonRef.current?.getBoundingClientRect()
+
+        const prefersReducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches
+
+        const supportsTransition = "startViewTransition" in document
+
+        if (!supportsTransition || prefersReducedMotion) {
+            setTheme(nextTheme)
+            return
+        }
+
+        const transition = document.startViewTransition(() => {
+            flushSync(() => setTheme(nextTheme))
         })
-      }).ready
 
-      const rect = buttonRef.current?.getBoundingClientRect()
-      if (!rect) return
+        await transition.ready
+        if (rect) runClipAnimation(rect)
+    }, [mounted, resolvedTheme, theme, setTheme])
 
-      const { top, left, width, height } = rect
-      const x = left + width / 2
-      const y = top + height / 2
+    if (!mounted) {
+        return (
+            <Button variant="outline" size="icon" aria-label="Toggle theme">
+                <Loader className="size-4 animate-spin"/>
+            </Button>
+        )
+    }
 
-      const maxRadius = Math.hypot(
-        Math.max(left, window.innerWidth - left),
-        Math.max(top, window.innerHeight - top),
-      )
+    const isDark = (resolvedTheme ?? theme) === "dark"
+    const Icon = isDark ? Sun : Moon
 
-      document.documentElement.animate(
-        {
-          clipPath: [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${maxRadius}px at ${x}px ${y}px)`,
-          ],
-        },
-        {
-          duration: 500,
-          easing: "ease-in-out",
-          pseudoElement: "::view-transition-new(root)",
-        },
-      )
-    },
-    [setTheme],
-  )
-
-  const renderIcon = () => {
-    if (!mounted) return <Loader className="animate-spin size-4" />
-    if (theme === "dark") return <Moon className="size-4" />
-    if (theme === "light") return <Sun className="size-4" />
-    return <Laptop className="size-4" />
-  }
-
-  const Item = ({ value, icon: Icon, label }) => (
-    <DropdownMenuItem
-      onClick={() => animateThemeChange(value)}
-      className="flex items-center justify-between"
-    >
-      <div className="flex items-center gap-2">
-        <Icon className="size-4" />
-        {label}
-      </div>
-      {theme === value && <span className="size-2 rounded-full bg-primary" />}
-    </DropdownMenuItem>
-  )
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    return (
         <Button
-          aria-label="Theme"
-          ref={buttonRef}
-          variant="outline"
-          size="icon"
-          className="hover:cursor-pointer"
+            ref={buttonRef}
+            variant="outline"
+            size="icon"
+            aria-label="Toggle theme"
+            onClick={toggleTheme}
+            className="hover:cursor-pointer"
         >
-          {renderIcon()}
+            <Icon className="size-4"/>
         </Button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent align="end">
-        <ThemeMenuItem
-          value="light"
-          icon={Sun}
-          label="Light"
-          theme={theme}
-          animateThemeChange={animateThemeChange}
-        />
-        <ThemeMenuItem
-          value="dark"
-          icon={Moon}
-          label="Dark"
-          theme={theme}
-          animateThemeChange={animateThemeChange}
-        />
-        <ThemeMenuItem
-          value="system"
-          icon={Laptop}
-          label="System"
-          theme={theme}
-          animateThemeChange={animateThemeChange}
-        />
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+    )
 }
