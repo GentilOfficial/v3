@@ -1,10 +1,10 @@
-import Welcome from "@/components/sections/root/welcome";
+import Hero from "@/components/sections/root/hero";
 
 
 export default function Home() {
-  return (
-      <div>
-        <Welcome />
-      </div>
-  )
+    return (
+        <div>
+            <Hero/>
+        </div>
+    )
 }

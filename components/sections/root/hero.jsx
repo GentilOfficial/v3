@@ -1,9 +1,9 @@
-import welcome from "@/config/content.config";
+import hero from "@/config/content.config";
 import routes from "@/config/routes.config";
-import {Terminal, AnimatedSpan, TypingAnimation} from "@/components/ui/terminal";
+import {AnimatedSpan, Terminal, TypingAnimation} from "@/components/ui/terminal";
 
-export default function Welcome() {
-    const { terminal, title, secondTitle, description } = welcome;
+export default function Hero() {
+    const {terminal, title, secondTitle, description} = hero;
     return (
         <div className="flex flex-col lg:flex-row gap-4 min-h-180">
             <div className="flex flex-col gap-8 flex-1">
