@@ -47,6 +47,7 @@ export default function BackgroundClient(props) {
                     height={1080}
                     alt="Background"
                     style={{width: "100%", height: "100%", objectFit: "cover"}}
+                    loading="eager"
                 />
             ) : (
                 <ColorBends {...props} />

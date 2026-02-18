@@ -8,7 +8,7 @@ import LenisScroll from "@/providers/LenisScroll"
 import GradualBlur from "@/components/ui/GradualBlur";
 import CustomCursor from "@/components/ui/CustomCursor";
 import ConsoleSignature from "@/components/layout/ConsoleSignature";
-import BackgroundClient from "@/components/ui/DynamicBackground";
+import BackgroundClient from "@/components/layout/DynamicBackground";
 import {cn} from "@/lib/utils";
 
 const font = DM_Sans({
