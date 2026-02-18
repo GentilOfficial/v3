@@ -1,8 +1,8 @@
 "use client"
-import { useEffect, useRef } from 'react';
+import {memo, useEffect, useRef} from 'react';
 import * as THREE from 'three';
 
-const MAX_COLORS = 8;
+const MAX_COLORS = 4;
 
 const frag = `
 #define MAX_COLORS ${MAX_COLORS}
@@ -96,199 +96,229 @@ void main() {
 }
 `;
 
-export default function ColorBends({
-                                     className,
-                                     style,
-                                     rotation = 45,
-                                     speed = 0.2,
-                                     colors = [],
-                                     transparent = true,
-                                     autoRotate = 0,
-                                     scale = 1,
-                                     frequency = 1,
-                                     warpStrength = 1,
-                                     mouseInfluence = 1,
-                                     parallax = 0.5,
-                                     noise = 0.1
-                                   }) {
-  const containerRef = useRef(null);
-  const rendererRef = useRef(null);
-  const rafRef = useRef(null);
-  const materialRef = useRef(null);
-  const resizeObserverRef = useRef(null);
-  const rotationRef = useRef(rotation);
-  const autoRotateRef = useRef(autoRotate);
-  const pointerTargetRef = useRef(new THREE.Vector2(0, 0));
-  const pointerCurrentRef = useRef(new THREE.Vector2(0, 0));
-  const pointerSmoothRef = useRef(8);
+function ColorBends({
+                        className,
+                        style,
+                        rotation = 45,
+                        speed = 0.2,
+                        colors = [],
+                        transparent = true,
+                        autoRotate = 0,
+                        scale = 1,
+                        frequency = 1,
+                        warpStrength = 1,
+                        mouseInfluence = 1,
+                        parallax = 0.5,
+                        noise = 0.1
+                    }) {
+    const containerRef = useRef(null);
+    const rendererRef = useRef(null);
+    const rafRef = useRef(null);
+    const materialRef = useRef(null);
+    const resizeObserverRef = useRef(null);
+    const rotationRef = useRef(rotation);
+    const autoRotateRef = useRef(autoRotate);
+    const pointerTargetRef = useRef(new THREE.Vector2(0, 0));
+    const pointerCurrentRef = useRef(new THREE.Vector2(0, 0));
+    const pointerSmoothRef = useRef(8);
+    const visibleRef = useRef(true);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    useEffect(() => {
+        const observer = new IntersectionObserver(([entry]) => {
+            visibleRef.current = entry.isIntersecting;
+        });
+        observer.observe(containerRef.current);
+        return () => observer.disconnect();
+    }, []);
 
-    const geometry = new THREE.PlaneGeometry(2, 2);
-    const uColorsArray = Array.from({ length: MAX_COLORS }, () => new THREE.Vector3(0, 0, 0));
-    const material = new THREE.ShaderMaterial({
-      vertexShader: vert,
-      fragmentShader: frag,
-      uniforms: {
-        uCanvas: { value: new THREE.Vector2(1, 1) },
-        uTime: { value: 0 },
-        uSpeed: { value: speed },
-        uRot: { value: new THREE.Vector2(1, 0) },
-        uColorCount: { value: 0 },
-        uColors: { value: uColorsArray },
-        uTransparent: { value: transparent ? 1 : 0 },
-        uScale: { value: scale },
-        uFrequency: { value: frequency },
-        uWarpStrength: { value: warpStrength },
-        uPointer: { value: new THREE.Vector2(0, 0) },
-        uMouseInfluence: { value: mouseInfluence },
-        uParallax: { value: parallax },
-        uNoise: { value: noise }
-      },
-      premultipliedAlpha: true,
-      transparent: true
-    });
-    materialRef.current = material;
+    useEffect(() => {
+        const container = containerRef.current;
+        const scene = new THREE.Scene();
+        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+        const geometry = new THREE.PlaneGeometry(2, 2);
+        const uColorsArray = Array.from({length: MAX_COLORS}, () => new THREE.Vector3(0, 0, 0));
+        const material = new THREE.ShaderMaterial({
+            vertexShader: vert,
+            fragmentShader: frag,
+            uniforms: {
+                uCanvas: {value: new THREE.Vector2(1, 1)},
+                uTime: {value: 0},
+                uSpeed: {value: speed},
+                uRot: {value: new THREE.Vector2(1, 0)},
+                uColorCount: {value: 0},
+                uColors: {value: uColorsArray},
+                uTransparent: {value: transparent ? 1 : 0},
+                uScale: {value: scale},
+                uFrequency: {value: frequency},
+                uWarpStrength: {value: warpStrength},
+                uPointer: {value: new THREE.Vector2(0, 0)},
+                uMouseInfluence: {value: mouseInfluence},
+                uParallax: {value: parallax},
+                uNoise: {value: noise}
+            },
+            premultipliedAlpha: true,
+            transparent: true
+        });
+        materialRef.current = material;
 
-    const renderer = new THREE.WebGLRenderer({
-      antialias: false,
-      powerPreference: 'high-performance',
-      alpha: true
-    });
-    rendererRef.current = renderer;
-    // Three r152+ uses outputColorSpace and SRGBColorSpace
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.setClearColor(0x000000, transparent ? 0 : 1);
-    renderer.domElement.style.width = '100%';
-    renderer.domElement.style.height = '100%';
-    renderer.domElement.style.display = 'block';
-    container.appendChild(renderer.domElement);
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
 
-    const clock = new THREE.Clock();
+        const renderer = new THREE.WebGLRenderer({
+            antialias: false,
+            powerPreference: 'high-performance',
+            alpha: true
+        });
+        rendererRef.current = renderer;
+        // Three r152+ uses outputColorSpace and SRGBColorSpace
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+        renderer.setClearColor(0x000000, transparent ? 0 : 1);
+        renderer.domElement.style.width = '100%';
+        renderer.domElement.style.height = '100%';
+        renderer.domElement.style.display = 'block';
+        container.appendChild(renderer.domElement);
 
-    const handleResize = () => {
-      const w = container.clientWidth || 1;
-      const h = container.clientHeight || 1;
-      renderer.setSize(w, h, false);
-      material.uniforms.uCanvas.value.set(w, h);
-    };
+        const clock = new THREE.Clock();
 
-    handleResize();
+        let resizeRaf = null;
 
-    if ('ResizeObserver' in window) {
-      const ro = new ResizeObserver(handleResize);
-      ro.observe(container);
-      resizeObserverRef.current = ro;
-    } else {
-      window.addEventListener('resize', handleResize);
-    }
+        const handleResize = () => {
+            if (resizeRaf) return;
+            resizeRaf = requestAnimationFrame(() => {
+                resizeRaf = null;
+                const w = container.clientWidth || 1;
+                const h = container.clientHeight || 1;
+                renderer.setSize(w, h, false);
+                material.uniforms.uCanvas.value.set(w, h);
+            });
+        };
 
-    const loop = () => {
-      const dt = clock.getDelta();
-      const elapsed = clock.elapsedTime;
-      material.uniforms.uTime.value = elapsed;
+        handleResize();
 
-      const deg = (rotationRef.current % 360) + autoRotateRef.current * elapsed;
-      const rad = (deg * Math.PI) / 180;
-      const c = Math.cos(rad);
-      const s = Math.sin(rad);
-      material.uniforms.uRot.value.set(c, s);
+        if ('ResizeObserver' in window) {
+            const ro = new ResizeObserver(handleResize);
+            ro.observe(container);
+            resizeObserverRef.current = ro;
+        } else {
+            window.addEventListener('resize', handleResize);
+        }
+        const targetFPS = 30;
+        let lastTime = 0;
 
-      const cur = pointerCurrentRef.current;
-      const tgt = pointerTargetRef.current;
-      const amt = Math.min(1, dt * pointerSmoothRef.current);
-      cur.lerp(tgt, amt);
-      material.uniforms.uPointer.value.copy(cur);
-      renderer.render(scene, camera);
-      rafRef.current = requestAnimationFrame(loop);
-    };
-    rafRef.current = requestAnimationFrame(loop);
+        const loop = (time) => {
+            if (!visibleRef.current) {
+                rafRef.current = requestAnimationFrame(loop);
+                return;
+            }
 
-    return () => {
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-      if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
-      else window.removeEventListener('resize', handleResize);
-      geometry.dispose();
-      material.dispose();
-      renderer.dispose();
-      if (renderer.domElement && renderer.domElement.parentElement === container) {
-        container.removeChild(renderer.domElement);
-      }
-    };
-  }, [frequency, mouseInfluence, noise, parallax, scale, speed, transparent, warpStrength]);
+            if (time - lastTime < 1000 / targetFPS) {
+                rafRef.current = requestAnimationFrame(loop);
+                return;
+            }
+            lastTime = time;
 
-  useEffect(() => {
-    const material = materialRef.current;
-    const renderer = rendererRef.current;
-    if (!material) return;
+            const dt = clock.getDelta();
+            const elapsed = clock.elapsedTime;
+            material.uniforms.uTime.value = elapsed;
 
-    rotationRef.current = rotation;
-    autoRotateRef.current = autoRotate;
-    material.uniforms.uSpeed.value = speed;
-    material.uniforms.uScale.value = scale;
-    material.uniforms.uFrequency.value = frequency;
-    material.uniforms.uWarpStrength.value = warpStrength;
-    material.uniforms.uMouseInfluence.value = mouseInfluence;
-    material.uniforms.uParallax.value = parallax;
-    material.uniforms.uNoise.value = noise;
+            const deg = (rotationRef.current % 360) + autoRotateRef.current * elapsed;
+            const rad = (deg * Math.PI) / 180;
+            const c = Math.cos(rad);
+            const s = Math.sin(rad);
+            material.uniforms.uRot.value.set(c, s);
 
-    const toVec3 = hex => {
-      const h = hex.replace('#', '').trim();
-      const v =
-          h.length === 3
-              ? [parseInt(h[0] + h[0], 16), parseInt(h[1] + h[1], 16), parseInt(h[2] + h[2], 16)]
-              : [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
-      return new THREE.Vector3(v[0] / 255, v[1] / 255, v[2] / 255);
-    };
+            const cur = pointerCurrentRef.current;
+            const tgt = pointerTargetRef.current;
+            const amt = Math.min(1, dt * pointerSmoothRef.current);
+            cur.lerp(tgt, amt);
+            material.uniforms.uPointer.value.copy(cur);
+            renderer.render(scene, camera);
+            rafRef.current = requestAnimationFrame(loop);
+        };
+        rafRef.current = requestAnimationFrame(loop);
 
-    const arr = (colors || []).filter(Boolean).slice(0, MAX_COLORS).map(toVec3);
-    for (let i = 0; i < MAX_COLORS; i++) {
-      const vec = material.uniforms.uColors.value[i];
-      if (i < arr.length) vec.copy(arr[i]);
-      else vec.set(0, 0, 0);
-    }
-    material.uniforms.uColorCount.value = arr.length;
+        return () => {
+            if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+            if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
+            else window.removeEventListener('resize', handleResize);
+            geometry.dispose();
+            material.dispose();
+            renderer.dispose();
+            if (renderer.domElement && renderer.domElement.parentElement === container) {
+                container.removeChild(renderer.domElement);
+            }
+        };
+    }, [frequency, mouseInfluence, noise, parallax, scale, speed, transparent, warpStrength]);
 
-    material.uniforms.uTransparent.value = transparent ? 1 : 0;
-    if (renderer) renderer.setClearColor(0x000000, transparent ? 0 : 1);
-  }, [
-    rotation,
-    autoRotate,
-    speed,
-    scale,
-    frequency,
-    warpStrength,
-    mouseInfluence,
-    parallax,
-    noise,
-    colors,
-    transparent
-  ]);
+    useEffect(() => {
+        const material = materialRef.current;
+        const renderer = rendererRef.current;
+        if (!material) return;
 
-  useEffect(() => {
-    const material = materialRef.current;
-    const container = containerRef.current;
-    if (!material || !container) return;
+        rotationRef.current = rotation;
+        autoRotateRef.current = autoRotate;
+        material.uniforms.uSpeed.value = speed;
+        material.uniforms.uScale.value = scale;
+        material.uniforms.uFrequency.value = frequency;
+        material.uniforms.uWarpStrength.value = warpStrength;
+        material.uniforms.uMouseInfluence.value = mouseInfluence;
+        material.uniforms.uParallax.value = parallax;
+        material.uniforms.uNoise.value = noise;
 
-    const handlePointerMove = e => {
-      const rect = container.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / (rect.width || 1)) * 2 - 1;
-      const y = -(((e.clientY - rect.top) / (rect.height || 1)) * 2 - 1);
-      pointerTargetRef.current.set(x, y);
-    };
+        const toVec3 = hex => {
+            const h = hex.replace('#', '').trim();
+            const v =
+                h.length === 3
+                    ? [parseInt(h[0] + h[0], 16), parseInt(h[1] + h[1], 16), parseInt(h[2] + h[2], 16)]
+                    : [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+            return new THREE.Vector3(v[0] / 255, v[1] / 255, v[2] / 255);
+        };
 
-    container.addEventListener('pointermove', handlePointerMove);
-    return () => {
-      container.removeEventListener('pointermove', handlePointerMove);
-    };
-  }, []);
+        const arr = (colors || []).filter(Boolean).slice(0, MAX_COLORS).map(toVec3);
+        for (let i = 0; i < MAX_COLORS; i++) {
+            const vec = material.uniforms.uColors.value[i];
+            if (i < arr.length) vec.copy(arr[i]);
+            else vec.set(0, 0, 0);
+        }
+        material.uniforms.uColorCount.value = arr.length;
 
-  return <div ref={containerRef} className={`w-full h-full relative overflow-hidden ${className}`} style={style} />;
+        material.uniforms.uTransparent.value = transparent ? 1 : 0;
+        if (renderer) renderer.setClearColor(0x000000, transparent ? 0 : 1);
+    }, [
+        rotation,
+        autoRotate,
+        speed,
+        scale,
+        frequency,
+        warpStrength,
+        mouseInfluence,
+        parallax,
+        noise,
+        colors,
+        transparent
+    ]);
+
+    useEffect(() => {
+        const material = materialRef.current;
+        const container = containerRef.current;
+        if (!material || !container) return;
+
+        const handlePointerMove = e => {
+            const rect = container.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / (rect.width || 1)) * 2 - 1;
+            const y = -(((e.clientY - rect.top) / (rect.height || 1)) * 2 - 1);
+            pointerTargetRef.current.set(x, y);
+        };
+
+        container.addEventListener('pointermove', handlePointerMove);
+        return () => {
+            container.removeEventListener('pointermove', handlePointerMove);
+        };
+    }, []);
+
+    return <div ref={containerRef} className={`w-full h-full relative overflow-hidden ${className}`} style={style}/>;
 }
+
+export default memo(ColorBends);
