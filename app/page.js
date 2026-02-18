@@ -1,22 +1,12 @@
 import Hero from "@/components/sections/root/hero";
+import Carousel from "@/components/sections/root/carousel";
 
 
 export default function Home() {
     return (
-        <div>
+        <div className="flex flex-col gap-4">
             <Hero/>
-            <Hero/>
-            <Hero/>
-            <Hero/>
-            <Hero/>
-            <Hero/>
-            <Hero/>
-            <Hero/>
-            <Hero/>
-            <Hero/>
-            <Hero/>
-            <Hero/>
-            <Hero/>
+            <Carousel/>
         </div>
     )
 }

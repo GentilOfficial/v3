@@ -4,55 +4,47 @@ import hero from "@/config/content.config";
 import routes from "@/config/routes.config";
 import {AnimatedSpan, Terminal, TypingAnimation} from "@/components/ui/terminal";
 import {motion, useInView} from "motion/react";
+import GradientText from "@/components/ui/GradientText";
 
 export default function Hero() {
     const {terminal, title, secondTitle, description} = hero;
-    const titleRef = useRef(null);
-    const secondTitleRef = useRef(null);
-    const descriptionRef = useRef(null);
     const terminalRef = useRef(null);
 
-    const titleInView = useInView(titleRef, {once: true});
-    const secondTitleInView = useInView(secondTitleRef, {once: true});
-    const descriptionInView = useInView(descriptionRef, {once: true});
     const terminalInView = useInView(terminalRef, {once: true});
 
-    const variants = {
-        hidden: {opacity: 0},
-        visible: {opacity: 1}
-    };
-
     return (
-        <div className="flex flex-col lg:flex-row gap-4 min-h-180">
-            <div className="flex flex-col gap-8 flex-1">
+        <div className="flex flex-col lg:flex-row gap-4 min-h-150">
+            <div className="flex flex-col gap-8 flex-1 text-center lg:text-start py-8">
                 <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl">
                     <motion.span
-                        ref={titleRef}
-                        initial="hidden"
-                        animate={titleInView ? "visible" : "hidden"}
-                        variants={variants}
-                        transition={{duration: 0.5, ease: "easeOut"}}
+                        initial={{opacity: 0, y: 20}}
+                        animate={{opacity: 1, y: 0}}
+                        transition={{duration: 1, ease: [0.25, 0.75, 0.25, 1]}}
                         className="block"
                     >
                         {title}
                     </motion.span>
                     <motion.span
-                        ref={secondTitleRef}
-                        initial="hidden"
-                        animate={secondTitleInView ? "visible" : "hidden"}
-                        variants={variants}
-                        transition={{duration: 0.5, ease: "easeOut", delay: 0.2}}
+                        initial={{opacity: 0, y: 20}}
+                        animate={{opacity: 1, y: 0}}
+                        transition={{duration: 1, ease: [0.25, 0.75, 0.25, 1], delay: 0.15}}
+                        className="block"
                     >
-                        {secondTitle}
+                        <GradientText
+                            colors={["#417352", "#59aa5f", "#66bd67", "#59aa5f", "#417352"]}
+                            animationSpeed={2}
+                            showBorder
+                            className="font-mono"
+                        >
+                            {secondTitle}
+                        </GradientText>
                     </motion.span>
                 </h1>
                 <motion.p
-                    ref={descriptionRef}
-                    initial="hidden"
-                    animate={descriptionInView ? "visible" : "hidden"}
-                    variants={variants}
-                    transition={{duration: 0.5, ease: "easeOut", delay: 0.5}}
-                    className="text-muted-foreground max-w-4/5"
+                    initial={{opacity: 0, y: 20}}
+                    animate={{opacity: 1, y: 0}}
+                    transition={{duration: 1, ease: [0.25, 0.75, 0.25, 1], delay: 0.30}}
+                    className="text-foreground/80 mx-auto md:mx-0 md:max-w-[calc(9/10 * 100%)] font-mono"
                 >
                     {description}
                 </motion.p>
@@ -63,9 +55,12 @@ export default function Hero() {
                     ref={terminalRef}
                     initial="hidden"
                     animate={terminalInView ? "visible" : "hidden"}
-                    variants={variants}
+                    variants={{
+                        hidden: {opacity: 0},
+                        visible: {opacity: 1}
+                    }}
                     transition={{duration: 0.5, ease: "easeOut", delay: 0.5}}
-                    className="max-w-lg w-full h-fit"
+                    className="max-w-lg w-full h-100"
                 >
                     <Terminal>
                         <TypingAnimation>{terminal.command}</TypingAnimation>
