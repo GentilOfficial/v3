@@ -8,8 +8,8 @@ import LenisScroll from "@/providers/LenisScroll"
 import GradualBlur from "@/components/ui/GradualBlur";
 import CustomCursor from "@/components/ui/CustomCursor";
 import ConsoleSignature from "@/components/layout/ConsoleSignature";
-import {cn} from "@/lib/utils";
 import BackgroundClient from "@/components/ui/DynamicBackground";
+import {cn} from "@/lib/utils";
 
 const font = DM_Sans({
     subsets: ['latin'],
@@ -34,7 +34,8 @@ export default function RootLayout({children}) {
                 duration={300}
                 extraScale={0.5}
             >
-                <div className="absolute -z-20 size-full min-h-screen max-h-180 dark:opacity-50 blur-sm md:blur-md">
+                <div
+                    className="absolute -z-20 size-full min-h-screen opacity-60 blur-sm md:blur-md overflow-hidden">
                     <BackgroundClient
                         rotation={80}
                         speed={0.25}
@@ -44,8 +45,8 @@ export default function RootLayout({children}) {
                         scale={1}
                         frequency={1}
                         warpStrength={1}
-                        mouseInfluence={0.5}
-                        parallax={1}
+                        mouseInfluence={0}
+                        parallax={0}
                         noise={0}
                         className={cn(
                             "mask-[linear-gradient(to_bottom,white,transparent)]"
