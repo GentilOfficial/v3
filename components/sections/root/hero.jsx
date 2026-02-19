@@ -5,9 +5,10 @@ import routes from "@/config/routes.config";
 import {AnimatedSpan, Terminal, TypingAnimation} from "@/components/ui/terminal";
 import {motion, useInView} from "motion/react";
 import GradientText from "@/components/ui/GradientText";
+import TechStackLoop from "@/components/layout/TechStackLoop";
 
 export default function Hero() {
-    const {terminal, title, secondTitle, description} = hero;
+    const {title, secondTitle, description, terminal, techStackIcons} = hero;
     const terminalRef = useRef(null);
 
     const terminalInView = useInView(terminalRef, {once: true});
@@ -48,6 +49,22 @@ export default function Hero() {
                 >
                     {description}
                 </motion.p>
+                <motion.div
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
+                    transition={{duration: 1, ease: [0.25, 0.75, 0.25, 1], delay: 0.45}}
+                    className="h-0.5 w-4/5 my-2 mx-auto lg:mx-0 bg-linear-to-r from-foreground/0 via-foreground/10 to-foreground/0"
+                ></motion.div>
+                <motion.div
+                    initial={{opacity: 0, y: 20}}
+                    animate={{opacity: 1, y: 0}}
+                    transition={{duration: 1, ease: [0.25, 0.75, 0.25, 1], delay: 0.45}}
+                >
+                    <TechStackLoop
+                        icons={techStackIcons}
+                        className="mx-auto lg:mx-0"
+                    />
+                </motion.div>
             </div>
 
             <div className="flex-1 flex items-start justify-center lg:justify-end">
@@ -56,10 +73,10 @@ export default function Hero() {
                     initial="hidden"
                     animate={terminalInView ? "visible" : "hidden"}
                     variants={{
-                        hidden: {opacity: 0},
-                        visible: {opacity: 1}
+                        hidden: {opacity: 0, x: 50},
+                        visible: {opacity: 1, x: 0}
                     }}
-                    transition={{duration: 0.5, ease: "easeOut", delay: 0.5}}
+                    transition={{duration: 1, ease: [0.25, 0.75, 0.25, 1], delay: 0.5}}
                     className="max-w-lg w-full h-100"
                 >
                     <Terminal>

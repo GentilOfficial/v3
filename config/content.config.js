@@ -1,3 +1,5 @@
+import {SiFramer, SiNextdotjs, SiReact, SiShadcnui, SiSupabase, SiTailwindcss} from "react-icons/si";
+
 const hero = {
     title: "Federico Gentili",
     secondTitle: "Web Developer",
@@ -14,6 +16,15 @@ const hero = {
         ],
         success: "Success! initialization completed.",
     },
+    techStackIcons: [
+        {node: <SiReact/>, title: "React", href: "https://react.dev"},
+        {node: <SiNextdotjs/>, title: "Next.js", href: "https://nextjs.org"},
+        {node: <SiFramer/>, title: "Motion", href: "https://motion.dev"},
+        {node: <SiTailwindcss/>, title: "Tailwind CSS", href: "https://tailwindcss.com"},
+        {node: <SiSupabase/>, title: "Supabase", href: "https://supabase.com"},
+        {node: <SiShadcnui/>, title: "Shadcn", href: "https://ui.shadcn.com"}
+    ]
 }
+
 
 export default hero
