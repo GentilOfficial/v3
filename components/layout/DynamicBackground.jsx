@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import {motion} from "motion/react";
 import Image from "next/image";
 import {useTheme} from "next-themes";
+import {cn} from "@/lib/utils";
 
 const ColorBends = dynamic(() => import("@/components/ui/ColorBends"), {
     ssr: false,
@@ -37,7 +38,7 @@ export default function BackgroundClient(props) {
         <motion.div
             initial={{opacity: 0}}
             animate={{opacity: 1}}
-            transition={{duration: 0.5, ease: "easeInOut"}}
+            transition={{duration: 0.5, ease: [0.25, 0.5, 0.75, 0.25]}}
             style={{width: "100vw", height: "100vh"}}
         >
             {isMobile ? (
@@ -48,9 +49,17 @@ export default function BackgroundClient(props) {
                     alt="Background"
                     style={{width: "100%", height: "100%", objectFit: "cover"}}
                     loading="eager"
+                    className={cn(
+                        "mask-[linear-gradient(to_bottom,white,transparent)]"
+                    )}
                 />
             ) : (
-                <ColorBends {...props} />
+                <ColorBends
+                    {...props}
+                    className={cn(
+                        "mask-[linear-gradient(to_bottom,white,transparent)]"
+                    )}
+                />
             )}
         </motion.div>
     );

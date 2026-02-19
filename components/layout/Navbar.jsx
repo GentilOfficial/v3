@@ -43,11 +43,11 @@ export default function Navbar() {
             className="fixed top-0 w-full z-50"
             variants={navVariants}
             animate={hidden ? "hidden" : "visible"}
-            transition={{duration: 0.5, ease: "easeInOut"}}
+            transition={{duration: 0.5, ease: [0.25, 0.5, 0.25, 1]}}
         >
             <motion.div
-                initial={{backdropFilter: "blur(10px)"}}
-                animate={{backdropFilter: hidden ? "blur(0px)" : "blur(10px)"}}
+                initial={{backdropFilter: "blur(8px)"}}
+                animate={{backdropFilter: hidden ? "blur(0px)" : "blur(8px)"}}
                 transition={{duration: 0.1}}
                 className={`relative border-b border-foreground/5 shadow shadow-foreground/5 transition duration-500 md:bg-background/30 ${
                     open ? "bg-background/80" : "bg-background/30"
@@ -55,7 +55,7 @@ export default function Navbar() {
             >
                 <div className="flex items-center justify-between max-w-7xl mx-auto py-4 px-6">
                     <div className="flex items-center gap-6">
-                        <Image src={logo} alt="Federico Gentili" className="size-7"/>
+                        <Image src={logo} alt="Federico Gentili" className="size-8" loading="eager"/>
                         <div
                             className="hidden md:block h-8 w-px mx-auto bg-linear-to-b from-foreground/0 via-foreground/20 to-foreground/0"></div>
                         <div className="hidden md:flex gap-8">

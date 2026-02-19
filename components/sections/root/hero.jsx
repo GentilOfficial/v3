@@ -44,7 +44,7 @@ export default function Hero() {
                     initial={{opacity: 0, y: 20}}
                     animate={{opacity: 1, y: 0}}
                     transition={{duration: 1, ease: [0.25, 0.75, 0.25, 1], delay: 0.30}}
-                    className="text-foreground/80 mx-auto md:mx-0 md:max-w-[calc(9/10 * 100%)] font-mono"
+                    className="text-foreground/80 mx-auto max-w-xl lg:mx-0 font-mono"
                 >
                     {description}
                 </motion.p>

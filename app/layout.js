@@ -9,7 +9,6 @@ import GradualBlur from "@/components/ui/GradualBlur";
 import CustomCursor from "@/components/ui/CustomCursor";
 import ConsoleSignature from "@/components/layout/ConsoleSignature";
 import BackgroundClient from "@/components/layout/DynamicBackground";
-import {cn} from "@/lib/utils";
 
 const font = DM_Sans({
     subsets: ['latin'],
@@ -48,9 +47,6 @@ export default function RootLayout({children}) {
                         mouseInfluence={0}
                         parallax={0}
                         noise={0}
-                        className={cn(
-                            "mask-[linear-gradient(to_bottom,white,transparent)]"
-                        )}
                     />
                 </div>
                 <LanguageProvider>
