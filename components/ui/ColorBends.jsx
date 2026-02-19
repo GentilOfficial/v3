@@ -180,7 +180,7 @@ function ColorBends({
         renderer.domElement.style.display = 'block';
         container.appendChild(renderer.domElement);
 
-        const clock = new THREE.Clock();
+        const timer = new THREE.Timer();
 
         let resizeRaf = null;
 
@@ -219,8 +219,10 @@ function ColorBends({
             }
             lastTime = time;
 
-            const dt = clock.getDelta();
-            const elapsed = clock.elapsedTime;
+            timer.update(time);
+
+            const dt = timer.getDelta();
+            const elapsed = timer.getElapsed();
             material.uniforms.uTime.value = elapsed;
 
             const deg = (rotationRef.current % 360) + autoRotateRef.current * elapsed;
