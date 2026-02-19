@@ -91,8 +91,8 @@ export default function Hero() {
                     initial="hidden"
                     animate={terminalInView ? "visible" : "hidden"}
                     variants={{
-                        hidden: {opacity: 0, x: 50},
-                        visible: {opacity: 1, x: 0}
+                        hidden: {opacity: 0},
+                        visible: {opacity: 1}
                     }}
                     transition={{duration: 1, ease: [0.25, 0.75, 0.25, 1], delay: 0.5}}
                     className="max-w-lg w-full h-100"
