@@ -8,6 +8,7 @@ export function HamburgerButton({open, setOpen}) {
             size="icon"
             variant="outline"
             className="md:hidden hover:cursor-pointer"
+            title="Toggle navigation links"
             onClick={() => setOpen((prev) => !prev)}
         >
             <motion.div

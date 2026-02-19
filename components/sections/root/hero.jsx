@@ -2,10 +2,28 @@
 import {useRef} from "react";
 import hero from "@/config/content.config";
 import routes from "@/config/routes.config";
-import {AnimatedSpan, Terminal, TypingAnimation} from "@/components/ui/terminal";
 import {motion, useInView} from "motion/react";
 import GradientText from "@/components/ui/GradientText";
-import TechStackLoop from "@/components/layout/TechStackLoop";
+import dynamic from "next/dynamic";
+
+const TechStackLoop = dynamic(() => import("@/components/layout/TechStackLoop"), {
+    ssr: false,
+});
+
+const Terminal = dynamic(() =>
+    import("@/components/ui/terminal").then((mod) => mod.Terminal), {
+    ssr: false,
+});
+
+const TypingAnimation = dynamic(() =>
+    import("@/components/ui/terminal").then((mod) => mod.TypingAnimation), {
+    ssr: false,
+});
+
+const AnimatedSpan = dynamic(() =>
+    import("@/components/ui/terminal").then((mod) => mod.AnimatedSpan), {
+    ssr: false,
+});
 
 export default function Hero() {
     const {title, secondTitle, description, terminal, techStackIcons} = hero;

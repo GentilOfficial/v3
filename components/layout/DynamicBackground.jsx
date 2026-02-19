@@ -10,7 +10,7 @@ const ColorBends = dynamic(() => import("@/components/ui/ColorBends"), {
     ssr: false,
 });
 
-export default function BackgroundClient(props) {
+export default function DynamicBackground(props) {
     const [isMobile, setIsMobile] = useState(false);
     const {theme} = useTheme();
 
