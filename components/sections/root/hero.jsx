@@ -56,8 +56,8 @@ export default function Hero() {
                     className="h-0.5 w-4/5 my-2 mx-auto lg:mx-0 bg-linear-to-r from-foreground/0 via-foreground/10 to-foreground/0"
                 ></motion.div>
                 <motion.div
-                    initial={{opacity: 0, y: 20}}
-                    animate={{opacity: 1, y: 0}}
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
                     transition={{duration: 1, ease: [0.25, 0.75, 0.25, 1], delay: 0.45}}
                 >
                     <TechStackLoop
