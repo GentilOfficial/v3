@@ -6,24 +6,16 @@ import {motion, useInView} from "motion/react";
 import GradientText from "@/components/ui/GradientText";
 import dynamic from "next/dynamic";
 
-const TechStackLoop = dynamic(() => import("@/components/layout/TechStackLoop"), {
-    ssr: false,
-});
+const TechStackLoop = dynamic(() => import("@/components/partials/TechStackLoop"));
 
 const Terminal = dynamic(() =>
-    import("@/components/ui/terminal").then((mod) => mod.Terminal), {
-    ssr: false,
-});
+    import("@/components/ui/terminal").then((mod) => mod.Terminal));
 
 const TypingAnimation = dynamic(() =>
-    import("@/components/ui/terminal").then((mod) => mod.TypingAnimation), {
-    ssr: false,
-});
+    import("@/components/ui/terminal").then((mod) => mod.TypingAnimation));
 
 const AnimatedSpan = dynamic(() =>
-    import("@/components/ui/terminal").then((mod) => mod.AnimatedSpan), {
-    ssr: false,
-});
+    import("@/components/ui/terminal").then((mod) => mod.AnimatedSpan));
 
 export default function Hero() {
     const {title, secondTitle, description, terminal, techStackIcons} = hero;

@@ -5,10 +5,10 @@ import {ThemeProvider} from "@/providers/ThemeProvider"
 import Navbar from "@/components/layout/Navbar"
 import ClickSpark from "@/components/ui/ClickSPark"
 import LenisScroll from "@/providers/LenisScroll"
-import GradualBlur from "@/components/ui/GradualBlur";
+import DynamicBackground from "@/components/layout/DynamicBackground";
 import CustomCursor from "@/components/ui/CustomCursor";
 import ConsoleSignature from "@/components/layout/ConsoleSignature";
-import BackgroundClient from "@/components/layout/DynamicBackground";
+import BottomBlur from "@/components/layout/BottomBlur";
 
 const font = DM_Sans({
     subsets: ['latin'],
@@ -33,22 +33,7 @@ export default function RootLayout({children}) {
                 duration={300}
                 extraScale={0.5}
             >
-                <div
-                    className="absolute -z-20 size-full min-h-screen opacity-60 blur-sm md:blur-md overflow-hidden">
-                    <BackgroundClient
-                        rotation={80}
-                        speed={0.25}
-                        colors={["#004cff", "#1100ff", "#006eff", "#263fc0"]}
-                        transparent
-                        autoRotate={0.45}
-                        scale={1}
-                        frequency={1}
-                        warpStrength={1}
-                        mouseInfluence={0}
-                        parallax={0}
-                        noise={0}
-                    />
-                </div>
+                <DynamicBackground />
                 <LanguageProvider>
                     <CustomCursor/>
                     <Navbar/>
@@ -57,16 +42,7 @@ export default function RootLayout({children}) {
                             {children}
                         </div>
                     </main>
-                    <GradualBlur
-                        target="page"
-                        position="bottom"
-                        height="7rem"
-                        strength={1}
-                        divCount={2}
-                        curve="bezier"
-                        exponential={false}
-                        opacity={1}
-                    />
+                    <BottomBlur />
                 </LanguageProvider>
             </ClickSpark>
         </ThemeProvider>

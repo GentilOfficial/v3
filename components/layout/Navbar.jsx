@@ -8,7 +8,7 @@ import routes from "@/config/routes.config"
 import Link from "next/link"
 import {HamburgerButton} from "@/components/ui/HamburgerButton"
 import {usePathname} from "next/navigation"
-import {NavbarMobileMenu} from "./NavbarMobileMenu"
+import {NavbarMobileMenu} from "../partials/NavbarMobileMenu"
 import {ThemeToggle} from "@/components/ui/ThemeToggle"
 
 const navVariants = {
@@ -49,7 +49,7 @@ export default function Navbar() {
                 initial={{backdropFilter: "blur(8px)"}}
                 animate={{backdropFilter: hidden ? "blur(0px)" : "blur(8px)"}}
                 transition={{duration: 0.1}}
-                className={`relative border-b border-foreground/5 shadow shadow-foreground/5 transition duration-500 md:bg-background/30 ${
+                className={`relative border-b border-foreground/5 shadow shadow-foreground/5 transition duration-300 md:bg-background/30 ${
                     open ? "bg-background/80" : "bg-background/30"
                 }`}
             >

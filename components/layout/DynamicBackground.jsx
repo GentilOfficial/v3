@@ -10,7 +10,7 @@ const ColorBends = dynamic(() => import("@/components/ui/ColorBends"), {
     ssr: false,
 });
 
-export default function DynamicBackground(props) {
+export default function DynamicBackground() {
     const [isMobile, setIsMobile] = useState(false);
     const {theme} = useTheme();
 
@@ -39,7 +39,7 @@ export default function DynamicBackground(props) {
             initial={{opacity: 0}}
             animate={{opacity: 1}}
             transition={{duration: 0.5, ease: [0.25, 0.5, 0.75, 0.25]}}
-            style={{width: "100vw", height: "100vh"}}
+            className="absolute -z-20 size-full min-h-screen opacity-60 blur-sm md:blur-md overflow-hidden"
         >
             {isMobile ? (
                 <Image
@@ -55,7 +55,17 @@ export default function DynamicBackground(props) {
                 />
             ) : (
                 <ColorBends
-                    {...props}
+                    rotation={80}
+                    speed={0.25}
+                    colors={["#004cff", "#1100ff", "#006eff", "#263fc0"]}
+                    transparent
+                    autoRotate={0.45}
+                    scale={1}
+                    frequency={1}
+                    warpStrength={1}
+                    mouseInfluence={0}
+                    parallax={0}
+                    noise={0}
                     className={cn(
                         "mask-[linear-gradient(to_bottom,white,transparent)]"
                     )}
