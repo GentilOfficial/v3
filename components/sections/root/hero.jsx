@@ -5,6 +5,7 @@ import routes from "@/config/routes.config";
 import {motion, useInView} from "motion/react";
 import GradientText from "@/components/ui/GradientText";
 import dynamic from "next/dynamic";
+import BlurText from "@/components/ui/BlurText";
 
 const TechStackLoop = dynamic(() => import("@/components/partials/TechStackLoop"));
 
@@ -44,8 +45,6 @@ export default function Hero() {
                         <GradientText
                             colors={["#417352", "#59aa5f", "#66bd67", "#59aa5f", "#417352"]}
                             animationSpeed={2}
-                            showBorder
-                            className="font-mono"
                         >
                             {secondTitle}
                         </GradientText>
@@ -55,9 +54,14 @@ export default function Hero() {
                     initial={{opacity: 0, y: 20}}
                     animate={{opacity: 1, y: 0}}
                     transition={{duration: 1, ease: [0.25, 0.75, 0.25, 1], delay: 0.30}}
-                    className="text-foreground/80 mx-auto max-w-xl lg:mx-0 font-mono"
+                    className="text-foreground/80 mx-auto max-w-xl lg:mx-0"
                 >
-                    {description}
+                    <BlurText
+                        text={description}
+                        delay={30}
+                        animateBy="words"
+                        direction="bottom"
+                    />
                 </motion.p>
                 <motion.div
                     initial={{opacity: 0}}

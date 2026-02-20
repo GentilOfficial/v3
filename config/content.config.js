@@ -3,7 +3,7 @@ import {SiFramer, SiNextdotjs, SiReact, SiShadcnui, SiSupabase, SiTailwindcss} f
 const hero = {
     title: "Federico Gentili",
     secondTitle: "Web Developer",
-    description: "Welcome to my digital space, where I transform lines of code into engaging experiences and innovative functionalities.",
+    description: "Welcome to my digital space, where I transform lines of code into engaging experiences.",
     terminal: {
         command: "GentilOfficial@v3 ~ % run",
         output: [
