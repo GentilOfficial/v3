@@ -39,7 +39,7 @@ export default function DynamicBackground() {
             initial={{opacity: 0}}
             animate={{opacity: 1}}
             transition={{duration: 0.5, ease: [0.25, 0.5, 0.75, 0.25]}}
-            className="absolute -z-20 size-full min-h-screen opacity-60 blur-sm md:blur-md overflow-hidden"
+            className="absolute -z-20 size-full max-h-screen opacity-60 blur-sm md:blur-md overflow-hidden"
         >
             {isMobile ? (
                 <Image
