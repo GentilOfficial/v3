@@ -61,6 +61,7 @@ export default function Hero() {
                         delay={30}
                         animateBy="words"
                         direction="bottom"
+                        className="justify-center lg:justify-start text-sm md:text-md lg:text-base"
                     />
                 </motion.p>
                 <motion.div
