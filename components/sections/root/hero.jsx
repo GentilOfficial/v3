@@ -43,8 +43,8 @@ export default function Hero() {
                         className="block"
                     >
                         <GradientText
-                            colors={["#417352", "#59aa5f", "#66bd67", "#59aa5f", "#417352"]}
-                            animationSpeed={2}
+                            colors={["#E27022", "#D22F27", "#E27022"]}
+                            animationSpeed={5}
                         >
                             {secondTitle}
                         </GradientText>

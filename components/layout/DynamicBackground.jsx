@@ -57,7 +57,7 @@ export default function DynamicBackground() {
                 <ColorBends
                     rotation={80}
                     speed={0.25}
-                    colors={["#004cff", "#1100ff", "#006eff", "#263fc0"]}
+                    colors={["#D22F27", "#E27022"]}
                     transparent
                     autoRotate={0.45}
                     scale={1}

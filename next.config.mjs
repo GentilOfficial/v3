@@ -7,10 +7,6 @@ const nextConfig = {
             new URL(`${supabaseUrl}/**`)
         ]
     },
-    swcMinify: true,
-    experimental: {
-        legacyBrowsers: false,
-    },
 };
 
 export default nextConfig;
