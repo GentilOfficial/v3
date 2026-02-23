@@ -55,7 +55,7 @@ export default function Navbar() {
             >
                 <div className="flex items-center justify-between max-w-7xl mx-auto py-4 px-6">
                     <div className="flex items-center gap-6">
-                        <Image src={logo} alt="Federico Gentili" width={40} height={40} className="size-10"
+                        <Image src={logo} alt="Federico Gentili" width={1024} height={1024} className="size-10"
                                loading="eager"/>
                         <div
                             className="hidden md:block h-8 w-px mx-auto bg-linear-to-b from-foreground/0 via-foreground/20 to-foreground/0"></div>
