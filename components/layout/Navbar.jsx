@@ -3,7 +3,7 @@ import {motion, useScroll} from "framer-motion"
 import {LanguageSwitcher} from "@/components/ui/LanguageSwitcher"
 import {useEffect, useState} from "react"
 import Image from "next/image"
-import logo from "@/public/icon.svg"
+import logo from "@/public/logo.png"
 import routes from "@/config/routes.config"
 import Link from "next/link"
 import {HamburgerButton} from "@/components/ui/HamburgerButton"
@@ -55,7 +55,8 @@ export default function Navbar() {
             >
                 <div className="flex items-center justify-between max-w-7xl mx-auto py-4 px-6">
                     <div className="flex items-center gap-6">
-                        <Image src={logo} alt="Federico Gentili" className="size-10" loading="eager"/>
+                        <Image src={logo} alt="Federico Gentili" width={40} height={40} className="size-10"
+                               loading="eager"/>
                         <div
                             className="hidden md:block h-8 w-px mx-auto bg-linear-to-b from-foreground/0 via-foreground/20 to-foreground/0"></div>
                         <div className="hidden md:flex gap-8">
