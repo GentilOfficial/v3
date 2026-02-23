@@ -13,14 +13,14 @@ export default async function Image() {
     const DMSans = await readFile(join(process.cwd(), 'assets/DMSans.ttf'))
 
     const icon = await readFile(join(process.cwd(), 'public/logo.png'))
-    const iconBase64 = `data:image/svg+xml;base64,${icon.toString('base64')}`
+    const iconBase64 = `data:image/png;base64,${icon.toString('base64')}`
 
     return new ImageResponse(
         (
             <div
                 style={{
                     fontSize: 64,
-                    background: '#1f1f1f',
+                    background: '#1a1a1a',
                     width: '100%',
                     height: '100%',
                     display: 'flex',
@@ -34,8 +34,8 @@ export default async function Image() {
                 <img src={iconBase64} style={{width: '128px', height: '128px'}} alt="Logo"/>
                 <span style={{fontSize: 72}}>Federico Gentili</span>
                 <span style={{
-                    color: '#E27022',
-                    textShadow: "4px 4px 8px #632F1A",
+                    color: '#fe3908',
+                    textShadow: "4px 4px 8px rgba(254, 138, 0, 0.25)",
                 }}>
                     Web Developer
                 </span>
