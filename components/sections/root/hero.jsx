@@ -1,6 +1,6 @@
 "use client"
 import {useRef} from "react";
-import hero from "@/config/content.config";
+import {hero} from "@/config/content.config";
 import routes from "@/config/routes.config";
 import {motion, useInView} from "motion/react";
 import GradientText from "@/components/ui/GradientText";
@@ -92,7 +92,7 @@ export default function Hero() {
                         visible: {opacity: 1}
                     }}
                     transition={{duration: 1, ease: [0.25, 0.75, 0.25, 1], delay: 0.5}}
-                    className="max-w-lg w-full h-100"
+                    className="max-w-lg w-full"
                 >
                     <Terminal>
                         <TypingAnimation>{terminal.command}</TypingAnimation>
@@ -101,14 +101,16 @@ export default function Hero() {
                             <AnimatedSpan key={i}>{line}</AnimatedSpan>
                         ))}
 
+                        <AnimatedSpan>...</AnimatedSpan>
+
                         {routes.map((route, i) => (
                             <AnimatedSpan key={`route-${i}`}>
                                 {i === 0 ? "┌" : i === routes.length - 1 ? "└" : "├"} ○ {route.href}
                             </AnimatedSpan>
                         ))}
 
-                        <AnimatedSpan></AnimatedSpan>
-                        <TypingAnimation>{terminal.success}</TypingAnimation>
+                        <AnimatedSpan>...</AnimatedSpan>
+                        <AnimatedSpan>{terminal.success}</AnimatedSpan>
                     </Terminal>
                 </motion.div>
             </div>

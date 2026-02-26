@@ -1,5 +1,6 @@
 import {DM_Sans} from 'next/font/google'
 import "./globals.css"
+import {layout} from "@/config/content.config";
 import {LanguageProvider} from "@/providers/LanguageContext"
 import {ThemeProvider} from "@/providers/ThemeProvider"
 import Navbar from "@/components/layout/Navbar"
@@ -15,9 +16,10 @@ const font = DM_Sans({
     subsets: ['latin'],
 })
 
+
 export const metadata = {
-    title: "Federico Gentili",
-    description: "Federico's portfolio | Web Developer",
+    title: layout.title,
+    description: layout.description,
     themeColor: "#0a0a0a",
 }
 

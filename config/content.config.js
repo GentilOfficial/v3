@@ -1,6 +1,11 @@
 import {SiFramer, SiNextdotjs, SiReact, SiShadcnui, SiSupabase, SiTailwindcss} from "react-icons/si";
 
-const hero = {
+export const layout = {
+    title: "Federico Gentili",
+    description: "Federico's portfolio | Web Developer",
+}
+
+export const hero = {
     title: "Federico Gentili",
     secondTitle: "Web Developer",
     description: "Welcome to my digital space, where I transform lines of code into engaging experiences.",
@@ -11,8 +16,6 @@ const hero = {
             "✓ Collecting page data",
             "✓ Generating static pages",
             "✓ Finalizing page optimization",
-            "",
-            "Routes:",
         ],
         success: "Success! initialization completed.",
     },
@@ -25,6 +28,3 @@ const hero = {
         {node: <SiShadcnui/>, title: "Shadcn", href: "https://ui.shadcn.com"}
     ]
 }
-
-
-export default hero
