@@ -332,7 +332,6 @@ export const LogoLoop = memo(
                             scaleOnHover && 'overflow-visible group/item'
                         )}
                         key={key}
-                        role="listitem"
                     >
                         {inner}
                     </li>
