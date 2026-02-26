@@ -11,7 +11,7 @@ export function HamburgerButton({open, setOpen}) {
             title="Toggle navigation links"
             onClick={() => setOpen((prev) => !prev)}
         >
-            <motion.div
+            <motion.span
                 initial={false}
                 animate={open ? "open" : "closed"}
                 className="relative size-6"
@@ -26,7 +26,7 @@ export function HamburgerButton({open, setOpen}) {
                     variants={{closed: {rotate: 0, y: -6.5}, open: {rotate: -45, y: -11}}}
                     transition={{duration: 0.3}}
                 />
-            </motion.div>
+            </motion.span>
         </Button>
     )
 }

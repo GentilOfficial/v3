@@ -25,7 +25,7 @@ export default function Hero() {
     const terminalInView = useInView(terminalRef, {once: true});
 
     return (
-        <div className="flex flex-col lg:flex-row gap-4 min-h-150">
+        <div className="flex flex-col lg:flex-row gap-4 min-h-150 pb-16 lg:pb-0">
             <div className="flex flex-col gap-8 flex-1 text-center lg:text-start py-8">
                 <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl">
                     <motion.span

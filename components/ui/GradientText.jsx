@@ -85,15 +85,15 @@ export default function GradientText({
     };
 
     return (
-        <motion.div
+        <motion.span
             className={` ${className}`}
         >
-            <motion.div
+            <motion.span
                 className="inline-block relative z-2 text-transparent bg-clip-text"
                 style={{...gradientStyle, backgroundPosition, WebkitBackgroundClip: 'text'}}
             >
                 {children}
-            </motion.div>
-        </motion.div>
+            </motion.span>
+        </motion.span>
     );
 }

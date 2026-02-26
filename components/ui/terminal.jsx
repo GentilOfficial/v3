@@ -39,7 +39,7 @@ export const AnimatedSpan = ({
     const shouldAnimate = sequence ? hasStarted : startOnView ? isInView : true
 
     return (
-        <motion.div
+        <motion.span
             ref={elementRef}
             initial={{opacity: 0, y: -5}}
             animate={shouldAnimate ? {opacity: 1, y: 0} : {opacity: 0, y: -5}}
@@ -52,7 +52,7 @@ export const AnimatedSpan = ({
             }}
             {...props}>
             {children}
-        </motion.div>
+        </motion.span>
     );
 }
 
