@@ -13,6 +13,7 @@ export default function BottomBlur() {
             curve="bezier"
             exponential={false}
             opacity={1}
+            className="hidden lg:block"
         />
     );
 }
