@@ -6,8 +6,10 @@ export function ThemeProvider({children}) {
     return (
         <NextThemeProvider
             attribute="class"
-            defaultTheme="dark"
             enableSystem
+            enableColorScheme
+            disableTransitionOnChange
+            storageKey={"fg-color-scheme"}
         >
             {children}
         </NextThemeProvider>

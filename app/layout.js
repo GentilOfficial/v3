@@ -10,7 +10,6 @@ import DynamicBackground from "@/components/layout/DynamicBackground";
 import CustomCursor from "@/components/ui/CustomCursor";
 import ConsoleSignature from "@/components/layout/ConsoleSignature";
 import BottomBlur from "@/components/layout/BottomBlur";
-import ThemeColorMeta from "@/components/layout/ThemeColorMeta";
 
 const font = DM_Sans({
     subsets: ['latin'],
@@ -19,8 +18,7 @@ const font = DM_Sans({
 
 export const metadata = {
     title: layout.title,
-    description: layout.description,
-    themeColor: "#0a0a0a",
+    description: layout.description
 }
 
 export default function RootLayout({children}) {
@@ -28,7 +26,6 @@ export default function RootLayout({children}) {
         <html lang="en" className={font.className} suppressHydrationWarning>
         <body>
         <ThemeProvider>
-            <ThemeColorMeta/>
             <LenisScroll/>
             <ClickSpark
                 sparkColor="#fff"
