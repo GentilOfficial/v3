@@ -12,7 +12,7 @@ const ColorBends = dynamic(() => import("@/components/ui/ColorBends"), {
 
 export default function DynamicBackground() {
     const [isMobile, setIsMobile] = useState(false);
-    const {theme} = useTheme();
+    const {resolvedTheme} = useTheme();
 
     useEffect(() => {
         const handleResize = () => {
@@ -32,7 +32,7 @@ export default function DynamicBackground() {
         dark: "/assets/mobile-background-dark.webp",
     };
 
-    const mobileBg = mobileBackgrounds[theme] || mobileBackgrounds.dark;
+    const mobileBg = mobileBackgrounds[resolvedTheme] || mobileBackgrounds.dark;
 
     return (
         <motion.div

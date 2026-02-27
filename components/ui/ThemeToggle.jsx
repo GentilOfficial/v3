@@ -1,73 +1,46 @@
 "use client"
 
 import { useTheme } from "next-themes"
-import { useEffect, useMemo, useState } from "react"
-import { Loader, Moon, Sun, Laptop } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Loader, Monitor, Moon, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuGroup,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { cn } from "@/lib/utils"
-
-const ThemeItem = ({
-                                value,
-                                label,
-                                Icon,
-                            }) => {
-    const { theme, setTheme } = useTheme()
-    const isActive = theme === value
-
-    return (
-        <DropdownMenuItem
-            onSelect={(e) => {
-                e.preventDefault()
-                setTheme(value)
-            }}
-            className="flex items-center justify-between"
-        >
-        <span className="flex items-center">
-          <Icon className="mr-2 size-4" />
-            {label}
-        </span>
-            <span
-                className={cn(
-                    "size-1 rounded-full transition-opacity",
-                    isActive ? "opacity-50 bg-foreground" : "opacity-0"
-                )}
-            />
-        </DropdownMenuItem>
-    )
-}
 
 export function ThemeToggle() {
-    const { theme, resolvedTheme } = useTheme()
+    const { setTheme, theme } = useTheme()
     const [mounted, setMounted] = useState(false)
-
-    const IconSchemeAssociation = {
-        "light": Moon,
-        "dark": Sun,
-    }
 
     useEffect(() => {
         requestAnimationFrame(() => setMounted(true))
     }, [])
 
-    const currentTheme = useMemo(() => resolvedTheme ?? theme, [resolvedTheme, theme])
-
     if (!mounted) {
         return (
-            <Button variant="outline" size="icon" aria-label="Theme">
+            <Button variant="outline" size="icon" aria-label="Toggle theme">
                 <Loader className="size-4 animate-spin" />
             </Button>
         )
     }
 
-    const Icon = IconSchemeAssociation[currentTheme]
+    const getIcon = () => {
+        switch (theme) {
+            case "light": return <Sun className="size-4" />
+            case "dark": return <Moon className="size-4" />
+            default: return <Monitor className="size-4" />
+        }
+    }
+
+    const themes = [
+        { value: "light", label: "Light", icon: Sun },
+        { value: "dark", label: "Dark", icon: Moon },
+        { value: "system", label: "System", icon: Monitor },
+    ]
 
     return (
         <DropdownMenu>
@@ -75,20 +48,28 @@ export function ThemeToggle() {
                 <Button
                     variant="outline"
                     size="icon"
-                    aria-label="Theme"
+                    aria-label="Toggle theme"
                     className="hover:cursor-pointer"
                 >
-                    <Icon className="size-4" />
+                    {getIcon()}
                 </Button>
             </DropdownMenuTrigger>
-
-            <DropdownMenuContent align="end" className="w-44">
-                <DropdownMenuLabel>Theme</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-
-                <ThemeItem value="light" label="Light" Icon={Sun} />
-                <ThemeItem value="dark" label="Dark" Icon={Moon} />
-                <ThemeItem value="system" label="System" Icon={Laptop} />
+            <DropdownMenuContent align="end">
+                <DropdownMenuGroup>
+                    {themes.map(({ value, label, icon: Icon }) => (
+                        <DropdownMenuItem
+                            key={value}
+                            onClick={() => setTheme(value)}
+                            className="hover:cursor-pointer gap-2"
+                        >
+                            <Icon className="size-4" />
+                            <span className="flex-1">{label}</span>
+                            {theme === value && (
+                                <span className="size-1.5 rounded-full bg-foreground/50" />
+                            )}
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuGroup>
             </DropdownMenuContent>
         </DropdownMenu>
     )
