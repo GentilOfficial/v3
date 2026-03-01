@@ -7,7 +7,7 @@ export default function Footer() {
     const {tagline, socials, stat} = footer;
 
     return (
-        <footer className="border-t border-border">
+        <footer className="border-t border-border bg-background/30 backdrop-blur-md">
             <div className="max-w-7xl mx-auto px-6 py-16">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
 
