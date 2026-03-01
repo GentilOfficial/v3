@@ -4,54 +4,53 @@ import dynamic from "next/dynamic";
 import {motion} from "motion/react";
 import Image from "next/image";
 import {useTheme} from "next-themes";
-import {cn} from "@/lib/utils";
 
 const ColorBends = dynamic(() => import("@/components/ui/ColorBends"), {
     ssr: false,
 });
 
+const MOBILE_BACKGROUNDS = {
+    light: "/assets/mobile-background-light.webp",
+    dark: "/assets/mobile-background-dark.webp",
+};
+
+const MASK = "mask-[linear-gradient(to_bottom,white,transparent)]";
+
 export default function DynamicBackground() {
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(null);
     const {resolvedTheme} = useTheme();
 
     useEffect(() => {
-        const handleResize = () => {
-            requestAnimationFrame(() => {
-                setIsMobile(window.innerWidth <= 768);
-            });
-        };
+        const mq = window.matchMedia("(max-width: 768px)");
 
-        handleResize();
-        window.addEventListener("resize", handleResize);
+        const update = () => setIsMobile(mq.matches);
+        update();
+        mq.addEventListener("change", update);
 
-        return () => window.removeEventListener("resize", handleResize);
+        return () => mq.removeEventListener("change", update);
     }, []);
 
-    const mobileBackgrounds = {
-        light: "/assets/mobile-background-light.webp",
-        dark: "/assets/mobile-background-dark.webp",
-    };
+    if (isMobile === null) return null;
 
-    const mobileBg = mobileBackgrounds[resolvedTheme] || mobileBackgrounds.dark;
+    const mobileBg = MOBILE_BACKGROUNDS[resolvedTheme] ?? MOBILE_BACKGROUNDS.dark;
 
     return (
         <motion.div
             initial={{opacity: 0}}
             animate={{opacity: 1}}
-            transition={{duration: 0.5, ease: [0.25, 0.5, 0.75, 0.25]}}
-            className="absolute -z-20 size-full max-h-screen opacity-60 blur-sm md:blur-md overflow-hidden"
+            transition={{duration: 0.8, ease: [0.25, 0.5, 0.75, 0.25]}}
+            className="absolute inset-x-0 top-0 -z-20 h-screen opacity-60 blur-sm md:blur-md overflow-hidden pointer-events-none"
         >
             {isMobile ? (
                 <Image
                     src={mobileBg}
-                    width={1920}
-                    height={1080}
-                    alt="Background"
-                    style={{width: "100%", height: "100%", objectFit: "cover"}}
+                    fill
+                    alt=""
+                    role="presentation"
+                    style={{objectFit: "cover"}}
                     loading="eager"
-                    className={cn(
-                        "mask-[linear-gradient(to_bottom,white,transparent)]"
-                    )}
+                    priority
+                    className={MASK}
                 />
             ) : (
                 <ColorBends
@@ -66,9 +65,7 @@ export default function DynamicBackground() {
                     mouseInfluence={0}
                     parallax={0}
                     noise={0}
-                    className={cn(
-                        "mask-[linear-gradient(to_bottom,white,transparent)]"
-                    )}
+                    className={MASK}
                 />
             )}
         </motion.div>
