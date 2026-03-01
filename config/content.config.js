@@ -106,7 +106,7 @@ export const faq = {
 };
 
 export const footer = {
-    tagline: "Made with ❤️\n— Federico Gentili.",
+    tagline: "Made with ❤️\n— Federico Gentili",
     socials: [
         {label: "GitHub", href: "https://github.com/GentilOfficial", icon: SiGithub},
         {label: "LinkedIn", href: "https://www.linkedin.com/in/federico-gentili-009531308", icon: SiLinkedin},

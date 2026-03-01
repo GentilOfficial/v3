@@ -45,7 +45,7 @@ export default function Footer() {
                                             href={social.href}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-2 text-sm text-foreground/50 hover:text-foreground transition-colors group"
+                                            className="flex items-center gap-2 text-sm text-foreground/50 hover:text-foreground transition-colors group w-fit"
                                         >
                                             <Icon className="size-3.5 shrink-0"/>
                                             {social.label}
@@ -58,9 +58,9 @@ export default function Footer() {
 
                     <div className="flex flex-col gap-3">
                         <span className="text-sm font-semibold">Stats</span>
-                        <div className="rounded-xl border border-border bg-foreground/5 p-4 flex flex-col gap-1">
-                            <span className="text-2xl font-bold">{stat.value}</span>
-                            <span className="text-xs text-foreground/50">{stat.label}</span>
+                        <div className="rounded-xl border border-border bg-foreground/5 p-3 flex flex-col gap-1">
+                            <span className="text-sm text-foreground/50">{stat.label}:</span>
+                            <span className="text-xl font-bold">{stat.value}</span>
                         </div>
                     </div>
                 </div>
