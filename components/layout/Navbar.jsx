@@ -1,7 +1,7 @@
 "use client"
 import {motion, useScroll, useSpring} from "motion/react"
 import {LanguageSwitcher} from "@/components/ui/LanguageSwitcher"
-import {useEffect, useState} from "react"
+import {useEffect, useRef, useState} from "react"
 import Logo from "@/public/logo.svg"
 import routes from "@/config/routes.config"
 import Link from "next/link"
@@ -22,7 +22,9 @@ export default function Navbar() {
     const [hidden, setHidden] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     const [open, setOpen] = useState(false)
+    const [dropdownOpen, setDropdownOpen] = useState(false)
     const pathname = usePathname()
+    const navRef = useRef(null)
 
     const scaleX = useSpring(scrollYProgress, {
         stiffness: 200,
@@ -32,20 +34,31 @@ export default function Navbar() {
 
     useEffect(() => {
         scaleX.set(0)
-    }, [pathname])
+    }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         let prevY = 0
         const unsubscribe = scrollY.on("change", (latest) => {
-            if (!open) setHidden(latest > prevY && prevY > 60)
+            if (!open && !dropdownOpen) setHidden(latest > prevY && prevY > 60)
             setScrolled(latest > 10)
             prevY = latest
         })
         return () => unsubscribe()
-    }, [scrollY, open])
+    }, [scrollY, open, dropdownOpen])
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (open && navRef.current && !navRef.current.contains(e.target)) {
+                setOpen(false)
+            }
+        }
+        document.addEventListener("pointerdown", handleClickOutside)
+        return () => document.removeEventListener("pointerdown", handleClickOutside)
+    }, [open])
 
     return (
         <motion.header
+            ref={navRef}
             className="fixed top-0 w-full z-50"
             variants={navVariants}
             animate={hidden ? "hidden" : "visible"}
@@ -82,6 +95,13 @@ export default function Navbar() {
                                         )}
                                     >
                                         {route.name}
+                                        {isActive && (
+                                            <motion.span
+                                                layoutId="nav-active"
+                                                className="absolute inset-x-0 -bottom-0.5 h-px bg-foreground/60"
+                                                transition={{type: "spring", stiffness: 380, damping: 32}}
+                                            />
+                                        )}
                                     </Link>
                                 )
                             })}
@@ -90,7 +110,7 @@ export default function Navbar() {
 
                     <div className="flex items-center gap-4">
                         <LanguageSwitcher/>
-                        <ThemeToggle/>
+                        <ThemeToggle onOpenChange={setDropdownOpen}/>
                         <HamburgerButton open={open} setOpen={setOpen}/>
                     </div>
                 </div>

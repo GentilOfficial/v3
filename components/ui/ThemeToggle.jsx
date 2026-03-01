@@ -22,7 +22,7 @@ const THEMES = [
 
 const ICONS = {light: Sun, dark: Moon, system: Monitor}
 
-export function ThemeToggle() {
+export function ThemeToggle({onOpenChange}) {
     const {setTheme, theme} = useTheme()
     const [mounted, setMounted] = useState(false)
 
@@ -33,7 +33,7 @@ export function ThemeToggle() {
     const Icon = ICONS[theme] ?? Monitor
 
     return (
-        <DropdownMenu>
+        <DropdownMenu modal={false} onOpenChange={onOpenChange}>
             <DropdownMenuTrigger asChild>
                 <Button
                     variant="outline"

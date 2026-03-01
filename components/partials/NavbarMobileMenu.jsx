@@ -2,8 +2,29 @@ import {AnimatePresence, motion} from "motion/react"
 import Link from "next/link"
 import Divider from "@/components/ui/Divider"
 import {cn} from "@/lib/utils"
+import {useEffect} from "react";
 
 export function NavbarMobileMenu({routes, pathname, open, setOpen}) {
+    useEffect(() => {
+        if (open) {
+            window.lenis?.stop()
+        } else {
+            window.lenis?.start()
+        }
+        return () => {
+            window.lenis?.start()
+        }
+    }, [open])
+
+    useEffect(() => {
+        const mq = window.matchMedia("(min-width: 768px)")
+        const handleChange = (e) => {
+            if (e.matches) setOpen(false)
+        }
+        mq.addEventListener("change", handleChange)
+        return () => mq.removeEventListener("change", handleChange)
+    }, [setOpen])
+
     return (
         <AnimatePresence initial={false}>
             {open && (
@@ -16,7 +37,10 @@ export function NavbarMobileMenu({routes, pathname, open, setOpen}) {
                     className="md:hidden overflow-hidden"
                 >
                     <Divider className="mx-auto"/>
-                    <nav className="flex flex-col px-6 py-4 gap-1">
+                    <nav
+                        data-lenis-prevent
+                        className="flex flex-col px-6 py-4 gap-1 max-h-[calc(100vh-4rem)] overflow-y-auto"
+                    >
                         {routes.map((route, i) => {
                             const isActive = pathname === route.href
                             return (
