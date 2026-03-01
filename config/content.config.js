@@ -113,7 +113,7 @@ export const footer = {
         {label: "Instagram", href: "https://www.instagram.com/federico.gnt", icon: SiInstagram},
     ],
     stat: {
-        label: "Total coffee per day",
-        value: "/*Undefined*/",
+        label: "Coffee consumed ☕",
+        value: "Si (Yes)",
     },
 };
