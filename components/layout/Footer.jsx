@@ -36,11 +36,12 @@ export function Footer() {
                         className="flex flex-col gap-5 lg:col-span-1"
                     >
                         <Image
-                            width={1024}
-                            height={1024}
+                            width={96}
+                            height={96}
                             src="/logo.png"
                             className="size-12"
                             alt="logo"
+                            sizes="48px"
                         />
                         <p className="text-sm text-foreground/50 whitespace-pre-line leading-relaxed">
                             {tagline}
