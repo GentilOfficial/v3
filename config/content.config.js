@@ -1,4 +1,14 @@
-import {SiGithub, SiJavascript, SiLaravel, SiNextdotjs, SiReact, SiShadcnui, SiTailwindcss} from "react-icons/si";
+import {
+    SiGithub,
+    SiInstagram,
+    SiJavascript,
+    SiLaravel,
+    SiLinkedin,
+    SiNextdotjs,
+    SiReact,
+    SiShadcnui,
+    SiTailwindcss
+} from "react-icons/si";
 
 export const layout = {
     title: "Federico Gentili | Portfolio",
@@ -93,4 +103,17 @@ export const faq = {
             answer: "Yes, I can translate Figma or other design files into clean, responsive code.",
         },
     ],
+};
+
+export const footer = {
+    tagline: "Made with ❤️\n— Federico Gentili.",
+    socials: [
+        {label: "GitHub", href: "https://github.com/GentilOfficial", icon: SiGithub},
+        {label: "LinkedIn", href: "https://www.linkedin.com/in/federico-gentili-009531308", icon: SiLinkedin},
+        {label: "Instagram", href: "https://www.instagram.com/federico.gnt", icon: SiInstagram},
+    ],
+    stat: {
+        label: "Total coffee per day",
+        value: "/*Undefined*/",
+    },
 };
