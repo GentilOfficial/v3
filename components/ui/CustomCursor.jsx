@@ -1,6 +1,6 @@
 "use client";
 import gsap from "gsap";
-import { useEffect, useRef } from "react";
+import {useEffect, useRef} from "react";
 
 const CustomCursor = () => {
     const cursorRef = useRef(null);
@@ -29,8 +29,31 @@ const CustomCursor = () => {
             });
         };
 
+        const onMouseDown = () => {
+            gsap.to(cursorRef.current, {
+                scale: 0.5,
+                duration: 0.15,
+                ease: "power2.out",
+            });
+        };
+
+        const onMouseUp = () => {
+            gsap.to(cursorRef.current, {
+                scale: 1,
+                duration: 0.35,
+                ease: "elastic.out(1, 0.4)",
+            });
+        };
+
         window.addEventListener("pointermove", moveCursor);
-        return () => window.removeEventListener("pointermove", moveCursor);
+        window.addEventListener("mousedown", onMouseDown);
+        window.addEventListener("mouseup", onMouseUp);
+
+        return () => {
+            window.removeEventListener("pointermove", moveCursor);
+            window.removeEventListener("mousedown", onMouseDown);
+            window.removeEventListener("mouseup", onMouseUp);
+        };
     }, []);
 
     return (
@@ -38,7 +61,7 @@ const CustomCursor = () => {
             <div
                 ref={cursorRef}
                 className="follower size-3 rounded-full bg-secondary-foreground/50 fixed mix-blend-difference -left-1.5"
-                style={{ opacity: 0 }}
+                style={{opacity: 0}}
             />
         </div>
     );
