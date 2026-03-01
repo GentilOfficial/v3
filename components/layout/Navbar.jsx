@@ -9,6 +9,7 @@ import {HamburgerButton} from "@/components/ui/HamburgerButton"
 import {usePathname} from "next/navigation"
 import {NavbarMobileMenu} from "../partials/NavbarMobileMenu"
 import {ThemeToggle} from "@/components/ui/ThemeToggle"
+import Divider from "@/components/ui/Divider";
 
 const navVariants = {
     visible: {y: 0},
@@ -54,9 +55,8 @@ export default function Navbar() {
             >
                 <div className="flex items-center justify-between max-w-7xl mx-auto py-4 px-6">
                     <div className="flex items-center gap-6">
-                        <Logo className="size-8" aria-label="Federico Gentili" />
-                        <div
-                            className="hidden md:block h-8 w-px mx-auto bg-linear-to-b from-foreground/0 via-foreground/20 to-foreground/0"></div>
+                        <Logo className="size-8" aria-label="Federico Gentili"/>
+                        <Divider position="vertical" className="hidden md:block"/>
                         <div className="hidden md:flex gap-8">
                             {routes.map((route) => (
                                 <Link key={route.href} href={route.href} className={linkClass(route.href)}>

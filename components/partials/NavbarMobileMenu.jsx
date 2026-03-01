@@ -1,5 +1,6 @@
 import {AnimatePresence, motion} from "framer-motion"
 import Link from "next/link"
+import Divider from "@/components/ui/Divider";
 
 export function NavbarMobileMenu({routes, pathname, open, setOpen}) {
     const linkClass = (href) =>
@@ -16,8 +17,7 @@ export function NavbarMobileMenu({routes, pathname, open, setOpen}) {
                     transition={{type: "tween", duration: 0.5, ease: [0.25, 0.5, 0.75, 1]}}
                     className="md:hidden overflow-hidden"
                 >
-                    <div
-                        className="h-px w-4/5 mx-auto bg-linear-to-r from-foreground/0 via-foreground/10 to-foreground/0"></div>
+                    <Divider className="mx-auto"/>
                     <div className="flex flex-col px-6 py-4 gap-4">
                         {routes.map((route) => (
                             <Link key={route.href} href={route.href} onClick={() => setOpen(false)}

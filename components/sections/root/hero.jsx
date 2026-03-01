@@ -6,6 +6,7 @@ import {motion, useInView} from "motion/react";
 import GradientText from "@/components/ui/GradientText";
 import dynamic from "next/dynamic";
 import BlurText from "@/components/ui/BlurText";
+import Divider from "@/components/ui/Divider";
 
 const TechStackLoop = dynamic(() => import("@/components/partials/TechStackLoop"));
 
@@ -19,13 +20,13 @@ const AnimatedSpan = dynamic(() =>
     import("@/components/ui/terminal").then((mod) => mod.AnimatedSpan));
 
 export default function Hero() {
-    const {title, secondTitle, description, terminal, techStackIcons} = hero;
+    const {title, subtitle, description, terminal, techStackIcons} = hero;
     const terminalRef = useRef(null);
 
     const terminalInView = useInView(terminalRef, {once: true});
 
     return (
-        <div className="flex flex-col lg:flex-row gap-4 min-h-150 pb-16 lg:pb-0">
+        <section className="flex flex-col lg:flex-row gap-4 min-h-150 pb-16 lg:pb-0">
             <div className="flex flex-col gap-8 flex-1 text-center lg:text-start py-8">
                 <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl">
                     <motion.span
@@ -46,7 +47,7 @@ export default function Hero() {
                             colors={["#E27022", "#D22F27", "#E27022"]}
                             animationSpeed={5}
                         >
-                            {secondTitle}
+                            {subtitle}
                         </GradientText>
                     </motion.span>
                 </h1>
@@ -68,8 +69,9 @@ export default function Hero() {
                     initial={{opacity: 0}}
                     animate={{opacity: 1}}
                     transition={{duration: 1, ease: [0.25, 0.75, 0.25, 1], delay: 0.45}}
-                    className="h-0.5 w-4/5 my-2 mx-auto lg:mx-0 bg-linear-to-r from-foreground/0 via-foreground/10 to-foreground/0"
-                ></motion.div>
+                >
+                    <Divider className="mx-auto lg:mx-0"/>
+                </motion.div>
                 <motion.div
                     initial={{opacity: 0}}
                     animate={{opacity: 1}}
@@ -114,6 +116,6 @@ export default function Hero() {
                     </Terminal>
                 </motion.div>
             </div>
-        </div>
+        </section>
     );
 }
