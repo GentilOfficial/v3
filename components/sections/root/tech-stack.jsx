@@ -15,7 +15,7 @@ export default function TechStack() {
                     whileInView={{opacity: 1, y: 0}}
                     viewport={{once: true}}
                     transition={{duration: 0.5, ease: [0.25, 0.75, 0.25, 1]}}
-                    className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl text-center"
+                    className="text-3xl sm:text-4xl xl:text-5xl text-center"
                 >
                     <span className="block">{title}</span>
                     <span className="text-foreground/50">{subtitle}</span>
@@ -25,7 +25,7 @@ export default function TechStack() {
                     whileInView={{opacity: 1, y: 0}}
                     viewport={{once: true}}
                     transition={{duration: 0.5, ease: [0.25, 0.75, 0.25, 1], delay: 0.15}}
-                    className="text-foreground/50 text-center text-sm md:text-base max-w-xl mx-auto"
+                    className="text-foreground/50 text-center text-sm max-w-xl mx-auto"
                 >
                     {description}
                 </motion.p>
