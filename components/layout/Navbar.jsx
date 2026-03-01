@@ -39,7 +39,7 @@ export default function Navbar() {
         }`
 
     return (
-        <motion.nav
+        <motion.header
             className="fixed top-0 w-full z-50"
             variants={navVariants}
             animate={hidden ? "hidden" : "visible"}
@@ -73,6 +73,6 @@ export default function Navbar() {
                 </div>
                 <NavbarMobileMenu routes={routes} pathname={pathname} open={open} setOpen={setOpen}/>
             </motion.div>
-        </motion.nav>
+        </motion.header>
     )
 }
