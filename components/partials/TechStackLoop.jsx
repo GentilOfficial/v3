@@ -14,7 +14,7 @@ export default function TechStackLoop({icons, className}) {
                 direction="left"
                 logoHeight={35}
                 gap={55}
-                hoverSpeed={0}
+                hoverSpeed={50}
                 scaleOnHover
                 fadeOut
                 fadeOutColor="#0a0a0a0a"

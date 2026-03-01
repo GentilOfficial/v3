@@ -99,7 +99,7 @@ export default function Hero() {
                     transition={{duration: 1, ease, delay: 0.5}}
                     className="relative max-w-lg w-full"
                 >
-                    <div className="pointer-events-none absolute -inset-4 rounded-2xl blur-2xl -z-10 opacity-30"
+                    <div className="pointer-events-none absolute -inset-4 rounded-2xl blur-md -z-10 opacity-30"
                          style={{
                              background: "radial-gradient(ellipse at 60% 40%, rgba(226,112,34,0.15), transparent 70%)"
                          }}

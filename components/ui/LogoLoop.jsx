@@ -250,7 +250,7 @@ export const LogoLoop = memo(
         }, [effectiveHoverSpeed]);
 
         const renderLogoItem = useCallback(
-            (item, key) => {
+            (item, key, decorative = false) => {
                 if (renderItem) {
                     return (
                         <li
@@ -305,7 +305,7 @@ export const LogoLoop = memo(
 
                 const itemAriaLabel = isNodeItem ? (item.ariaLabel ?? item.title) : (item.alt ?? item.title);
 
-                const inner = item.href ? (
+                const inner = (!decorative && item.href) ? (
                     <a
                         className={cx(
                             'inline-flex items-center no-underline rounded',
@@ -349,11 +349,13 @@ export const LogoLoop = memo(
                         aria-hidden={copyIndex > 0}
                         ref={copyIndex === 0 ? seqRef : undefined}
                     >
-                        {logos.map((item, itemIndex) => renderLogoItem(item, `${copyIndex}-${itemIndex}`))}
+                        {logos.map((item, itemIndex) =>
+                            renderLogoItem(item, `${copyIndex}-${itemIndex}`, copyIndex > 0)
+                        )}
                     </ul>
                 )),
             [copyCount, logos, renderLogoItem, isVertical]
-        );
+        )
 
         const containerStyle = useMemo(
             () => ({

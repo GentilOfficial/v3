@@ -30,7 +30,7 @@ export default function DynamicBackground() {
         return () => mq.removeEventListener("change", update);
     }, []);
 
-    if (isMobile === null) return null;
+    if (isMobile === null) return (<div className="absolute inset-x-0 top-0 -z-20 h-screen"/>);
 
     const mobileBg = MOBILE_BACKGROUNDS[resolvedTheme] ?? MOBILE_BACKGROUNDS.dark;
 
@@ -39,13 +39,14 @@ export default function DynamicBackground() {
             initial={{opacity: 0}}
             animate={{opacity: 1}}
             transition={{duration: 0.8, ease: [0.25, 0.5, 0.75, 0.25]}}
-            className="absolute inset-x-0 top-0 -z-20 h-screen opacity-60 blur-sm md:blur-md overflow-hidden pointer-events-none"
+            className="absolute inset-x-0 top-0 -z-20 h-screen opacity-60 md:blur-md overflow-hidden pointer-events-none will-change-transform"
         >
             {isMobile ? (
                 <Image
+                    sizes="100vw"
                     src={mobileBg}
                     fill
-                    alt=""
+                    alt="Hero background"
                     role="presentation"
                     style={{objectFit: "cover"}}
                     loading="eager"
