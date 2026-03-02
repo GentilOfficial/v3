@@ -10,9 +10,9 @@ import ConsoleSignature from "@/components/layout/ConsoleSignature";
 import BottomBlur from "@/components/layout/BottomBlur";
 import {Footer} from "@/components/layout/Footer";
 import FAQ from "@/components/sections/root/faq";
-import {GridPattern} from "@/components/ui/GridPattern";
 import {cn} from "@/lib/utils";
 import LayoutInner from "@/components/layout/LayoutInner";
+import {DynamicGridPattern} from "@/components/layout/DynamicGridPattern";
 
 const font = DM_Sans({
     subsets: ['latin'],
@@ -45,13 +45,7 @@ export default function RootLayout({children}) {
                     <CustomCursor/>
                     <Navbar/>
                     <main className="relative mx-auto max-w-7xl px-8 pt-32 flex-1 w-full">
-                        <GridPattern
-                            strokeDasharray="4 2"
-                            className={cn(
-                                "-z-50 opacity-30 mask-intersect",
-                                "mask-[linear-gradient(to_right,transparent,white,transparent),linear-gradient(to_bottom,transparent,white_50%,white,transparent)]"
-                            )}
-                        />
+                        <DynamicGridPattern/>
                         {children}
                         <FAQ/>
                     </main>

@@ -27,12 +27,7 @@ export default function BottomBlur() {
         <GradualBlur
             target="page"
             position="bottom"
-            height="7rem"
             strength={1}
-            divCount={2}
-            curve="bezier"
-            exponential={false}
-            opacity={1}
             className="hidden lg:block"
         />
     );
