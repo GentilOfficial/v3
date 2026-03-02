@@ -28,6 +28,12 @@ export default function Hero() {
 
     return (
         <section className="relative flex flex-col lg:flex-row gap-4 min-h-150 pb-16 lg:pb-0">
+            <motion.div
+                initial={{opacity: 0, scale: 0.8}}
+                animate={{opacity: 1, scale: 1}}
+                transition={{duration: 2, ease}}
+                className="pointer-events-none absolute bg-primary/5 -top-12 -left-8 md:-top-24 md:-left-16 w-60 h-60 md:w-120 md:h-120 rounded-full blur-[60px] md:blur-[120px] -z-10"
+            />
             <div className="flex flex-col gap-8 flex-1 text-center lg:text-start py-8">
                 <motion.div
                     {...fadeUp(0)}
@@ -99,10 +105,11 @@ export default function Hero() {
                     transition={{duration: 1, ease, delay: 0.5}}
                     className="relative max-w-lg w-full"
                 >
-                    <div className="pointer-events-none absolute -inset-4 rounded-2xl blur-md -z-10 opacity-30"
-                         style={{
-                             background: "radial-gradient(ellipse at 60% 40%, rgba(226,112,34,0.15), transparent 70%)"
-                         }}
+                    <div
+                        className="pointer-events-none absolute -inset-4 rounded-2xl blur-md -z-20 opacity-30"
+                        style={{
+                            background: "radial-gradient(ellipse at 60% 40%, rgba(226,112,34,0.15), transparent 70%)"
+                        }}
                     />
 
                     <Terminal>

@@ -5,7 +5,6 @@ import {LanguageProvider} from "@/providers/LanguageContext"
 import {ThemeProvider} from "@/providers/ThemeProvider"
 import Navbar from "@/components/layout/Navbar"
 import LenisScroll from "@/providers/LenisScroll"
-import DynamicBackground from "@/components/layout/DynamicBackground";
 import CustomCursor from "@/components/ui/CustomCursor";
 import ConsoleSignature from "@/components/layout/ConsoleSignature";
 import BottomBlur from "@/components/layout/BottomBlur";
@@ -41,7 +40,6 @@ export default function RootLayout({children}) {
         <body className="antialiased flex flex-col min-h-screen">
         <ThemeProvider>
             <LenisScroll/>
-            <DynamicBackground/>
             <LanguageProvider>
                 <LayoutInner>
                     <CustomCursor/>
@@ -51,7 +49,7 @@ export default function RootLayout({children}) {
                             strokeDasharray="4 2"
                             className={cn(
                                 "-z-50 opacity-30 mask-intersect",
-                                "mask-[linear-gradient(to_right,transparent,white,transparent),linear-gradient(to_bottom,transparent,white_75%,white,transparent)]"
+                                "mask-[linear-gradient(to_right,transparent,white,transparent),linear-gradient(to_bottom,transparent,white_50%,white,transparent)]"
                             )}
                         />
                         {children}

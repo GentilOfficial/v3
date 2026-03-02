@@ -6,7 +6,6 @@ import {
     SiLinkedin,
     SiNextdotjs,
     SiReact,
-    SiShadcnui,
     SiTailwindcss
 } from "react-icons/si";
 
@@ -30,10 +29,12 @@ export const hero = {
         success: "Success! initialization completed.",
     },
     techStackIcons: [
-        {node: <SiReact/>, title: "React", href: "https://react.dev"},
-        {node: <SiNextdotjs/>, title: "Next.js", href: "https://nextjs.org"},
-        {node: <SiTailwindcss/>, title: "Tailwind CSS", href: "https://tailwindcss.com"},
-        {node: <SiShadcnui/>, title: "Shadcn", href: "https://ui.shadcn.com"}
+        {node: <SiNextdotjs/>, title: "Next.js"},
+        {node: <SiReact/>, title: "React"},
+        {node: <SiTailwindcss/>, title: "Tailwind CSS"},
+        {node: <SiLaravel/>, title: "Laravel"},
+        {node: <SiGithub/>, title: "Github"},
+        {node: <SiJavascript/>, title: "Javascript"}
     ]
 }
 
