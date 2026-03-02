@@ -1,66 +1,84 @@
-"use client";
-import {useEffect, useRef} from "react";
+"use client"
+
+import {motion, useMotionValue, useSpring} from "motion/react"
+import {useEffect, useRef, useState} from "react"
 
 const CustomCursor = () => {
-    const cursorRef = useRef(null);
-    const hasMoved = useRef(false);
-    const pos = useRef({x: 0, y: 0});
-    const current = useRef({x: 0, y: 0});
-    const rafRef = useRef(null);
+    const hasMoved = useRef(false)
+    const [isPressed, setIsPressed] = useState(false)
+
+    const x = useMotionValue(0)
+    const y = useMotionValue(0)
+    const opacity = useMotionValue(0)
+
+    const springConfig = {
+        stiffness: 220,
+        damping: 28,
+        mass: 0.6,
+    }
+
+    const springX = useSpring(x, springConfig)
+    const springY = useSpring(y, springConfig)
 
     useEffect(() => {
-        const el = cursorRef.current;
-
-        const animate = () => {
-            current.current.x += (pos.current.x - current.current.x) * 0.12;
-            current.current.y += (pos.current.y - current.current.y) * 0.12;
-            el.style.transform = `translate(${current.current.x}px, ${current.current.y}px)`;
-            rafRef.current = requestAnimationFrame(animate);
-        };
-
         const moveCursor = (e) => {
-            if (e.pointerType === "touch") {
-                el.style.opacity = "0";
-                return;
+            const isTouch = e.pointerType === "touch"
+
+            if (isTouch) {
+                opacity.set(0)
+                return
             }
+
             if (!hasMoved.current) {
-                hasMoved.current = true;
-                current.current = {x: e.clientX, y: e.clientY};
-                el.style.opacity = "1";
+                hasMoved.current = true
+                x.set(e.clientX)
+                y.set(e.clientY)
+                opacity.set(1)
+                return
             }
-            pos.current = {x: e.clientX, y: e.clientY};
-            el.style.opacity = "1";
-        };
 
-        const onMouseDown = () => {
-            el.style.scale = "0.5";
-        };
-        const onMouseUp = () => {
-            el.style.scale = "1";
-        };
+            x.set(e.clientX)
+            y.set(e.clientY)
+            opacity.set(1)
+        }
 
-        rafRef.current = requestAnimationFrame(animate);
-        window.addEventListener("pointermove", moveCursor);
-        window.addEventListener("mousedown", onMouseDown);
-        window.addEventListener("mouseup", onMouseUp);
+        const onMouseDown = () => setIsPressed(true)
+        const onMouseUp = () => setIsPressed(false)
+
+        window.addEventListener("pointermove", moveCursor)
+        window.addEventListener("pointerdown", onMouseDown)
+        window.addEventListener("pointerup", onMouseUp)
 
         return () => {
-            cancelAnimationFrame(rafRef.current);
-            window.removeEventListener("pointermove", moveCursor);
-            window.removeEventListener("mousedown", onMouseDown);
-            window.removeEventListener("mouseup", onMouseUp);
-        };
-    }, []);
+            window.removeEventListener("pointermove", moveCursor)
+            window.removeEventListener("pointerdown", onMouseDown)
+            window.removeEventListener("pointerup", onMouseUp)
+        }
+    }, [x, y, opacity])
 
     return (
-        <div className="pointer-events-none fixed -z-10">
-            <div
-                ref={cursorRef}
-                className="follower size-3 rounded-full bg-secondary-foreground/50 fixed mix-blend-difference -left-1.5"
-                style={{opacity: 0, transition: "scale 0.2s ease"}}
+        <motion.div
+            className="pointer-events-none fixed top-0 left-0 -z-10"
+            style={{
+                x: springX,
+                y: springY,
+                opacity,
+            }}
+        >
+            <motion.div
+                animate={{
+                    scale: isPressed ? 0.5 : 1,
+                }}
+                transition={{
+                    type: isPressed ? "tween" : "spring",
+                    duration: isPressed ? 0.15 : undefined,
+                    stiffness: 300,
+                    damping: 20,
+                }}
+                className="size-3 rounded-full bg-secondary-foreground/50 mix-blend-difference -translate-x-3 -translate-y-3"
             />
-        </div>
-    );
-};
+        </motion.div>
+    )
+}
 
-export default CustomCursor;
+export default CustomCursor
