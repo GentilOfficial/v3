@@ -1,5 +1,5 @@
 "use client"
-import {motion, useScroll, useSpring} from "motion/react"
+import {motion, useMotionValue, useSpring} from "motion/react"
 import {LanguageSwitcher} from "@/components/ui/LanguageSwitcher"
 import {useEffect, useRef, useState} from "react"
 import Logo from "@/public/logo.svg"
@@ -18,7 +18,8 @@ const navVariants = {
 }
 
 export default function Navbar() {
-    const {scrollY, scrollYProgress} = useScroll()
+    const scrollY = useMotionValue(0)
+    const scrollYProgress = useMotionValue(0)
     const [hidden, setHidden] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     const [open, setOpen] = useState(false)
@@ -31,6 +32,26 @@ export default function Navbar() {
         damping: 30,
         restDelta: 0.001,
     })
+
+    useEffect(() => {
+        let unsubscribe
+
+        const init = () => {
+            if (!window.lenis) return
+            unsubscribe = window.lenis.on("scroll", ({scroll, progress}) => {
+                scrollY.set(scroll)
+                scrollYProgress.set(progress)
+            })
+        }
+
+        init()
+        if (!unsubscribe) {
+            const id = setTimeout(init, 100)
+            return () => clearTimeout(id)
+        }
+
+        return () => unsubscribe?.()
+    }, [scrollY, scrollYProgress])
 
     useEffect(() => {
         scaleX.set(0)
