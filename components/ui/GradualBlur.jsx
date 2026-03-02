@@ -1,7 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef, useState, useMemo } from 'react';
-import * as math from 'mathjs';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 
 const DEFAULT_CONFIG = {
     position: 'bottom',
@@ -22,19 +21,19 @@ const DEFAULT_CONFIG = {
 };
 
 const PRESETS = {
-    top: { position: 'top', height: '6rem' },
-    bottom: { position: 'bottom', height: '6rem' },
-    left: { position: 'left', height: '6rem' },
-    right: { position: 'right', height: '6rem' },
-    subtle: { height: '4rem', strength: 1, opacity: 0.8, divCount: 3 },
-    intense: { height: '10rem', strength: 4, divCount: 8, exponential: true },
-    smooth: { height: '8rem', curve: 'bezier', divCount: 10 },
-    sharp: { height: '5rem', curve: 'linear', divCount: 4 },
-    header: { position: 'top', height: '8rem', curve: 'ease-out' },
-    footer: { position: 'bottom', height: '8rem', curve: 'ease-out' },
-    sidebar: { position: 'left', height: '6rem', strength: 2.5 },
-    'page-header': { position: 'top', height: '10rem', target: 'page', strength: 3 },
-    'page-footer': { position: 'bottom', height: '10rem', target: 'page', strength: 3 }
+    top: {position: 'top', height: '6rem'},
+    bottom: {position: 'bottom', height: '6rem'},
+    left: {position: 'left', height: '6rem'},
+    right: {position: 'right', height: '6rem'},
+    subtle: {height: '4rem', strength: 1, opacity: 0.8, divCount: 3},
+    intense: {height: '10rem', strength: 4, divCount: 8, exponential: true},
+    smooth: {height: '8rem', curve: 'bezier', divCount: 10},
+    sharp: {height: '5rem', curve: 'linear', divCount: 4},
+    header: {position: 'top', height: '8rem', curve: 'ease-out'},
+    footer: {position: 'bottom', height: '8rem', curve: 'ease-out'},
+    sidebar: {position: 'left', height: '6rem', strength: 2.5},
+    'page-header': {position: 'top', height: '10rem', target: 'page', strength: 3},
+    'page-footer': {position: 'bottom', height: '10rem', target: 'page', strength: 3}
 };
 
 const CURVE_FUNCTIONS = {
@@ -45,7 +44,7 @@ const CURVE_FUNCTIONS = {
     'ease-in-out': p => (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2)
 };
 
-const mergeConfigs = (...configs) => configs.reduce((acc, c) => ({ ...acc, ...c }), {});
+const mergeConfigs = (...configs) => configs.reduce((acc, c) => ({...acc, ...c}), {});
 
 const getGradientDirection = position => {
     const directions = {
@@ -94,7 +93,7 @@ const useIntersectionObserver = (ref, shouldObserve = false) => {
     useEffect(() => {
         if (!shouldObserve || !ref.current) return;
 
-        const observer = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), { threshold: 0.1 });
+        const observer = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), {threshold: 0.1});
 
         observer.observe(ref.current);
         return () => observer.disconnect();
@@ -130,14 +129,14 @@ const GradualBlur = props => {
 
             let blurValue;
             if (config.exponential) {
-                blurValue = math.pow(2, progress * 4) * 0.0625 * currentStrength;
+                blurValue = Math.pow(2, progress * 4) * 0.0625 * currentStrength;
             } else {
                 blurValue = 0.0625 * (progress * config.divCount + 1) * currentStrength;
             }
-            const p1 = math.round((increment * i - increment) * 10) / 10;
-            const p2 = math.round(increment * i * 10) / 10;
-            const p3 = math.round((increment * i + increment) * 10) / 10;
-            const p4 = math.round((increment * i + increment * 2) * 10) / 10;
+            const p1 = Math.round((increment * i - increment) * 10) / 10;
+            const p2 = Math.round(increment * i * 10) / 10;
+            const p3 = Math.round((increment * i + increment) * 10) / 10;
+            const p4 = Math.round((increment * i + increment * 2) * 10) / 10;
             let gradient = `transparent ${p1}%, black ${p2}%`;
             if (p3 <= 100) gradient += `, black ${p3}%`;
             if (p4 <= 100) gradient += `, transparent ${p4}%`;
@@ -158,7 +157,7 @@ const GradualBlur = props => {
                         : undefined
             };
 
-            divs.push(<div key={i} style={divStyle} />);
+            divs.push(<div key={i} style={divStyle}/>);
         }
 
         return divs;
@@ -195,7 +194,7 @@ const GradualBlur = props => {
         return baseStyle;
     }, [config, responsiveHeight, responsiveWidth, isVisible]);
 
-    const { hoverIntensity, animated, onAnimationComplete, duration } = config;
+    const {hoverIntensity, animated, onAnimationComplete, duration} = config;
     useEffect(() => {
         if (isVisible && animated === 'scroll' && onAnimationComplete) {
             const t = setTimeout(() => onAnimationComplete(), parseFloat(duration) * 1000);

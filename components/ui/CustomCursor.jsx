@@ -1,55 +1,51 @@
 "use client";
-import gsap from "gsap";
 import {useEffect, useRef} from "react";
 
 const CustomCursor = () => {
     const cursorRef = useRef(null);
     const hasMoved = useRef(false);
+    const pos = useRef({x: 0, y: 0});
+    const current = useRef({x: 0, y: 0});
+    const rafRef = useRef(null);
 
     useEffect(() => {
-        const moveCursor = (e) => {
-            const isTouch = e.pointerType === "touch";
+        const el = cursorRef.current;
 
-            if (!hasMoved.current) {
-                if (isTouch) return;
-                hasMoved.current = true;
-                gsap.set(cursorRef.current, {
-                    x: e.clientX,
-                    y: e.clientY,
-                });
+        const animate = () => {
+            current.current.x += (pos.current.x - current.current.x) * 0.12;
+            current.current.y += (pos.current.y - current.current.y) * 0.12;
+            el.style.transform = `translate(${current.current.x}px, ${current.current.y}px)`;
+            rafRef.current = requestAnimationFrame(animate);
+        };
+
+        const moveCursor = (e) => {
+            if (e.pointerType === "touch") {
+                el.style.opacity = "0";
                 return;
             }
-
-            gsap.to(cursorRef.current, {
-                x: !isTouch ? e.clientX : undefined,
-                y: !isTouch ? e.clientY : undefined,
-                opacity: isTouch ? 0 : 1,
-                duration: isTouch ? 0 : 1,
-                ease: "power2.out",
-            });
+            if (!hasMoved.current) {
+                hasMoved.current = true;
+                current.current = {x: e.clientX, y: e.clientY};
+                el.style.opacity = "1";
+            }
+            pos.current = {x: e.clientX, y: e.clientY};
+            el.style.opacity = "1";
         };
 
         const onMouseDown = () => {
-            gsap.to(cursorRef.current, {
-                scale: 0.5,
-                duration: 0.15,
-                ease: "power2.out",
-            });
+            el.style.scale = "0.5";
         };
-
         const onMouseUp = () => {
-            gsap.to(cursorRef.current, {
-                scale: 1,
-                duration: 0.35,
-                ease: "elastic.out(1, 0.4)",
-            });
+            el.style.scale = "1";
         };
 
+        rafRef.current = requestAnimationFrame(animate);
         window.addEventListener("pointermove", moveCursor);
         window.addEventListener("mousedown", onMouseDown);
         window.addEventListener("mouseup", onMouseUp);
 
         return () => {
+            cancelAnimationFrame(rafRef.current);
             window.removeEventListener("pointermove", moveCursor);
             window.removeEventListener("mousedown", onMouseDown);
             window.removeEventListener("mouseup", onMouseUp);
@@ -61,7 +57,7 @@ const CustomCursor = () => {
             <div
                 ref={cursorRef}
                 className="follower size-3 rounded-full bg-secondary-foreground/50 fixed mix-blend-difference -left-1.5"
-                style={{opacity: 0}}
+                style={{opacity: 0, transition: "scale 0.2s ease"}}
             />
         </div>
     );
