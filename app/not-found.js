@@ -33,7 +33,7 @@ export default function NotFound() {
             animate="show"
             className="flex flex-col items-center justify-center py-8 gap-6 text-center min-h-200 pb-24"
         >
-            <motion.div variants={item} className="relative select-none">
+            <motion.h1 variants={item} className="relative select-none">
                 <motion.span
                     aria-hidden
                     animate={{
@@ -48,15 +48,15 @@ export default function NotFound() {
                         ease: "linear",
                         times: [0, 0.2, 0.4, 0.6, 0.8, 1],
                     }}
-                    className="absolute inset-0 block font-mono text-[clamp(5rem,16vw,11rem)] font-black leading-none tracking-tighter text-foreground pointer-events-none"
+                    className="absolute inset-0 block font-mono text-[clamp(5rem,16vw,11rem)] font-black leading-none tracking-tighter text-secondary blur-sm pointer-events-none"
                 >
-                    404
+                    ?
                 </motion.span>
                 <span
                     className="block font-mono text-[clamp(5rem,16vw,11rem)] font-black leading-none tracking-tighter text-primary">
-                    404
+                    ?
                 </span>
-            </motion.div>
+            </motion.h1>
 
             <motion.div
                 variants={{
