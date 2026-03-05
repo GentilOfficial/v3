@@ -27,14 +27,14 @@ export default function Hero() {
     const terminalInView = useInView(terminalRef, {once: true});
 
     return (
-        <section className="relative flex flex-col lg:flex-row gap-4 min-h-150 pb-16 lg:pb-0">
+        <section className="relative flex flex-col lg:flex-row gap-4 min-h-200 pb-24">
             <motion.div
                 initial={{opacity: 0, scale: 0.8}}
                 animate={{opacity: 1, scale: 1}}
                 transition={{duration: 2, ease}}
                 className="pointer-events-none absolute bg-primary/5 -top-12 -left-8 md:-top-24 md:-left-16 w-60 h-60 md:w-120 md:h-120 rounded-full blur-[60px] md:blur-[120px] -z-10"
             />
-            <div className="flex flex-col gap-8 flex-1 text-center lg:text-start py-8">
+            <div className="flex flex-col gap-8 flex-1 justify-center text-center lg:text-start py-8">
                 <motion.div
                     {...fadeUp(0)}
                     className="flex items-center gap-2 w-fit mx-auto lg:mx-0"
@@ -55,7 +55,7 @@ export default function Hero() {
                     </motion.span>
                     <motion.span {...fadeUp(0.22)} className="block mt-1">
                         <GradientText
-                            colors={["#E27022", "#D22F27", "#E27022"]}
+                            colors={["var(--secondary)", "var(--primary)", "var(--secondary)"]}
                             animationSpeed={5}
                         >
                             {subtitle}
@@ -93,7 +93,7 @@ export default function Hero() {
                 </motion.div>
             </div>
 
-            <div className="flex-1 flex items-start justify-center lg:justify-end">
+            <div className="flex-1 flex items-center justify-center lg:justify-end">
                 <motion.div
                     ref={terminalRef}
                     initial={{opacity: 0, y: 32, filter: "blur(10px)"}}

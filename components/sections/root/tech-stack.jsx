@@ -27,7 +27,7 @@ export default function TechStack() {
     const {title, subtitle, description, tools} = techStack
 
     return (
-        <section className="flex min-h-180 flex-col items-center py-12">
+        <section className="flex min-h-180 flex-col items-center py-24">
             <div className="flex flex-col gap-4 mb-12">
                 <motion.h2
                     initial={{opacity: 0, y: 24, filter: "blur(6px)"}}
@@ -63,14 +63,17 @@ export default function TechStack() {
                     return (
                         <motion.div key={`tool-${index}`} variants={cardItem}>
                             <SpotlightCard
-                                spotlightColor="rgba(255, 105, 0, 0.15)"
+                                spotlightColor="color-mix(in srgb, var(--muted-foreground) 15%, transparent)"
                                 className="group flex flex-col gap-1 h-full"
                             >
                                 <div
-                                    className={`rounded-md border border-border size-9 shrink-0 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-110 ${isFill ? "p-0" : "p-0.5"}`}
-                                    style={{background: tool.icon.bg, color: tool.icon.color}}
+                                    className={`p-1 rounded-md shadow-sm size-9 shrink-0 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-110 ${isFill ? "p-0" : "p-0.5"}`}
+                                    style={{
+                                        backgroundColor: tool.icon.bg,
+                                        color: tool.icon.color
+                                    }}
                                 >
-                                    <Icon className={isFill ? "size-3/4 rounded-sm" : "size-3/4"}/>
+                                    <Icon className={isFill ? "size-full rounded-sm" : "size-full"}/>
                                 </div>
 
                                 <div>

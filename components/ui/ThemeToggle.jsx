@@ -85,7 +85,7 @@ export function ThemeToggle({onOpenChange}) {
                                             animate={{scale: 1, opacity: 1}}
                                             exit={{scale: 0, opacity: 0}}
                                             transition={{duration: 0.2, ease: "backOut"}}
-                                            className="size-1.5 rounded-full bg-linear-to-br from-[#D22F27] to-[#E27022]"
+                                            className="size-1.5 rounded-full bg-linear-to-br from-primary to-secondary"
                                         />
                                     )}
                                 </AnimatePresence>

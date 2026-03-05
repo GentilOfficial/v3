@@ -112,7 +112,7 @@ export function Footer() {
                             className="rounded-xl border border-border bg-background/60 backdrop-blur-sm p-3 flex flex-col gap-1">
                             <span className="text-sm text-foreground/50">{stat.label}:</span>
                             <span
-                                className="text-xl font-bold bg-linear-to-r from-[#D22F27] to-[#E27022] bg-clip-text text-transparent">
+                                className="text-xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
                                 {stat.value}
                             </span>
                         </div>

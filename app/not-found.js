@@ -31,7 +31,7 @@ export default function NotFound() {
             variants={container}
             initial="hidden"
             animate="show"
-            className="flex flex-col items-center justify-center py-8 gap-6 text-center"
+            className="flex flex-col items-center justify-center py-8 gap-6 text-center min-h-200 pb-24"
         >
             <motion.div variants={item} className="relative select-none">
                 <motion.span

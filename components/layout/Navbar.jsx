@@ -144,7 +144,7 @@ export default function Navbar() {
                 />
                 <motion.div
                     style={{scaleX}}
-                    className="absolute -bottom-px left-0 right-0 h-px origin-left bg-linear-to-r from-[#D22F27] to-[#E27022]"
+                    className="absolute -bottom-px left-0 right-0 h-px origin-left bg-linear-to-r from-primary to-secondary"
                 />
             </div>
         </motion.header>

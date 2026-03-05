@@ -24,7 +24,6 @@ const SpotlightCard = ({
     const springX = useSpring(x, springConfig)
     const springY = useSpring(y, springConfig)
 
-    // offset translate-3 = 12px
     const offsetX = useTransform(springX, (v) => v - 12)
     const offsetY = useTransform(springY, (v) => v - 12)
 
