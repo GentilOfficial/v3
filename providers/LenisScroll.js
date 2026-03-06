@@ -7,17 +7,21 @@ export default function LenisScroll() {
     useEffect(() => {
         const lenis = new Lenis()
         window.lenis = lenis
+        let rafId = 0
 
         function raf(time) {
             lenis.raf(time)
-            requestAnimationFrame(raf)
+            rafId = requestAnimationFrame(raf)
         }
 
-        requestAnimationFrame(raf)
+        rafId = requestAnimationFrame(raf)
 
         return () => {
+            cancelAnimationFrame(rafId)
             lenis.destroy()
-            delete window.lenis
+            if (window.lenis === lenis) {
+                delete window.lenis
+            }
         }
     }, [])
 

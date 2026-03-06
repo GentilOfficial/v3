@@ -75,7 +75,7 @@ const CustomCursor = () => {
                     stiffness: 300,
                     damping: 20,
                 }}
-                className="size-3 rounded-full bg-secondary-foreground/50 mix-blend-difference -translate-x-3 -translate-y-3"
+                className="size-3 rounded-full bg-foreground/20 mix-blend-difference -translate-x-3 -translate-y-3"
             />
         </motion.div>
     )
