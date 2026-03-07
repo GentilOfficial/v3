@@ -1,14 +1,5 @@
-import {
-  DEFAULT_LOCALE,
-  isLocale,
-  LANGUAGE_COOKIE_NAME,
-} from "@/config/i18n.config"
+import { DEFAULT_LOCALE, isLocale } from "@/config/i18n.config"
 import { NextResponse } from "next/server"
-
-function resolveLocaleFromCookie(request) {
-  const cookieLang = request.cookies.get(LANGUAGE_COOKIE_NAME)?.value
-  return isLocale(cookieLang) ? cookieLang : DEFAULT_LOCALE
-}
 
 export function proxy(request) {
   const { pathname } = request.nextUrl
@@ -26,6 +17,14 @@ export function proxy(request) {
   const pathnameLocale = segments[0]
 
   if (isLocale(pathnameLocale)) {
+    if (pathnameLocale === DEFAULT_LOCALE) {
+      const redirectUrl = request.nextUrl.clone()
+      const pathWithoutLocale = `/${segments.slice(1).join("/")}`
+      redirectUrl.pathname = pathWithoutLocale === "/" ? "/" : pathWithoutLocale
+
+      return NextResponse.redirect(redirectUrl)
+    }
+
     const rewriteUrl = request.nextUrl.clone()
     const pathWithoutLocale = `/${segments.slice(1).join("/")}`
     rewriteUrl.pathname = pathWithoutLocale === "/" ? "/" : pathWithoutLocale
@@ -37,24 +36,13 @@ export function proxy(request) {
       request: { headers: requestHeaders },
     })
 
-    response.cookies.set(LANGUAGE_COOKIE_NAME, pathnameLocale, {
-      path: "/",
-      sameSite: "lax",
-    })
-
     return response
   }
 
-  const locale = resolveLocaleFromCookie(request)
-  const redirectUrl = request.nextUrl.clone()
-  redirectUrl.pathname =
-    pathname === "/" ? `/${locale}` : `/${locale}${pathname}`
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set("x-lang", DEFAULT_LOCALE)
 
-  const response = NextResponse.redirect(redirectUrl)
-  response.cookies.set(LANGUAGE_COOKIE_NAME, locale, {
-    path: "/",
-    sameSite: "lax",
+  return NextResponse.next({
+    request: { headers: requestHeaders },
   })
-
-  return response
 }
