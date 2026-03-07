@@ -1,15 +1,6 @@
-﻿import {
-  SiGithub,
-  SiJavascript,
-  SiLaravel,
-  SiNextdotjs,
-  SiReact,
-  SiTailwindcss,
-} from "react-icons/si"
-
-const sharedTools = [
+﻿const sharedTools = [
   {
-    icon: { node: SiNextdotjs, bg: "#000000", color: "#ffffff" },
+    icon: { key: "nextjs", bg: "#000000", color: "#ffffff" },
     title: {
       en: "Next.js",
       it: "Next.js",
@@ -24,7 +15,7 @@ const sharedTools = [
     },
   },
   {
-    icon: { node: SiReact, bg: "#0d1117", color: "#61dafb" },
+    icon: { key: "react", bg: "#0d1117", color: "#61dafb" },
     title: {
       en: "React",
       it: "React",
@@ -39,7 +30,7 @@ const sharedTools = [
     },
   },
   {
-    icon: { node: SiTailwindcss, bg: "#0f172a", color: "#38bdf8" },
+    icon: { key: "tailwindcss", bg: "#0f172a", color: "#38bdf8" },
     title: {
       en: "Tailwind CSS",
       it: "Tailwind CSS",
@@ -54,7 +45,7 @@ const sharedTools = [
     },
   },
   {
-    icon: { node: SiLaravel, bg: "#1a0a0a", color: "#ff2d20" },
+    icon: { key: "laravel", bg: "#1a0a0a", color: "#ff2d20" },
     title: {
       en: "Laravel",
       it: "Laravel",
@@ -69,7 +60,7 @@ const sharedTools = [
     },
   },
   {
-    icon: { node: SiGithub, bg: "#0d1117", color: "#f0f6fc" },
+    icon: { key: "github", bg: "#0d1117", color: "#f0f6fc" },
     title: {
       en: "Git & GitHub",
       it: "Git e GitHub",
@@ -84,7 +75,7 @@ const sharedTools = [
     },
   },
   {
-    icon: { node: SiJavascript, bg: "#1a1600", color: "#f7df1e", fill: true },
+    icon: { key: "javascript", bg: "#1a1600", color: "#f7df1e", fill: true },
     title: {
       en: "JavaScript",
       it: "JavaScript",

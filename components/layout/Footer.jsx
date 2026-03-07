@@ -7,6 +7,7 @@ import { useLanguage } from "@/providers/LanguageContext"
 import { motion } from "motion/react"
 import Image from "next/image"
 import Link from "next/link"
+import { SiGithub, SiInstagram, SiLinkedin } from "react-icons/si"
 
 const colVariants = {
   hidden: {},
@@ -21,6 +22,12 @@ const rowItem = {
     filter: "blur(0px)",
     transition: { duration: 0.4, ease: [0.25, 0.75, 0.25, 1] },
   },
+}
+
+const SOCIAL_ICON_MAP = {
+  github: SiGithub,
+  linkedin: SiLinkedin,
+  instagram: SiInstagram,
 }
 
 export function Footer() {
@@ -98,7 +105,8 @@ export function Footer() {
             </motion.span>
             <ul className="flex flex-col gap-2.5">
               {socials.map((social) => {
-                const Icon = social.icon
+                const Icon = SOCIAL_ICON_MAP[social.icon]
+                if (!Icon) return null
                 return (
                   <motion.li key={social.label} variants={rowItem}>
                     <Link

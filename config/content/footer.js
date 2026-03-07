@@ -1,20 +1,18 @@
-﻿import { SiGithub, SiInstagram, SiLinkedin } from "react-icons/si"
-
-const socials = [
+﻿const socials = [
   {
     label: "GitHub",
     href: "https://github.com/GentilOfficial",
-    icon: SiGithub,
+    icon: "github",
   },
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/federico-gentili-009531308",
-    icon: SiLinkedin,
+    icon: "linkedin",
   },
   {
     label: "Instagram",
     href: "https://www.instagram.com/federico.gnt",
-    icon: SiInstagram,
+    icon: "instagram",
   },
 ]
 

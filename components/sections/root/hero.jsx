@@ -10,6 +10,14 @@ import { useLanguage } from "@/providers/LanguageContext"
 import { motion, useInView } from "motion/react"
 import dynamic from "next/dynamic"
 import { useMemo, useRef } from "react"
+import {
+  SiGithub,
+  SiJavascript,
+  SiLaravel,
+  SiNextdotjs,
+  SiReact,
+  SiTailwindcss,
+} from "react-icons/si"
 
 const TechStackLoop = dynamic(
   () => import("@/components/partials/TechStackLoop"),
@@ -23,6 +31,15 @@ const TypingAnimation = dynamic(() =>
 const AnimatedSpan = dynamic(() =>
   import("@/components/ui/terminal").then((mod) => mod.AnimatedSpan),
 )
+
+const TECH_ICON_MAP = {
+  nextjs: SiNextdotjs,
+  react: SiReact,
+  tailwindcss: SiTailwindcss,
+  laravel: SiLaravel,
+  github: SiGithub,
+  javascript: SiJavascript,
+}
 
 const ease = [0.25, 0.75, 0.25, 1]
 
@@ -47,6 +64,16 @@ export default function Hero() {
     techStackIcons,
     availableForWork,
   } = localizedHero
+  const renderedTechStackIcons = techStackIcons
+    .map((item) => {
+      const Icon = TECH_ICON_MAP[item.icon]
+      if (!Icon) return null
+      return {
+        ...item,
+        node: <Icon />,
+      }
+    })
+    .filter(Boolean)
   const terminalRef = useRef(null)
   const terminalInView = useInView(terminalRef, { once: true })
 
@@ -114,7 +141,10 @@ export default function Hero() {
         </motion.div>
 
         <motion.div {...fadeUp(0.56)}>
-          <TechStackLoop icons={techStackIcons} className="mx-auto lg:mx-0" />
+          <TechStackLoop
+            icons={renderedTechStackIcons}
+            className="mx-auto lg:mx-0"
+          />
         </motion.div>
       </div>
 

@@ -1,19 +1,10 @@
-﻿import {
-  SiGithub,
-  SiJavascript,
-  SiLaravel,
-  SiNextdotjs,
-  SiReact,
-  SiTailwindcss,
-} from "react-icons/si"
-
-const techStackIcons = [
-  { node: <SiNextdotjs />, title: "Next.js" },
-  { node: <SiReact />, title: "React" },
-  { node: <SiTailwindcss />, title: "Tailwind CSS" },
-  { node: <SiLaravel />, title: "Laravel" },
-  { node: <SiGithub />, title: "GitHub" },
-  { node: <SiJavascript />, title: "JavaScript" },
+﻿const techStackIcons = [
+  { icon: "nextjs", title: "Next.js" },
+  { icon: "react", title: "React" },
+  { icon: "tailwindcss", title: "Tailwind CSS" },
+  { icon: "laravel", title: "Laravel" },
+  { icon: "github", title: "GitHub" },
+  { icon: "javascript", title: "JavaScript" },
 ]
 
 export const hero = {

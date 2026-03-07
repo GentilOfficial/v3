@@ -5,6 +5,23 @@ import { techStack } from "@/config/content.config"
 import { getLocalizedValue } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
 import { motion } from "motion/react"
+import {
+  SiGithub,
+  SiJavascript,
+  SiLaravel,
+  SiNextdotjs,
+  SiReact,
+  SiTailwindcss,
+} from "react-icons/si"
+
+const TECH_ICON_MAP = {
+  nextjs: SiNextdotjs,
+  react: SiReact,
+  tailwindcss: SiTailwindcss,
+  laravel: SiLaravel,
+  github: SiGithub,
+  javascript: SiJavascript,
+}
 
 const container = {
   hidden: {},
@@ -68,13 +85,14 @@ export default function TechStack() {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
       >
         {tools.map((tool, index) => {
-          const Icon = tool.icon.node
+          const Icon = TECH_ICON_MAP[tool.icon.key]
+          if (!Icon) return null
           const isFill = tool.icon.fill
 
           return (
             <motion.div key={`tool-${index}`} variants={cardItem}>
               <SpotlightCard
-                spotlightColor="color-mix(in srgb, var(--muted-foreground) 15%, transparent)"
+                spotlightColor="rgba(120, 120, 120, 0.15)"
                 className="group flex flex-col gap-1 h-full"
               >
                 <div

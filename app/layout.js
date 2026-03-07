@@ -4,7 +4,6 @@ import { DynamicGridPattern } from "@/components/layout/DynamicGridPattern"
 import { Footer } from "@/components/layout/Footer"
 import LayoutInner from "@/components/layout/LayoutInner"
 import Navbar from "@/components/layout/Navbar"
-import FAQ from "@/components/sections/root/faq"
 import CustomCursor from "@/components/ui/CustomCursor"
 import { layout } from "@/config/content.config"
 import { DEFAULT_LOCALE, isLocale } from "@/config/i18n.config"
@@ -20,6 +19,7 @@ const font = localFont({
   src: "../assets/DMSans.ttf",
   display: "swap",
   variable: "--font-sans",
+  preload: false,
 })
 
 export const metadata = {
@@ -58,7 +58,6 @@ export default async function RootLayout({ children }) {
               <main className="relative mx-auto max-w-7xl px-8 pt-32 flex-1 w-full">
                 <DynamicGridPattern />
                 {children}
-                <FAQ />
               </main>
               <Footer />
               <BottomBlur />
