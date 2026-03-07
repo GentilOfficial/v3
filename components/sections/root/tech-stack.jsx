@@ -1,7 +1,9 @@
 "use client"
-import { techStack } from "@/config/content.config"
-import SpotlightCard from "@/components/ui/SpotlightCard"
 import Divider from "@/components/ui/Divider"
+import SpotlightCard from "@/components/ui/SpotlightCard"
+import { techStack } from "@/config/content.config"
+import { getLocalizedValue } from "@/lib/i18n"
+import { useLanguage } from "@/providers/LanguageContext"
 import { motion } from "motion/react"
 
 const container = {
@@ -24,7 +26,9 @@ const cardItem = {
 }
 
 export default function TechStack() {
-  const { title, subtitle, description, tools } = techStack
+  const { lang } = useLanguage()
+  const localizedTechStack = getLocalizedValue(techStack, lang)
+  const { title, subtitle, description, tools } = localizedTechStack
 
   return (
     <section

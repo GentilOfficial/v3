@@ -1,3 +1,14 @@
+"use client"
+
+import { useLanguage } from "@/providers/LanguageContext"
+
+const copy = {
+  en: "Contact",
+  it: "Contatti",
+}
+
 export default function Contact() {
-  return <h1>Contact</h1>
+  const { lang } = useLanguage()
+
+  return <h1>{copy[lang] ?? copy.en}</h1>
 }

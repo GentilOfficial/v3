@@ -1,9 +1,10 @@
+import Divider from "@/components/ui/Divider"
+import { NavRouteDropdown } from "@/components/ui/NavRouteDropdown"
+import { normalizePathname } from "@/lib/i18n"
+import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "motion/react"
 import Link from "next/link"
-import Divider from "@/components/ui/Divider"
-import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
-import { NavRouteDropdown } from "@/components/ui/NavRouteDropdown"
 
 export function NavbarMobileMenu({ routes, pathname, open, setOpen }) {
   const [activeDropdown, setActiveDropdown] = useState(null)
@@ -52,11 +53,12 @@ export function NavbarMobileMenu({ routes, pathname, open, setOpen }) {
           <Divider className="mx-auto" />
           <nav
             data-lenis-prevent
-            className="flex flex-col px-4 py-3 gap-2 max-h-[calc(100vh-4rem)] overflow-y-auto"
+            className="flex flex-col px-4 py-3 gap-2 max-h-[calc(100vh-5.4rem)] overflow-y-auto"
           >
             {routes.map((route, i) => {
               const hasItems = route.items?.length > 0
-              const isActive = pathname === route.href
+              const isActive =
+                normalizePathname(pathname) === normalizePathname(route.href)
               const isOpen = activeDropdown === route.href
 
               return (
@@ -75,7 +77,7 @@ export function NavbarMobileMenu({ routes, pathname, open, setOpen }) {
                       href={route.href}
                       onClick={() => setOpen(false)}
                       className={cn(
-                        "w-full inline-flex items-center justify-between rounded-md border px-3 py-2 text-sm transition-colors duration-300",
+                        "w-full inline-flex items-center justify-between rounded-lg border px-3 py-2 text-sm transition-colors duration-300",
                         isActive
                           ? "border-border bg-sidebar/75 text-foreground"
                           : "border-transparent text-foreground/55 hover:text-foreground/80 hover:bg-sidebar/45",

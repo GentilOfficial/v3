@@ -1,7 +1,9 @@
 "use client"
 
-import { motion } from "motion/react"
 import { certifications } from "@/config/content.config"
+import { getLocalizedValue } from "@/lib/i18n"
+import { useLanguage } from "@/providers/LanguageContext"
+import { motion } from "motion/react"
 
 const ease = [0.25, 0.75, 0.25, 1]
 
@@ -16,7 +18,9 @@ const cardVariants = {
 }
 
 export default function Certifications() {
-  const { title, subtitle, description, items } = certifications
+  const { lang } = useLanguage()
+  const localizedCertifications = getLocalizedValue(certifications, lang)
+  const { title, subtitle, description, items } = localizedCertifications
 
   return (
     <section className="py-20 md:py-24" id="certifications">

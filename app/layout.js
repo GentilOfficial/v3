@@ -1,18 +1,20 @@
-import localFont from "next/font/local"
-import "./globals.css"
-import { layout } from "@/config/content.config"
-import { LanguageProvider } from "@/providers/LanguageContext"
-import { ThemeProvider } from "@/providers/ThemeProvider"
-import Navbar from "@/components/layout/Navbar"
-import LenisScroll from "@/providers/LenisScroll"
-import CustomCursor from "@/components/ui/CustomCursor"
-import ConsoleSignature from "@/components/layout/ConsoleSignature"
 import BottomBlur from "@/components/layout/BottomBlur"
-import { Footer } from "@/components/layout/Footer"
-import FAQ from "@/components/sections/root/faq"
-import { cn } from "@/lib/utils"
-import LayoutInner from "@/components/layout/LayoutInner"
+import ConsoleSignature from "@/components/layout/ConsoleSignature"
 import { DynamicGridPattern } from "@/components/layout/DynamicGridPattern"
+import { Footer } from "@/components/layout/Footer"
+import LayoutInner from "@/components/layout/LayoutInner"
+import Navbar from "@/components/layout/Navbar"
+import FAQ from "@/components/sections/root/faq"
+import CustomCursor from "@/components/ui/CustomCursor"
+import { layout } from "@/config/content.config"
+import { DEFAULT_LOCALE, isLocale } from "@/config/i18n.config"
+import { cn } from "@/lib/utils"
+import { LanguageProvider } from "@/providers/LanguageContext"
+import LenisScroll from "@/providers/LenisScroll"
+import { ThemeProvider } from "@/providers/ThemeProvider"
+import localFont from "next/font/local"
+import { headers } from "next/headers"
+import "./globals.css"
 
 const font = localFont({
   src: "../assets/DMSans.ttf",
@@ -35,17 +37,21 @@ export const viewport = {
   ],
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const requestHeaders = await headers()
+  const headerLang = requestHeaders.get("x-lang")
+  const currentLang = isLocale(headerLang) ? headerLang : DEFAULT_LOCALE
+
   return (
     <html
-      lang="en"
+      lang={currentLang}
       className={cn(font.variable, font.className)}
       suppressHydrationWarning
     >
       <body className="antialiased flex flex-col min-h-screen">
         <ThemeProvider>
           <LenisScroll />
-          <LanguageProvider>
+          <LanguageProvider initialLang={currentLang}>
             <LayoutInner>
               <CustomCursor />
               <Navbar />

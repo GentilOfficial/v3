@@ -1,17 +1,21 @@
-"use client"
+﻿"use client"
 
-import { motion } from "motion/react"
-import dayjs from "dayjs"
-import relativeTime from "dayjs/plugin/relativeTime"
-import "dayjs/locale/en"
 import { useLanguage } from "@/providers/LanguageContext"
-import Image from "next/image";
+import dayjs from "dayjs"
+import "dayjs/locale/en"
+import "dayjs/locale/it"
+import relativeTime from "dayjs/plugin/relativeTime"
+import { motion } from "motion/react"
+import Image from "next/image"
 
 dayjs.extend(relativeTime)
-dayjs.locale("en")
 
-function formatDate(date) {
-  return date ? dayjs(date).format("MMM YYYY") : "Present"
+function formatDate(date, lang) {
+  if (!date) {
+    return lang === "it" ? "Presente" : "Present"
+  }
+
+  return dayjs(date).locale(lang).format("MMM YYYY")
 }
 
 export default function Experiences({ experiences }) {
@@ -30,18 +34,23 @@ export default function Experiences({ experiences }) {
       viewport={{ once: true }}
     >
       <h2 className="text-2xl uppercase tracking-wide">
-        {experience.title[lang]}
+        {experience.title?.[lang] ?? experience.title?.en ?? experience.title}
       </h2>
 
       <p className="font-semibold text-sm">
-        {experience.company} · {experience.location[lang]}
+        {experience.company} -{" "}
+        {experience.location?.[lang] ??
+          experience.location?.en ??
+          experience.location}
       </p>
 
       <h2 className="text-xl font-bold">{experience.description}</h2>
 
       <p className="text-sm text-gray-500">
-        {formatDate(experience.started_at)} - {formatDate(experience.ended_at)}
+        {formatDate(experience.started_at, lang)} -{" "}
+        {formatDate(experience.ended_at, lang)}
       </p>
+
       {experience.company_icon_url && (
         <Image
           src={experience.company_icon_url}

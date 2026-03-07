@@ -1,17 +1,19 @@
 "use client"
-import { motion, useMotionValue, useSpring } from "motion/react"
-import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher"
-import { useEffect, useRef, useState } from "react"
-import Logo from "@/public/logo.svg"
-import routes from "@/config/routes.config"
-import Link from "next/link"
-import { HamburgerButton } from "@/components/ui/HamburgerButton"
-import { usePathname } from "next/navigation"
-import { NavbarMobileMenu } from "../partials/NavbarMobileMenu"
-import { ThemeToggle } from "@/components/ui/ThemeToggle"
 import Divider from "@/components/ui/Divider"
-import { cn } from "@/lib/utils"
+import { HamburgerButton } from "@/components/ui/HamburgerButton"
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher"
 import { NavRouteDropdown } from "@/components/ui/NavRouteDropdown"
+import { ThemeToggle } from "@/components/ui/ThemeToggle"
+import routes from "@/config/routes.config"
+import { getLocalizedRoutes, localizePath, normalizePathname } from "@/lib/i18n"
+import { cn } from "@/lib/utils"
+import { useLanguage } from "@/providers/LanguageContext"
+import Logo from "@/public/logo.svg"
+import { motion, useMotionValue, useSpring } from "motion/react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { NavbarMobileMenu } from "../partials/NavbarMobileMenu"
 
 const navVariants = {
   visible: { y: 0 },
@@ -19,19 +21,25 @@ const navVariants = {
 }
 
 export default function Navbar() {
-    const scrollY = useMotionValue(0)
-    const scrollYProgress = useMotionValue(0)
-    const [hidden, setHidden] = useState(false)
-    const [scrolled, setScrolled] = useState(false)
+  const { lang } = useLanguage()
+  const scrollY = useMotionValue(0)
+  const scrollYProgress = useMotionValue(0)
+  const [hidden, setHidden] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState(null)
-    const pathname = usePathname()
-    const navRef = useRef(null)
-    const hiddenRef = useRef(hidden)
-    const scrolledRef = useRef(scrolled)
+  const pathname = usePathname()
+  const navRef = useRef(null)
+  const hiddenRef = useRef(hidden)
+  const scrolledRef = useRef(scrolled)
+  const localizedRoutes = useMemo(
+    () => getLocalizedRoutes(routes, lang),
+    [lang],
+  )
+  const homeHref = localizePath("/", lang)
 
-    const hasNavDropdownOpen = !!activeDropdown
+  const hasNavDropdownOpen = !!activeDropdown
 
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 200,
@@ -59,37 +67,42 @@ export default function Navbar() {
     return () => unsubscribe?.()
   }, [scrollY, scrollYProgress])
 
-    useEffect(() => {
-        scaleX.set(0)
-    }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    scaleX.set(0)
+  }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    useEffect(() => {
-        hiddenRef.current = hidden
-    }, [hidden])
+  useEffect(() => {
+    hiddenRef.current = hidden
+  }, [hidden])
 
-    useEffect(() => {
-        scrolledRef.current = scrolled
-    }, [scrolled])
+  useEffect(() => {
+    scrolledRef.current = scrolled
+  }, [scrolled])
 
-    useEffect(() => {
-        let prevY = 0
-        const unsubscribe = scrollY.on("change", (latest) => {
-            const nextHidden = !open && !dropdownOpen && !hasNavDropdownOpen && latest > prevY && prevY > 60
-            const nextScrolled = latest > 10
+  useEffect(() => {
+    let prevY = 0
+    const unsubscribe = scrollY.on("change", (latest) => {
+      const nextHidden =
+        !open &&
+        !dropdownOpen &&
+        !hasNavDropdownOpen &&
+        latest > prevY &&
+        prevY > 60
+      const nextScrolled = latest > 10
 
-            if (nextHidden !== hiddenRef.current) {
-                hiddenRef.current = nextHidden
-                setHidden(nextHidden)
-            }
+      if (nextHidden !== hiddenRef.current) {
+        hiddenRef.current = nextHidden
+        setHidden(nextHidden)
+      }
 
-            if (nextScrolled !== scrolledRef.current) {
-                scrolledRef.current = nextScrolled
-                setScrolled(nextScrolled)
-            }
+      if (nextScrolled !== scrolledRef.current) {
+        scrolledRef.current = nextScrolled
+        setScrolled(nextScrolled)
+      }
 
-            prevY = latest
-        })
-        return () => unsubscribe()
+      prevY = latest
+    })
+    return () => unsubscribe()
   }, [scrollY, open, dropdownOpen, hasNavDropdownOpen])
 
   useEffect(() => {
@@ -123,14 +136,15 @@ export default function Navbar() {
       >
         <div className="flex items-center justify-between max-w-7xl mx-auto py-4 px-6">
           <div className="flex items-center gap-6">
-            <Link href="/">
+            <Link href={homeHref} aria-label="Go to homepage">
               <Logo className="size-8 transition-opacity duration-200 hover:opacity-70" />
             </Link>
             <Divider position="vertical" className="hidden md:block" />
 
             <nav className="hidden md:flex items-center gap-3">
-              {routes.map((route) => {
-                const isActive = pathname === route.href
+              {localizedRoutes.map((route) => {
+                const isActive =
+                  normalizePathname(pathname) === normalizePathname(route.href)
                 const hasItems = route.items?.length > 0
                 const isOpen = activeDropdown === route.href
 
@@ -183,7 +197,7 @@ export default function Navbar() {
         </div>
 
         <NavbarMobileMenu
-          routes={routes}
+          routes={localizedRoutes}
           pathname={pathname}
           open={open}
           setOpen={setOpen}

@@ -1,9 +1,10 @@
 "use client"
 
-import Image from "next/image"
-import { motion } from "motion/react"
 import { about } from "@/config/content.config"
-import Divider from "@/components/ui/Divider"
+import { getLocalizedValue } from "@/lib/i18n"
+import { useLanguage } from "@/providers/LanguageContext"
+import { motion } from "motion/react"
+import Image from "next/image"
 
 const ease = [0.25, 0.75, 0.25, 1]
 
@@ -34,7 +35,10 @@ const listItem = {
 }
 
 export default function About() {
-  const { title, subtitle, description, image, badge, highlights } = about
+  const { lang } = useLanguage()
+  const localizedAbout = getLocalizedValue(about, lang)
+  const { title, subtitle, description, image, badge, highlights } =
+    localizedAbout
 
   return (
     <section className="py-20 md:py-24" id="about">

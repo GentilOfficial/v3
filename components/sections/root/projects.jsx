@@ -1,12 +1,16 @@
 "use client"
 
-import { motion } from "motion/react"
 import { projects } from "@/config/content.config"
+import { getLocalizedValue } from "@/lib/i18n"
+import { useLanguage } from "@/providers/LanguageContext"
+import { motion } from "motion/react"
 
 const ease = [0.25, 0.75, 0.25, 1]
 
 export default function Projects() {
-  const { title, subtitle, description } = projects
+  const { lang } = useLanguage()
+  const localizedProjects = getLocalizedValue(projects, lang)
+  const { title, subtitle, description } = localizedProjects
 
   return (
     <section className="py-20 md:py-24" id="projects">

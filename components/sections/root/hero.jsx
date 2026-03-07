@@ -1,12 +1,15 @@
-"use client"
-import { useRef } from "react"
-import { hero } from "@/config/content.config"
-import routes from "@/config/routes.config"
-import { motion, useInView } from "motion/react"
-import GradientText from "@/components/ui/GradientText"
-import dynamic from "next/dynamic"
+﻿"use client"
+
 import BlurText from "@/components/ui/BlurText"
 import Divider from "@/components/ui/Divider"
+import GradientText from "@/components/ui/GradientText"
+import { hero } from "@/config/content.config"
+import routes from "@/config/routes.config"
+import { getLocalizedRoutes, getLocalizedValue } from "@/lib/i18n"
+import { useLanguage } from "@/providers/LanguageContext"
+import { motion, useInView } from "motion/react"
+import dynamic from "next/dynamic"
+import { useMemo, useRef } from "react"
 
 const TechStackLoop = dynamic(
   () => import("@/components/partials/TechStackLoop"),
@@ -30,7 +33,20 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function Hero() {
-  const { title, subtitle, description, terminal, techStackIcons } = hero
+  const { lang } = useLanguage()
+  const localizedHero = getLocalizedValue(hero, lang)
+  const localizedRoutes = useMemo(
+    () => getLocalizedRoutes(routes, lang),
+    [lang],
+  )
+  const {
+    title,
+    subtitle,
+    description,
+    terminal,
+    techStackIcons,
+    availableForWork,
+  } = localizedHero
   const terminalRef = useRef(null)
   const terminalInView = useInView(terminalRef, { once: true })
 
@@ -42,6 +58,7 @@ export default function Hero() {
         transition={{ duration: 2, ease }}
         className="pointer-events-none absolute bg-primary/5 top-0 left-0 md:-left-16 w-60 h-60 md:w-120 md:h-120 rounded-full blur-[60px] md:blur-[120px] -z-10"
       />
+
       <div className="flex flex-col gap-8 flex-1 justify-center text-center lg:text-start py-8">
         <motion.div
           {...fadeUp(0)}
@@ -52,7 +69,7 @@ export default function Hero() {
             <span className="relative inline-flex size-2 rounded-full bg-primary" />
           </span>
           <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground/40">
-            Available for work
+            {availableForWork}
           </span>
         </motion.div>
 
@@ -130,10 +147,9 @@ export default function Hero() {
 
             <AnimatedSpan>...</AnimatedSpan>
 
-            {routes.map((route, i) => (
+            {localizedRoutes.map((route, i) => (
               <AnimatedSpan key={`route-${i}`}>
-                {i === 0 ? "┌" : i === routes.length - 1 ? "└" : "├"} ○{" "}
-                {route.href}
+                {i === 0 ? "-" : "|"} o {route.href}
               </AnimatedSpan>
             ))}
 

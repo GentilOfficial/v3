@@ -1,3 +1,14 @@
+"use client"
+
+import { useLanguage } from "@/providers/LanguageContext"
+
+const copy = {
+  en: "Projects",
+  it: "Progetti",
+}
+
 export default function Projects() {
-  return <h1>Projects</h1>
+  const { lang } = useLanguage()
+
+  return <h1>{copy[lang] ?? copy.en}</h1>
 }

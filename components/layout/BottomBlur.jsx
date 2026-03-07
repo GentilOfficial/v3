@@ -1,34 +1,34 @@
-"use client";
+"use client"
 
-import dynamic from "next/dynamic";
-import {useEffect, useState} from "react";
+import dynamic from "next/dynamic"
+import { useEffect, useState } from "react"
 
-const GradualBlur = dynamic(() => import("@/components/ui/GradualBlur"));
+const GradualBlur = dynamic(() => import("@/components/ui/GradualBlur"))
 
 export default function BottomBlur() {
-    const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(true)
 
-    useEffect(() => {
-        const footer = document.querySelector("footer");
-        if (!footer) return;
+  useEffect(() => {
+    const footer = document.querySelector("footer")
+    if (!footer) return
 
-        const observer = new IntersectionObserver(
-            ([entry]) => setVisible(!entry.isIntersecting),
-            {threshold: 0.1}
-        );
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(!entry.isIntersecting),
+      { threshold: 0.1 },
+    )
 
-        observer.observe(footer);
-        return () => observer.disconnect();
-    }, []);
+    observer.observe(footer)
+    return () => observer.disconnect()
+  }, [])
 
-    if (!visible) return null;
+  if (!visible) return null
 
-    return (
-        <GradualBlur
-            target="page"
-            position="bottom"
-            strength={1}
-            className="hidden lg:block"
-        />
-    );
+  return (
+    <GradualBlur
+      target="page"
+      position="bottom"
+      strength={1}
+      className="hidden lg:block"
+    />
+  )
 }

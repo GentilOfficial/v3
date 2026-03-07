@@ -1,11 +1,13 @@
 "use client"
-import { faq } from "@/config/content.config"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { faq } from "@/config/content.config"
+import { getLocalizedValue } from "@/lib/i18n"
+import { useLanguage } from "@/providers/LanguageContext"
 import { motion } from "motion/react"
 
 const itemVariants = {
@@ -19,7 +21,9 @@ const itemVariants = {
 }
 
 export default function FAQ() {
-  const { title, subtitle, description, questions } = faq
+  const { lang } = useLanguage()
+  const localizedFaq = getLocalizedValue(faq, lang)
+  const { title, subtitle, description, questions } = localizedFaq
 
   return (
     <section className="py-20 md:py-24" id="faq">

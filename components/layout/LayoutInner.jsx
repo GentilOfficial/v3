@@ -1,7 +1,7 @@
 "use client"
-import {useLenisAnchor} from "@/hooks/useLenisAnchor"
+import { useLenisAnchor } from "@/hooks/useLenisAnchor"
 
-export default function LayoutInner({children}) {
-    useLenisAnchor()
-    return children
+export default function LayoutInner({ children }) {
+  useLenisAnchor()
+  return children
 }

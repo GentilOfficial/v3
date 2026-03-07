@@ -1,9 +1,7 @@
 "use client"
 
-import { AnimatePresence, motion } from "motion/react"
-import Link from "next/link"
-import { cn } from "@/lib/utils"
 import Divider from "@/components/ui/Divider"
+import { cn } from "@/lib/utils"
 import {
   BadgeCheck,
   ChevronDown,
@@ -13,6 +11,8 @@ import {
   UserRound,
   Wrench,
 } from "lucide-react"
+import { AnimatePresence, motion } from "motion/react"
+import Link from "next/link"
 
 const itemIconMap = {
   about: UserRound,
@@ -37,9 +37,11 @@ export function NavRouteDropdown({
   return (
     <div
       className={cn(
-        mobile
-          ? "rounded-lg border border-border bg-background/70 backdrop-blur-md overflow-hidden"
-          : "relative",
+        mobile ? "rounded-lg overflow-hidden" : "relative",
+        mobile && isOpen ? "border border-border bg-background" : undefined,
+        mobile && isActive && !isOpen
+          ? "border border-border bg-sidebar/75"
+          : undefined,
       )}
       onMouseEnter={!mobile ? onOpen : undefined}
       onMouseLeave={!mobile ? onClose : undefined}
@@ -51,8 +53,10 @@ export function NavRouteDropdown({
           "w-full inline-flex items-center justify-between gap-1.5 cursor-pointer transition-colors duration-300",
           mobile
             ? cn(
-                "px-3 py-2.5 text-left",
-                isOpen ? "bg-sidebar/60 text-foreground" : "text-foreground/80",
+                "px-3 py-2 text-left",
+                isOpen
+                  ? "bg-sidebar/60 text-foreground py-2.5"
+                  : "text-foreground/55",
               )
             : cn(
                 "rounded-md border px-3 py-1.5 text-sm",
@@ -62,7 +66,12 @@ export function NavRouteDropdown({
               ),
         )}
       >
-        <span className={mobile ? "text-sm font-semibold" : undefined}>
+        <span
+          className={cn(
+            mobile ? "text-sm" : undefined,
+            mobile && isOpen ? "font-semibold" : undefined,
+          )}
+        >
           {route.name}
         </span>
         <ChevronDown
