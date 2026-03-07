@@ -48,23 +48,26 @@ export default function Navbar() {
   })
 
   useEffect(() => {
-    let unsubscribe
+    const updateScrollMetrics = () => {
+      const scroll = window.scrollY || window.pageYOffset || 0
+      const doc = document.documentElement
+      const maxScroll = Math.max(doc.scrollHeight - window.innerHeight, 0)
+      const progress = maxScroll > 0 ? Math.min(scroll / maxScroll, 1) : 0
 
-    const init = () => {
-      if (!window.lenis) return
-      unsubscribe = window.lenis.on("scroll", ({ scroll, progress }) => {
-        scrollY.set(scroll)
-        scrollYProgress.set(progress)
-      })
+      scrollY.set(scroll)
+      scrollYProgress.set(progress)
     }
 
-    init()
-    if (!unsubscribe) {
-      const id = setTimeout(init, 100)
-      return () => clearTimeout(id)
-    }
+    updateScrollMetrics()
+    window.addEventListener("scroll", updateScrollMetrics, { passive: true })
+    window.addEventListener("resize", updateScrollMetrics)
+    window.addEventListener("orientationchange", updateScrollMetrics)
 
-    return () => unsubscribe?.()
+    return () => {
+      window.removeEventListener("scroll", updateScrollMetrics)
+      window.removeEventListener("resize", updateScrollMetrics)
+      window.removeEventListener("orientationchange", updateScrollMetrics)
+    }
   }, [scrollY, scrollYProgress])
 
   useEffect(() => {
