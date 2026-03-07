@@ -12,6 +12,16 @@ function resolveLocaleFromCookie(request) {
 
 export function proxy(request) {
   const { pathname } = request.nextUrl
+
+  if (
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/api") ||
+    pathname === "/favicon.ico" ||
+    /\.[^/]+$/.test(pathname)
+  ) {
+    return NextResponse.next()
+  }
+
   const segments = pathname.split("/").filter(Boolean)
   const pathnameLocale = segments[0]
 

@@ -19,7 +19,7 @@ const font = localFont({
   src: "../assets/DMSans.ttf",
   display: "swap",
   variable: "--font-sans",
-  preload: false,
+  preload: true,
 })
 
 export const metadata = {
