@@ -1,7 +1,9 @@
 "use client"
 
 import Divider from "@/components/ui/Divider"
+import { getLocalizedValue } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
+import { useLanguage } from "@/providers/LanguageContext"
 import {
   BadgeCheck,
   ChevronDown,
@@ -32,7 +34,16 @@ export function NavRouteDropdown({
   onNavigate,
   variant = "desktop",
 }) {
+  const { lang } = useLanguage()
   const mobile = variant === "mobile"
+
+  const mainRoutePrefix = getLocalizedValue(
+    {
+      en: "View",
+      it: "Visualizza",
+    },
+    lang,
+  )
 
   return (
     <div
@@ -103,8 +114,8 @@ export function NavRouteDropdown({
                       : "hover:border-border/70 hover:bg-sidebar/55",
                   )}
                 >
-                  <span className="text-sm font-semibold text-foreground/85 group-hover:text-foreground">
-                    {route.name}
+                  <span className="text-xs font-semibold text-foreground/85 group-hover:text-foreground">
+                    {mainRoutePrefix} {route.name}
                   </span>
                   <ChevronRight className="size-3.5 text-foreground/35 group-hover:text-foreground/60 transition-colors" />
                 </Link>
@@ -124,10 +135,10 @@ export function NavRouteDropdown({
                         <Icon className="size-3.5" />
                       </span>
                       <span className="flex-1">
-                        <span className="block text-sm font-semibold text-foreground/85 group-hover:text-foreground">
+                        <span className="block text-xs font-semibold text-foreground/85 group-hover:text-foreground">
                           {item.name}
                         </span>
-                        <span className="block text-sm text-foreground/45 mt-0.5 leading-relaxed">
+                        <span className="block text-xs text-foreground/45 mt-0.5 leading-snug">
                           {item.description}
                         </span>
                       </span>
@@ -143,53 +154,57 @@ export function NavRouteDropdown({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 6, scale: 0.98 }}
               transition={{ duration: 0.18, ease: [0.25, 0.75, 0.25, 1] }}
-              className="absolute z-10 left-0 top-full mt-3 w-90 rounded-lg border border-border bg-background p-2 shadow-md shadow-black/5"
+              className="absolute z-10 left-0 top-full pt-3 w-90"
             >
-              <div className="flex flex-col gap-1">
-                <Link
-                  href={route.href}
-                  onClick={onNavigate}
-                  className={cn(
-                    "group rounded-md px-2.5 py-2 transition-colors duration-200",
-                    isActive ? "bg-sidebar/70" : "hover:bg-sidebar/70",
-                  )}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-sm font-medium text-foreground/85 group-hover:text-foreground">
-                      {route.name}
-                    </span>
-                    <ChevronRight className="size-3.5 text-foreground/35 group-hover:text-foreground/60 transition-colors" />
-                  </div>
-                </Link>
+              <div className="rounded-lg border border-border bg-background p-2 shadow-md shadow-black/5">
+                <div className="flex flex-col gap-1">
+                  <Link
+                    href={route.href}
+                    onClick={onNavigate}
+                    className={cn(
+                      "group rounded-md px-2.5 py-2 transition-colors duration-200 border border-transparent",
+                      isActive
+                        ? "bg-sidebar/70 border-border"
+                        : "hover:bg-sidebar/70 hover:border-border",
+                    )}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-sm font-medium text-foreground/85 group-hover:text-foreground">
+                        {route.name}
+                      </span>
+                      <ChevronRight className="size-3.5 text-foreground/35 group-hover:text-foreground/60 transition-colors" />
+                    </div>
+                  </Link>
 
-                <Divider className="w-full my-0" />
+                  <Divider className="w-full my-0" />
 
-                {route.items.map((item) => {
-                  const Icon = itemIconMap[item.icon] ?? CircleHelp
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={onNavigate}
-                      className="group rounded-md px-2.5 py-2.5 transition-colors duration-200 hover:bg-sidebar/70"
-                    >
-                      <div className="flex items-start gap-3">
-                        <span className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-sm border border-border bg-background/70 text-foreground/60">
-                          <Icon className="size-3.5" />
-                        </span>
-                        <span className="flex-1">
-                          <span className="block text-sm font-medium text-foreground/85 group-hover:text-foreground">
-                            {item.name}
+                  {route.items.map((item) => {
+                    const Icon = itemIconMap[item.icon] ?? CircleHelp
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={onNavigate}
+                        className="group rounded-md px-2.5 py-2.5 transition-colors duration-200 hover:bg-sidebar/70 hover:border-border border border-transparent"
+                      >
+                        <div className="flex items-start gap-3">
+                          <span className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-sm border border-border bg-background/70 text-foreground/60">
+                            <Icon className="size-3.5" />
                           </span>
-                          <span className="block text-xs text-foreground/45 mt-0.5 leading-relaxed">
-                            {item.description}
+                          <span className="flex-1">
+                            <span className="block text-sm font-medium text-foreground/85 group-hover:text-foreground">
+                              {item.name}
+                            </span>
+                            <span className="block text-xs text-foreground/45 mt-0.5 leading-relaxed">
+                              {item.description}
+                            </span>
                           </span>
-                        </span>
-                        <ChevronRight className="mt-1 size-3.5 text-foreground/35 group-hover:text-foreground/60 transition-colors" />
-                      </div>
-                    </Link>
-                  )
-                })}
+                          <ChevronRight className="mt-1 size-3.5 text-foreground/35 group-hover:text-foreground/60 transition-colors" />
+                        </div>
+                      </Link>
+                    )
+                  })}
+                </div>
               </div>
             </motion.div>
           ))}

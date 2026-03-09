@@ -1,6 +1,5 @@
 "use client"
-import Divider from "@/components/ui/Divider"
-import SpotlightCard from "@/components/ui/SpotlightCard"
+import { SpotlightInfoCard } from "@/components/ui/SpotlightInfoCard"
 import { techStack } from "@/config/content.config"
 import { getLocalizedValue } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
@@ -91,33 +90,27 @@ export default function TechStack() {
 
           return (
             <motion.div key={`tool-${index}`} variants={cardItem}>
-              <SpotlightCard
-                spotlightColor="rgba(120, 120, 120, 0.15)"
-                className="group flex flex-col gap-1 h-full"
-              >
-                <div
-                  className={`p-1 rounded-md shadow-sm size-9 shrink-0 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-110 ${isFill ? "p-0" : "p-0.5"}`}
-                  style={{
-                    backgroundColor: tool.icon.bg,
-                    color: tool.icon.color,
-                  }}
-                >
+              <SpotlightInfoCard
+                divider
+                className="gap-1"
+                title={tool.title}
+                subtitle={tool.tag}
+                description={tool.description}
+                titleClassName="text-base font-bold text-foreground"
+                subtitleClassName="text-xs text-foreground/40"
+                icon={
                   <Icon
                     className={isFill ? "size-full rounded-sm" : "size-full"}
                   />
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-base">{tool.title}</h3>
-                  <span className="text-xs text-foreground/40">{tool.tag}</span>
-                </div>
-
-                <Divider />
-
-                <p className="text-sm text-foreground/50 leading-relaxed mt-auto">
-                  {tool.description}
-                </p>
-              </SpotlightCard>
+                }
+                iconWrapperClassName={`rounded-md border-0 shadow-sm p-1 overflow-hidden group-hover:scale-110 ${isFill ? "p-0.5" : "p-1"}`}
+                iconWrapperStyle={{
+                  backgroundColor: tool.icon.bg,
+                  color: tool.icon.color,
+                }}
+                descriptionClassName="mt-auto text-sm leading-relaxed text-foreground/50"
+                spotlightColor="rgba(120, 120, 120, 0.15)"
+              />
             </motion.div>
           )
         })}

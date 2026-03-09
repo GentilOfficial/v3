@@ -45,8 +45,8 @@ const routes = {
       href: "/projects",
     },
     {
-      name: "Contact",
-      href: "/contact",
+      name: "Contacts",
+      href: "/contacts",
     },
   ],
   it: [
@@ -96,7 +96,7 @@ const routes = {
     },
     {
       name: "Contatti",
-      href: "/contact",
+      href: "/contacts",
     },
   ],
 }

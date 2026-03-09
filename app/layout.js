@@ -55,7 +55,7 @@ export default async function RootLayout({ children }) {
             <LayoutInner>
               <CustomCursor />
               <Navbar />
-              <main className="relative mx-auto max-w-7xl px-8 pt-32 flex-1 w-full">
+              <main className="relative mx-auto max-w-7xl px-8 pt-32 pb-16 flex-1 w-full">
                 <DynamicGridPattern />
                 {children}
               </main>

@@ -4,10 +4,11 @@ import { footer, layout } from "@/config/content.config"
 import routes from "@/config/routes.config"
 import { getLocalizedRoutes, getLocalizedValue } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
+import { Mail } from "lucide-react"
 import { motion } from "motion/react"
 import Image from "next/image"
 import Link from "next/link"
-import { SiGithub, SiInstagram, SiLinkedin } from "react-icons/si"
+import { SiGithub, SiInstagram, SiLinkedin, SiTelegram } from "react-icons/si"
 
 const colVariants = {
   hidden: {},
@@ -28,6 +29,7 @@ const SOCIAL_ICON_MAP = {
   github: SiGithub,
   linkedin: SiLinkedin,
   instagram: SiInstagram,
+  telegram: SiTelegram,
 }
 
 export function Footer() {
@@ -38,6 +40,7 @@ export function Footer() {
   const {
     tagline,
     socials,
+    email,
     stat,
     pagesLabel,
     socialLabel,
@@ -104,6 +107,18 @@ export function Footer() {
               {socialLabel}
             </motion.span>
             <ul className="flex flex-col gap-2.5">
+              {email?.href && email?.address ? (
+                <motion.li key="footer-email" variants={rowItem}>
+                  <Link
+                    href={email.href}
+                    className="flex items-center gap-2 text-sm text-foreground/50 hover:text-foreground transition-colors duration-200 group w-fit"
+                  >
+                    <Mail className="size-3.5 shrink-0 transition-transform duration-200 group-hover:-translate-y-px group-hover:translate-x-px" />
+                    {email.address}
+                  </Link>
+                </motion.li>
+              ) : null}
+
               {socials.map((social) => {
                 const Icon = SOCIAL_ICON_MAP[social.icon]
                 if (!Icon) return null
