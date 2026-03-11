@@ -6,6 +6,11 @@
       "Do you have any questions? The FAQ section provides quick answers to frequently asked questions.",
     questions: [
       {
+        question: "What are your thoughts on AI?",
+        answer:
+          "AI is a powerful tool that can enhance productivity and creativity. I use it to generate ideas, write boilerplate code, and solve problems, but I believe the human touch is irreplaceable for creating unique and meaningful solutions.",
+      },
+      {
         question: "What technologies do you work with?",
         answer:
           "I primarily work with Next.js, React, Tailwind CSS and Laravel. Whether it's a full-stack web app or a polished frontend, I use the right tool for the job.",
@@ -33,6 +38,11 @@
     description:
       "Hai qualche dubbio? La sezione FAQ raccoglie risposte rapide alle domande più comuni.",
     questions: [
+      {
+        question: "Cosa ne pensi delle IA?",
+        answer:
+          "Le IA sono strumenti potenti che possono migliorare la produttività e la creatività. Le uso per generare idee, scrivere codice boilerplate e risolvere problemi, ma credo che il tocco umano sia insostituibile per creare soluzioni uniche e significative.",
+      },
       {
         question: "Con quali tecnologie lavori?",
         answer:
