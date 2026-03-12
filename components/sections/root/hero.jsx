@@ -1,6 +1,5 @@
 ﻿"use client"
 
-import BlurText from "@/components/ui/BlurText"
 import Divider from "@/components/ui/Divider"
 import GradientText from "@/components/ui/GradientText"
 import { hero } from "@/config/content.config"
@@ -120,15 +119,9 @@ export default function Hero() {
 
         <motion.p
           {...fadeUp(0.36)}
-          className="text-foreground/60 mx-auto max-w-xl lg:mx-0"
+          className="text-foreground/60 mx-auto max-w-xl lg:mx-0 text-md lg:text-base"
         >
-          <BlurText
-            text={description}
-            delay={30}
-            animateBy="words"
-            direction="bottom"
-            className="justify-center lg:justify-start text-md lg:text-base"
-          />
+          {description}
         </motion.p>
 
         <motion.div
