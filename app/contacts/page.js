@@ -1,6 +1,8 @@
 "use client"
 
+import { SectionIntro } from "@/components/ui/SectionIntro"
 import { SpotlightInfoCard } from "@/components/ui/SpotlightInfoCard"
+import SurfacePanel from "@/components/ui/SurfacePanel"
 import { Button } from "@/components/ui/button"
 import { contact, contactEmail, contactSocials } from "@/config/content.config"
 import { getLocalizedValue } from "@/lib/i18n"
@@ -63,25 +65,17 @@ export default function Contact() {
       />
 
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
-        <motion.div
-          initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.65, ease: [0.25, 0.75, 0.25, 1] }}
-          className="flex flex-col items-center gap-3 text-center"
-        >
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-foreground/40">
-            {localizedContact.eyebrow}
-          </span>
-          <h1 className="text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl">
-            <span className="block">{localizedContact.title}</span>
-            <span className="block bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-              {localizedContact.subtitle}
-            </span>
-          </h1>
-          <p className="max-w-2xl text-sm text-foreground/55 sm:text-base">
-            {localizedContact.description}
-          </p>
-        </motion.div>
+        <SectionIntro
+          eyebrow={localizedContact.eyebrow}
+          title={localizedContact.title}
+          subtitle={localizedContact.subtitle}
+          description={localizedContact.description}
+          align="center"
+          mode="enter"
+          titleAs="h1"
+          titleClassName="text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl"
+          subtitleClassName="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent"
+        />
 
         <motion.div
           initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
@@ -93,14 +87,14 @@ export default function Contact() {
           }}
           className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
         >
-          <div className="rounded-xl border border-border bg-background px-3.5 py-3 text-xs text-foreground/55 backdrop-blur-sm sm:col-span-2 lg:col-span-4">
+          <SurfacePanel className="px-3.5 py-3 text-xs text-foreground/55 sm:col-span-2 lg:col-span-4">
             <span className="font-mono uppercase tracking-[0.14em]">
               {localizedContact.cards.label}
             </span>
             <p className="mt-1 text-sm text-foreground/65">
               {localizedContact.cards.availability}
             </p>
-          </div>
+          </SurfacePanel>
 
           {emailAddress ? (
             <div className="relative h-full">

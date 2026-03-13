@@ -1,5 +1,6 @@
 "use client"
 import { SpotlightInfoCard } from "@/components/ui/SpotlightInfoCard"
+import { SectionIntro } from "@/components/ui/SectionIntro"
 import { techStack } from "@/config/content.config"
 import { getLocalizedValue } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
@@ -51,31 +52,14 @@ export default function TechStack() {
       className="flex flex-col items-center py-20 md:py-24"
       id="tech-stack"
     >
-      <div className="flex flex-col gap-4 mb-12">
-        <motion.h2
-          initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.25, 0.75, 0.25, 1] }}
-          className="text-3xl sm:text-4xl xl:text-5xl text-center"
-        >
-          <span className="block">{title}</span>
-          <span className="text-foreground/50">{subtitle}</span>
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 18, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.6,
-            ease: [0.25, 0.75, 0.25, 1],
-            delay: 0.12,
-          }}
-          className="text-foreground/50 text-center text-sm max-w-xl mx-auto"
-        >
-          {description}
-        </motion.p>
-      </div>
+      <SectionIntro
+        title={title}
+        subtitle={subtitle}
+        description={description}
+        align="center"
+        className="mb-12"
+        descriptionWidth="max-w-xl"
+      />
       <motion.div
         variants={container}
         initial="hidden"

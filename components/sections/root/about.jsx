@@ -1,5 +1,7 @@
 "use client"
 
+import { SectionIntro } from "@/components/ui/SectionIntro"
+import SurfacePanel from "@/components/ui/SurfacePanel"
 import { about } from "@/config/content.config"
 import { getLocalizedValue } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
@@ -44,7 +46,7 @@ export default function About() {
     <section className="py-20 md:py-24" id="about">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         <motion.div {...fade(0)} className="relative">
-          <div className="rounded-2xl border border-border bg-background p-2">
+          <SurfacePanel className="p-2">
             <div className="relative aspect-4/3 rounded-xl overflow-hidden bg-linear-to-br from-primary/8 via-background to-secondary/8">
               <Image
                 src={image.src}
@@ -55,34 +57,28 @@ export default function About() {
                 priority={false}
               />
             </div>
-          </div>
+          </SurfacePanel>
 
           <motion.div
             {...fade(0.15)}
-            className="absolute -bottom-5 -right-3 sm:-right-5 rounded-xl border border-border bg-background px-4 py-3"
+            className="absolute -bottom-5 -right-3 sm:-right-5"
           >
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/45">
-              {badge.top}
-            </p>
-            <p className="text-sm font-semibold">{badge.bottom}</p>
+            <SurfacePanel className="rounded-xl bg-background px-4 py-3">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/45">
+                {badge.top}
+              </p>
+              <p className="text-sm font-semibold">{badge.bottom}</p>
+            </SurfacePanel>
           </motion.div>
         </motion.div>
 
         <div className="flex flex-col gap-5">
-          <motion.h2
-            {...fade(0.1)}
-            className="text-3xl sm:text-4xl xl:text-5xl"
-          >
-            <span className="block">{title}</span>
-            <span className="text-foreground/50">{subtitle}</span>
-          </motion.h2>
-
-          <motion.p
-            {...fade(0.2)}
-            className="text-foreground/50 text-sm max-w-xl"
-          >
-            {description}
-          </motion.p>
+          <SectionIntro
+            title={title}
+            subtitle={subtitle}
+            description={description}
+            descriptionWidth="max-w-xl"
+          />
 
           <motion.ul
             variants={listVariants}
@@ -95,12 +91,14 @@ export default function About() {
               <motion.li
                 key={`about-highlight-${index}`}
                 variants={listItem}
-                className="rounded-xl border border-border bg-background p-4"
+                className=""
               >
-                <h3 className="text-sm font-semibold">{item.title}</h3>
-                <p className="text-sm text-foreground/50 mt-1 leading-relaxed">
-                  {item.description}
-                </p>
+                <SurfacePanel className="h-full rounded-xl p-4">
+                  <h3 className="text-sm font-semibold">{item.title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-foreground/50">
+                    {item.description}
+                  </p>
+                </SurfacePanel>
               </motion.li>
             ))}
           </motion.ul>
