@@ -12,7 +12,7 @@ export function CertificationCard({ certification, labels }) {
       as="article"
       className="group flex h-full flex-col gap-4 overflow-hidden p-3.5 sm:p-4"
     >
-      <div className="relative aspect-video overflow-hidden rounded-lg border border-border/70 bg-foreground dark:bg-background/60">
+      <div className="relative aspect-video overflow-hidden rounded-lg border border-border/70 bg-foreground/90 dark:bg-foreground/5">
         {certification.badgeUrl ? (
           <Image
             src={certification.badgeUrl}
@@ -47,25 +47,23 @@ export function CertificationCard({ certification, labels }) {
         ) : null}
       </div>
 
-      <div className="flex flex-1 flex-col gap-4 px-1 pb-1">
-        <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0">
-            <h3 className="text-lg font-semibold leading-tight text-foreground sm:text-xl">
-              {certification.title}
-            </h3>
-            <p className="mt-1 text-sm text-foreground/50">
-              {certification.issuer || "-"}
-            </p>
-          </div>
+      <div className="flex flex-1 items-stretch justify-between gap-4 px-1 pb-1">
+        <div className="min-w-0">
+          <h3 className="text-lg font-semibold leading-tight text-foreground sm:text-xl">
+            {certification.title}
+          </h3>
+          <p className="mt-1 text-sm text-foreground/50">
+            {certification.issuer || "-"}
+          </p>
+        </div>
 
-          <div className="shrink-0 text-right flex flex-col justify-end h-full">
-            <span className="block text-xs uppercase tracking-[0.16em] text-foreground/40">
-              {labels.date}
-            </span>
-            <span className="mt-0.5 block text-sm font-semibold text-foreground/75">
-              {certification.issued || "-"}
-            </span>
-          </div>
+        <div className="shrink-0 text-right flex flex-col justify-end h-full">
+          <span className="block text-xs uppercase tracking-[0.16em] text-foreground/40">
+            {labels.date}
+          </span>
+          <span className="mt-0.5 block text-sm font-semibold text-foreground/75">
+            {certification.issued || "-"}
+          </span>
         </div>
       </div>
     </SurfacePanel>
