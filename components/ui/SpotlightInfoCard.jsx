@@ -40,20 +40,25 @@ export function SpotlightInfoCard({
         <div className="flex flex-col gap-0.5">
           {title ? (
             <span
-              className={cn("text-sm font-semibold text-foreground/85", titleClassName)}
+              className={cn(
+                "text-sm font-semibold text-foreground/85",
+                titleClassName,
+              )}
             >
               {title}
             </span>
           ) : null}
           {subtitle ? (
-            <span className={cn("text-sm text-foreground/55", subtitleClassName)}>
+            <span
+              className={cn("text-sm text-foreground/55", subtitleClassName)}
+            >
               {subtitle}
             </span>
           ) : null}
         </div>
       )}
 
-      {divider ? <Divider /> : null}
+      {divider ? <Divider className="mx-auto" /> : null}
 
       {description ? (
         <p
