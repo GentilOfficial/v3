@@ -24,7 +24,11 @@ const copy = {
   },
 }
 
-export default function Projects({ items = [], source = "database", issue = null }) {
+export default function Projects({
+  items = [],
+  source = "database",
+  issue = null,
+}) {
   const { lang } = useLanguage()
   const localizedProjects = getLocalizedValue(projects, lang)
   const { title, subtitle, description } = localizedProjects
@@ -64,7 +68,10 @@ export default function Projects({ items = [], source = "database", issue = null
           transition={{ duration: 0.6, ease }}
           className="mb-4"
         >
-          <ContentNotice title={notice.title} description={notice.description} />
+          <ContentNotice
+            title={notice.title}
+            description={notice.description}
+          />
         </motion.div>
       ) : null}
 
@@ -83,10 +90,17 @@ export default function Projects({ items = [], source = "database", issue = null
           ))}
         </div>
       ) : (
-        <ContentEmptyState
-          title={emptyState?.title}
-          description={emptyState?.description}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 18, filter: "blur(4px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease }}
+        >
+          <ContentEmptyState
+            title={emptyState?.title}
+            description={emptyState?.description}
+          />
+        </motion.div>
       )}
     </section>
   )
