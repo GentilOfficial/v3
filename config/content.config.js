@@ -1,13 +1,13 @@
-export { layout } from "@/config/content/layout"
-export { hero } from "@/config/content/hero"
-export { about } from "@/config/content/about"
-export { techStack } from "@/config/content/tech-stack"
-export { certifications } from "@/config/content/certifications"
-export { projects } from "@/config/content/projects"
+export { about } from "@/config/root/about"
+export { certifications } from "@/config/root/certifications"
 export {
   contact,
-  socials as contactSocials,
   contactEmail,
-} from "@/config/content/contact"
-export { faq } from "@/config/content/faq"
-export { footer } from "@/config/content/footer"
+  socials as contactSocials,
+} from "@/config/root/contact"
+export { faq } from "@/config/root/faq"
+export { footer } from "@/config/root/footer"
+export { hero } from "@/config/root/hero"
+export { layout } from "@/config/root/layout"
+export { projects } from "@/config/root/projects"
+export { techStack } from "@/config/root/tech-stack"

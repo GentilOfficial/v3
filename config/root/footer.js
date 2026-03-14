@@ -1,4 +1,4 @@
-import { contactEmail, socials } from "@/config/content/contact"
+import { contactEmail, socials } from "@/config/root/contact"
 
 export const footer = {
   en: {

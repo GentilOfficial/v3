@@ -1,7 +1,10 @@
-﻿"use client"
+"use client"
 
+import ContentEmptyState from "@/components/feedback/ContentEmptyState"
+import ContentNotice from "@/components/feedback/ContentNotice"
 import { SectionIntro } from "@/components/ui/SectionIntro"
 import SurfacePanel from "@/components/ui/SurfacePanel"
+import { getEmptyStateCopy, getIssueNotice } from "@/lib/content/feedback"
 import { useLanguage } from "@/providers/LanguageContext"
 import dayjs from "dayjs"
 import "dayjs/locale/en"
@@ -39,9 +42,15 @@ function formatDate(date, lang) {
   return dayjs(date).locale(lang).format("MMM YYYY")
 }
 
-export default function Experiences({ experiences }) {
+export default function Experiences({
+  experiences = [],
+  source = "database",
+  issue = null,
+}) {
   const { lang } = useLanguage()
   const localizedCopy = copy[lang] ?? copy.en
+  const notice = getIssueNotice(issue, lang)
+  const emptyState = getEmptyStateCopy("experiences", lang)
 
   return (
     <section className="relative py-6 md:py-10">
@@ -57,60 +66,67 @@ export default function Experiences({ experiences }) {
         />
 
         <div className="grid gap-4">
-          {experiences.map((experience, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30, x: -24, filter: "blur(6px)" }}
-              whileInView={{ opacity: 1, y: 0, x: 0, filter: "blur(0px)" }}
-              transition={{
-                duration: 0.6,
-                ease: [0.25, 0.75, 0.25, 1],
-                delay: index * 0.08,
-              }}
-              viewport={{ once: true }}
-            >
-              <SurfacePanel className="grid gap-5 p-5 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-start">
-                {experience.company_icon_url ? (
-                  <Image
-                    src={experience.company_icon_url}
-                    alt={`${experience.company} logo`}
-                    width={64}
-                    height={64}
-                    className="size-12 rounded-xl border border-border bg-background object-contain p-1"
-                  />
-                ) : (
-                  <div className="flex size-12 items-center justify-center rounded-xl border border-border bg-muted text-xs font-semibold text-foreground/45">
-                    {experience.company?.slice(0, 2).toUpperCase()}
-                  </div>
-                )}
+          {source === "fallback" && notice ? (
+            <ContentNotice title={notice.title} description={notice.description} />
+          ) : null}
 
-                <div className="space-y-2">
-                  <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-[0.16em] text-foreground/40">
-                      {experience.company} -{" "}
-                      {experience.location?.[lang] ??
-                        experience.location?.en ??
-                        experience.location}
+          {experiences.length ? (
+            experiences.map((experience, index) => (
+              <motion.div
+                key={experience.slug ?? index}
+                initial={{ opacity: 0, y: 30, x: -24, filter: "blur(6px)" }}
+                whileInView={{ opacity: 1, y: 0, x: 0, filter: "blur(0px)" }}
+                transition={{
+                  duration: 0.6,
+                  ease: [0.25, 0.75, 0.25, 1],
+                  delay: index * 0.08,
+                }}
+                viewport={{ once: true }}
+              >
+                <SurfacePanel className="grid gap-5 p-5 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-start">
+                  {experience.companyIconUrl ? (
+                    <Image
+                      src={experience.companyIconUrl}
+                      alt={`${experience.company} logo`}
+                      width={64}
+                      height={64}
+                      className="size-12 rounded-xl border border-border bg-background object-contain p-1"
+                    />
+                  ) : (
+                    <div className="flex size-12 items-center justify-center rounded-xl border border-border bg-muted text-xs font-semibold text-foreground/45">
+                      {experience.company?.slice(0, 2).toUpperCase()}
+                    </div>
+                  )}
+
+                  <div className="space-y-2">
+                    <div className="space-y-1">
+                      <p className="text-xs uppercase tracking-[0.16em] text-foreground/40">
+                        {experience.company}
+                        {experience.location ? ` - ${experience.location}` : ""}
+                      </p>
+                      <h2 className="text-2xl font-semibold leading-tight">
+                        {experience.title}
+                      </h2>
+                    </div>
+
+                    <p className="text-sm leading-relaxed text-foreground/55">
+                      {experience.description}
                     </p>
-                    <h2 className="text-2xl font-semibold leading-tight">
-                      {experience.title?.[lang] ??
-                        experience.title?.en ??
-                        experience.title}
-                    </h2>
                   </div>
 
-                  <p className="text-sm leading-relaxed text-foreground/55">
-                    {experience.description}
-                  </p>
-                </div>
-
-                <div className="text-sm text-foreground/45 md:text-right">
-                  {formatDate(experience.started_at, lang)} -{" "}
-                  {formatDate(experience.ended_at, lang)}
-                </div>
-              </SurfacePanel>
-            </motion.div>
-          ))}
+                  <div className="text-sm text-foreground/45 md:text-right">
+                    {formatDate(experience.startedAt, lang)} -{" "}
+                    {formatDate(experience.endedAt, lang)}
+                  </div>
+                </SurfacePanel>
+              </motion.div>
+            ))
+          ) : (
+            <ContentEmptyState
+              title={emptyState?.title}
+              description={emptyState?.description}
+            />
+          )}
         </div>
       </div>
     </section>
