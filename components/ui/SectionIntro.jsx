@@ -67,7 +67,7 @@ export function SectionIntro({
             titleClassName,
           )}
         >
-          <span className="block">{title}</span>
+          <span className="block">{title}&nbsp;</span>
           {subtitle ? (
             <span className={cn("block text-foreground/50", subtitleClassName)}>
               {subtitle}

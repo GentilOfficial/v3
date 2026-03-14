@@ -103,6 +103,7 @@ export default function Hero() {
           <motion.span {...fadeUp(0.1)} className="block">
             {title}
           </motion.span>
+          &nbsp;
           <motion.span {...fadeUp(0.22)} className="block mt-1">
             <GradientText
               colors={[
