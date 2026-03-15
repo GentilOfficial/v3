@@ -150,8 +150,3 @@ html.lenis body {
 .lenis.lenis-smooth iframe {
     pointer-events: none;
 }
-
-::view-transition-old(root), ::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
-}

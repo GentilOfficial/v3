@@ -1,99 +1,98 @@
 "use client"
 
-import {useCallback, useEffect, useRef, useState} from 'react';
-import {motion, useAnimationFrame, useMotionValue, useTransform} from 'motion/react';
+import { useEffect, useRef } from "react"
+import {
+  motion,
+  useAnimationFrame,
+  useMotionValue,
+  useTransform,
+} from "motion/react"
 
 export default function GradientText({
-                                         children,
-                                         className = '',
-                                         colors = ['#5227FF', '#FF9FFC', '#B19EEF'],
-                                         animationSpeed = 8,
-                                         direction = 'horizontal',
-                                         pauseOnHover = false,
-                                         yoyo = true
-                                     }) {
-    const [isPaused, setIsPaused] = useState(false);
-    const progress = useMotionValue(0);
-    const elapsedRef = useRef(0);
-    const lastTimeRef = useRef(null);
+  children,
+  className = "",
+  colors = ["#5227FF", "#FF9FFC", "#B19EEF"],
+  animationSpeed = 8,
+  direction = "horizontal",
+  yoyo = true,
+}) {
+  const progress = useMotionValue(0)
+  const elapsedRef = useRef(0)
+  const lastTimeRef = useRef(null)
+  const animationDuration = animationSpeed * 1000
 
-    const animationDuration = animationSpeed * 1000;
+  useAnimationFrame((time) => {
+    if (lastTimeRef.current === null) {
+      lastTimeRef.current = time
+      return
+    }
 
-    useAnimationFrame(time => {
-        if (isPaused) {
-            lastTimeRef.current = null;
-            return;
-        }
+    const deltaTime = time - lastTimeRef.current
+    lastTimeRef.current = time
+    elapsedRef.current += deltaTime
 
-        if (lastTimeRef.current === null) {
-            lastTimeRef.current = time;
-            return;
-        }
+    if (yoyo) {
+      const fullCycle = animationDuration * 2
+      const cycleTime = elapsedRef.current % fullCycle
 
-        const deltaTime = time - lastTimeRef.current;
-        lastTimeRef.current = time;
-        elapsedRef.current += deltaTime;
+      progress.set(
+        cycleTime < animationDuration
+          ? (cycleTime / animationDuration) * 100
+          : 100 - ((cycleTime - animationDuration) / animationDuration) * 100,
+      )
+      return
+    }
 
-        if (yoyo) {
-            const fullCycle = animationDuration * 2;
-            const cycleTime = elapsedRef.current % fullCycle;
+    // Keep the gradient moving continuously when yoyo is disabled.
+    progress.set((elapsedRef.current / animationDuration) * 100)
+  })
 
-            if (cycleTime < animationDuration) {
-                progress.set((cycleTime / animationDuration) * 100);
-            } else {
-                progress.set(100 - ((cycleTime - animationDuration) / animationDuration) * 100);
-            }
-        } else {
-            // Continuously increase position for seamless looping
-            progress.set((elapsedRef.current / animationDuration) * 100);
-        }
-    });
+  useEffect(() => {
+    elapsedRef.current = 0
+    lastTimeRef.current = null
+    progress.set(0)
+  }, [animationSpeed, progress, yoyo])
 
-    useEffect(() => {
-        elapsedRef.current = 0;
-        progress.set(0);
-    }, [animationSpeed, progress, yoyo]);
+  const backgroundPosition = useTransform(progress, (value) => {
+    if (direction === "vertical") {
+      return `50% ${value}%`
+    }
 
-    const backgroundPosition = useTransform(progress, p => {
-        if (direction === 'horizontal') {
-            return `${p}% 50%`;
-        } else if (direction === 'vertical') {
-            return `50% ${p}%`;
-        } else {
-            // For diagonal, move only horizontally to avoid interference patterns
-            return `${p}% 50%`;
-        }
-    });
+    if (direction === "diagonal") {
+      return `${value}% ${value}%`
+    }
 
-    const handleMouseEnter = useCallback(() => {
-        if (pauseOnHover) setIsPaused(true);
-    }, [pauseOnHover]);
+    return `${value}% 50%`
+  })
 
-    const handleMouseLeave = useCallback(() => {
-        if (pauseOnHover) setIsPaused(false);
-    }, [pauseOnHover]);
+  const gradientAngle =
+    direction === "vertical"
+      ? "to bottom"
+      : direction === "diagonal"
+        ? "to bottom right"
+        : "to right"
 
-    const gradientAngle =
-        direction === 'horizontal' ? 'to right' : direction === 'vertical' ? 'to bottom' : 'to bottom right';
-    // Duplicate first color at the end for seamless looping
-    const gradientColors = [...colors, colors[0]].join(', ');
+  const gradientColors = [...colors, colors[0]].join(", ")
 
-    const gradientStyle = {
-        backgroundImage: `linear-gradient(${gradientAngle}, ${gradientColors})`,
-        backgroundSize: direction === 'horizontal' ? '300% 100%' : direction === 'vertical' ? '100% 300%' : '300% 300%',
-        backgroundRepeat: 'repeat'
-    };
-
-    return (
-        <motion.span
-            className={` ${className}`}
-        >
-            <motion.span
-                className="inline-block relative z-2 text-transparent bg-clip-text"
-                style={{...gradientStyle, backgroundPosition, WebkitBackgroundClip: 'text'}}
-            >
-                {children}
-            </motion.span>
-        </motion.span>
-    );
+  return (
+    <motion.span className={className}>
+      <motion.span
+        className="relative z-2 inline-block bg-clip-text text-transparent"
+        style={{
+          backgroundImage: `linear-gradient(${gradientAngle}, ${gradientColors})`,
+          backgroundPosition,
+          backgroundRepeat: "repeat",
+          backgroundSize:
+            direction === "horizontal"
+              ? "300% 100%"
+              : direction === "vertical"
+                ? "100% 300%"
+                : "300% 300%",
+          WebkitBackgroundClip: "text",
+        }}
+      >
+        {children}
+      </motion.span>
+    </motion.span>
+  )
 }

@@ -1,23 +1,32 @@
 /** @type {import('next').NextConfig} */
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL
+
+function getRemotePatterns(url) {
+  if (!url) return []
+
+  try {
+    return [new URL(`${url}/**`)]
+  } catch {
+    return []
+  }
+}
 
 const nextConfig = {
-    images: {
-        remotePatterns: [
-            new URL(`${supabaseUrl}/**`)
-        ]
+  images: {
+    remotePatterns: getRemotePatterns(supabaseUrl),
+  },
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
+      },
     },
-    turbopack: {
-        rules: {
-            "*.svg": {
-                loaders: ["@svgr/webpack"],
-                as: "*.js",
-            },
-        },
-    },
-    experimental: {
-        optimizePackageImports: ["lenis", "motion"]
-    }
-};
+  },
+  experimental: {
+    optimizePackageImports: ["lenis", "motion"],
+  },
+}
 
-export default nextConfig;
+export default nextConfig
