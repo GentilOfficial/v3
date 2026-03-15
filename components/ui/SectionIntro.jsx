@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { motion } from "motion/react"
+import GradientText from "./GradientText"
 
 const ease = [0.25, 0.75, 0.25, 1]
 
@@ -69,9 +70,17 @@ export function SectionIntro({
         >
           <span className="block">{title}&nbsp;</span>
           {subtitle ? (
-            <span className={cn("block text-foreground/50", subtitleClassName)}>
+            <GradientText
+              colors={[
+                "var(--secondary)",
+                "var(--primary)",
+                "var(--secondary)",
+              ]}
+              animationSpeed={5}
+              className={cn(subtitleClassName)}
+            >
               {subtitle}
-            </span>
+            </GradientText>
           ) : null}
         </HeadingTag>
       </motion.div>

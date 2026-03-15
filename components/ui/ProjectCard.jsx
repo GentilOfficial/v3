@@ -20,7 +20,7 @@ export function ProjectCard({ project, index = 0, compact = false }) {
     <SpotlightInfoCard
       className={cn("p-5", compact ? "gap-4" : "gap-5")}
       icon={<Icon className="size-5" />}
-      iconWrapperClassName="size-11 rounded-xl bg-muted text-foreground/70"
+      iconWrapperClassName="size-11 rounded-xl bg-secondary/10 text-primary border-primary/50"
       title={project.name}
       subtitle={project.category}
       description={project.summary}

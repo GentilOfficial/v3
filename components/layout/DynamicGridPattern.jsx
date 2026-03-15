@@ -22,7 +22,7 @@ export function DynamicGridPattern() {
         strokeDasharray="4 2"
         className={cn(
           "-z-50 opacity-30 mask-intersect",
-          "mask-[linear-gradient(to_right,transparent,white,transparent),linear-gradient(to_bottom,transparent,white_50%,white,transparent)]",
+          "mask-[linear-gradient(to_right,transparent,white,transparent),linear-gradient(to_bottom,transparent,white_25%,white_75%,transparent)]",
         )}
       />
     </motion.div>

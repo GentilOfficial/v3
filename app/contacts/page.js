@@ -74,7 +74,6 @@ export default function Contact() {
           mode="enter"
           titleAs="h1"
           titleClassName="text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl"
-          subtitleClassName="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent"
         />
 
         <motion.div
@@ -101,6 +100,7 @@ export default function Contact() {
               <SpotlightInfoCard
                 title={localizedContact.cards.emailTitle}
                 icon={<Mail className="size-4" />}
+                iconWrapperClassName="bg-secondary/10 text-primary border-primary/50"
               >
                 <p className="break-all text-sm text-foreground/55">
                   {emailAddress}
@@ -156,6 +156,7 @@ export default function Contact() {
               <SpotlightInfoCard
                 title={social.label}
                 icon={<social.Icon className="size-4" />}
+                iconWrapperClassName="bg-secondary/10 text-primary border-primary/50"
               >
                 <p className="max-w-xs truncate text-sm text-foreground/55 transition-colors duration-200 hover:text-foreground">
                   {social.value}

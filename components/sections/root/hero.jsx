@@ -101,9 +101,8 @@ export default function Hero() {
 
         <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl leading-[1.08]">
           <motion.span {...fadeUp(0.1)} className="block">
-            {title}
+            {title}&nbsp;
           </motion.span>
-          &nbsp;
           <motion.span {...fadeUp(0.22)} className="block mt-1">
             <GradientText
               colors={[
