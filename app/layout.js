@@ -15,10 +15,17 @@ import localFont from "next/font/local"
 import { headers } from "next/headers"
 import "./globals.css"
 
-const font = localFont({
-  src: "../assets/DMSans.ttf",
+const sansFont = localFont({
+  src: "../fonts/DMSans.ttf",
   display: "swap",
   variable: "--font-sans",
+  preload: true,
+})
+
+const monoFont = localFont({
+  src: "../fonts/DMMono.ttf",
+  display: "swap",
+  variable: "--font-mono",
   preload: true,
 })
 
@@ -45,10 +52,10 @@ export default async function RootLayout({ children }) {
   return (
     <html
       lang={currentLang}
-      className={cn(font.variable, font.className)}
+      className={cn(sansFont.variable, monoFont.variable)}
       suppressHydrationWarning
     >
-      <body className="antialiased flex flex-col min-h-screen">
+      <body className="font-sans antialiased flex flex-col min-h-screen">
         <ThemeProvider>
           <LenisScroll />
           <LanguageProvider initialLang={currentLang}>

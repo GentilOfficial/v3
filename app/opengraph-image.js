@@ -10,7 +10,7 @@ export const size = {
 export const contentType = "image/png"
 
 export default async function Image() {
-  const DMSans = await readFile(join(process.cwd(), "assets/DMSans.ttf"))
+  const DMSans = await readFile(join(process.cwd(), "fonts", "DMSans.ttf"))
 
   const icon = await readFile(join(process.cwd(), "public/logo.png"))
   const iconBase64 = `data:image/png;base64,${icon.toString("base64")}`
@@ -19,7 +19,7 @@ export default async function Image() {
     <div
       style={{
         fontSize: 64,
-        background: "#1a1a1a",
+        background: "#0a0a0a",
         width: "100%",
         height: "100%",
         display: "flex",
@@ -39,7 +39,7 @@ export default async function Image() {
       <span
         style={{
           color: "#fe3908",
-          textShadow: "4px 4px 8px rgba(254, 138, 0, 0.25)",
+          textShadow: "4px 4px 18px rgba(254, 138, 0, 0.25)",
         }}
       >
         Web Developer
