@@ -24,16 +24,6 @@ export const faq = {
     },
     {
       question: {
-        en: "What technologies do you work with?",
-        it: "Con quali tecnologie lavori?",
-      },
-      answer: {
-        en: "I primarily work with Next.js, React, Tailwind CSS and Laravel. Whether it's a full-stack web app or a polished frontend, I use the right tool for the job.",
-        it: "Lavoro principalmente con Next.js, React, Tailwind CSS e Laravel. Che sia una web app full-stack o un frontend curato, uso lo strumento giusto per ogni obiettivo.",
-      },
-    },
-    {
-      question: {
         en: "Are you available for future projects?",
         it: "Sei disponibile per progetti futuri?",
       },
