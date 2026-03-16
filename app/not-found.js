@@ -1,8 +1,9 @@
-﻿"use client"
+"use client"
 
 import { Button } from "@/components/ui/button"
+import { notFoundPage } from "@/content/site"
 import Divider from "@/components/ui/Divider"
-import { localizePath } from "@/lib/i18n"
+import { getLocalizedValue, localizePath } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
 import { motion } from "motion/react"
 import Link from "next/link"
@@ -28,24 +29,9 @@ const item = {
   },
 }
 
-const copy = {
-  en: {
-    title: "Page not found",
-    description:
-      "The resource you're looking for has vanished into the void, or perhaps it never existed at all.",
-    cta: "Return Home",
-  },
-  it: {
-    title: "Pagina non trovata",
-    description:
-      "La risorsa che stai cercando è scomparsa nel vuoto, oppure non è mai esistita.",
-    cta: "Torna alla home",
-  },
-}
-
 export default function NotFound() {
   const { lang } = useLanguage()
-  const t = copy[lang] ?? copy.en
+  const t = getLocalizedValue(notFoundPage, lang)
 
   return (
     <motion.div
@@ -112,7 +98,7 @@ export default function NotFound() {
         variants={item}
         className="font-mono text-xs tracking-widest text-foreground/15 uppercase select-none mt-6"
       >
-        ERR_NOT_FOUND
+        {t.code}
       </motion.span>
     </motion.div>
   )

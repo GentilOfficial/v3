@@ -1,4 +1,4 @@
-﻿const sharedTools = [
+const sharedTools = [
   {
     icon: { key: "nextjs", bg: "#000000", color: "#ffffff" },
     title: {
@@ -91,28 +91,18 @@
   },
 ]
 
-function mapTools(lang) {
-  return sharedTools.map((tool) => ({
-    icon: tool.icon,
-    title: tool.title[lang],
-    tag: tool.tag[lang],
-    description: tool.description[lang],
-  }))
-}
-
 export const techStack = {
-  en: {
-    title: "Tools and Technologies",
-    subtitle: "The writer's pens",
-    description:
-      "All the tools and technologies I use to create projects and bring ideas to reality.",
-    tools: mapTools("en"),
+  title: {
+    en: "Tools and Technologies",
+    it: "Strumenti e tecnologie",
   },
-  it: {
-    title: "Strumenti e tecnologie",
-    subtitle: "Le penne dello sviluppatore",
-    description:
-      "Tutti gli strumenti e le tecnologie che uso per creare progetti e trasformare idee in realtà.",
-    tools: mapTools("it"),
+  subtitle: {
+    en: "The writer's pens",
+    it: "Le penne dello sviluppatore",
   },
+  description: {
+    en: "All the tools and technologies I use to create projects and bring ideas to reality.",
+    it: "Tutti gli strumenti e le tecnologie che uso per creare progetti e trasformare idee in realtà.",
+  },
+  tools: sharedTools,
 }

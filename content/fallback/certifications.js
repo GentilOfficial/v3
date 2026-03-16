@@ -1,4 +1,1 @@
-export const fallbackCertifications = {
-  en: [],
-  it: [],
-}
+export const fallbackCertifications = []

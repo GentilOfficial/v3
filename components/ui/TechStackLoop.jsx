@@ -1,7 +1,7 @@
 import LogoLoop from "@/components/ui/LogoLoop";
 import {cn} from "@/lib/utils";
 
-export default function TechStackLoop({icons, className}) {
+export default function TechStackLoop({icons, ariaLabel, className}) {
     return (
         <div
             className={cn(
@@ -18,7 +18,7 @@ export default function TechStackLoop({icons, className}) {
                 scaleOnHover
                 fadeOut
                 fadeOutColor="#0a0a0a0a"
-                ariaLabel="Tech Stack Loop"
+                ariaLabel={ariaLabel}
             />
         </div>
     );

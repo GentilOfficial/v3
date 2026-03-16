@@ -1,9 +1,8 @@
-﻿"use client"
+"use client"
 
 import Divider from "@/components/ui/Divider"
 import GradientText from "@/components/ui/GradientText"
-import { hero } from "@/config/content.config"
-import routes from "@/config/routes.config"
+import { hero, routes } from "@/content/site"
 import { getLocalizedRoutes, getLocalizedValue } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
 import { motion, useInView } from "motion/react"
@@ -19,7 +18,7 @@ import {
 } from "react-icons/si"
 
 const TechStackLoop = dynamic(
-  () => import("@/components/partials/TechStackLoop"),
+  () => import("@/components/ui/TechStackLoop"),
 )
 const Terminal = dynamic(() =>
   import("@/components/ui/terminal").then((mod) => mod.Terminal),
@@ -48,7 +47,7 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.9, ease, delay },
 })
 
-export default function Hero() {
+export default function HeroSection() {
   const { lang } = useLanguage()
   const localizedHero = getLocalizedValue(hero, lang)
   const localizedRoutes = useMemo(
@@ -62,6 +61,7 @@ export default function Hero() {
     terminal,
     techStackIcons,
     availableForWork,
+    techStackLoopAriaLabel,
   } = localizedHero
   const renderedTechStackIcons = techStackIcons
     .map((item) => {
@@ -136,6 +136,7 @@ export default function Hero() {
         <motion.div {...fadeUp(0.56)}>
           <TechStackLoop
             icons={renderedTechStackIcons}
+            ariaLabel={techStackLoopAriaLabel}
             className="mx-auto lg:mx-0"
           />
         </motion.div>
@@ -168,15 +169,15 @@ export default function Hero() {
               <AnimatedSpan key={i}>{line}</AnimatedSpan>
             ))}
 
-            <AnimatedSpan>...</AnimatedSpan>
+            <AnimatedSpan>{terminal.ellipsis}</AnimatedSpan>
 
             {localizedRoutes.map((route, i) => (
               <AnimatedSpan key={`route-${i}`}>
-                {i === 0 ? "-" : "|"} o {route.href}
+                {i === 0 ? "-" : "|"} {terminal.routePrefix} {route.href}
               </AnimatedSpan>
             ))}
 
-            <AnimatedSpan>...</AnimatedSpan>
+            <AnimatedSpan>{terminal.ellipsis}</AnimatedSpan>
             <AnimatedSpan>{terminal.success}</AnimatedSpan>
           </Terminal>
         </motion.div>
@@ -184,3 +185,6 @@ export default function Hero() {
     </section>
   )
 }
+
+
+

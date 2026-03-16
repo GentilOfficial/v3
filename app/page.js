@@ -1,14 +1,14 @@
-import About from "@/components/sections/root/about"
-import Certifications from "@/components/sections/root/certifications"
-import FAQ from "@/components/sections/root/faq"
-import Hero from "@/components/sections/root/hero"
-import Projects from "@/components/sections/root/projects"
-import TechStack from "@/components/sections/root/tech-stack"
-import { getCertificationsContent } from "@/lib/content/certifications"
+import AboutSection from "@/components/sections/home/AboutSection"
+import CertificationsSection from "@/components/sections/home/CertificationsSection"
+import FaqSection from "@/components/sections/home/FaqSection"
+import HeroSection from "@/components/sections/home/HeroSection"
+import ProjectsSection from "@/components/sections/home/ProjectsSection"
+import TechStackSection from "@/components/sections/home/TechStackSection"
 import { getCurrentLang } from "@/lib/content/get-current-lang"
+import { getCertificationsContent } from "@/lib/content/certifications"
 import { getProjectsContent } from "@/lib/content/projects"
 
-export default async function Home() {
+export default async function HomePage() {
   const lang = await getCurrentLang()
   const [projectsContent, certificationsContent] = await Promise.all([
     getProjectsContent(lang),
@@ -17,20 +17,20 @@ export default async function Home() {
 
   return (
     <>
-      <Hero />
-      <About />
-      <Certifications
+      <HeroSection />
+      <AboutSection />
+      <CertificationsSection
         items={certificationsContent.items}
         source={certificationsContent.source}
         issue={certificationsContent.issue}
       />
-      <Projects
+      <ProjectsSection
         items={projectsContent.items}
         source={projectsContent.source}
         issue={projectsContent.issue}
       />
-      <TechStack />
-      <FAQ />
+      <TechStackSection />
+      <FaqSection />
     </>
   )
 }

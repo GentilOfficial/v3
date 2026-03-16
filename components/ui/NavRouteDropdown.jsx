@@ -1,6 +1,7 @@
 "use client"
 
 import Divider from "@/components/ui/Divider"
+import { layout } from "@/content/site"
 import { getLocalizedValue } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
 import { useLanguage } from "@/providers/LanguageContext"
@@ -37,13 +38,7 @@ export function NavRouteDropdown({
   const { lang } = useLanguage()
   const mobile = variant === "mobile"
 
-  const mainRoutePrefix = getLocalizedValue(
-    {
-      en: "View",
-      it: "Visualizza",
-    },
-    lang,
-  )
+  const mainRoutePrefix = getLocalizedValue(layout.navigation.dropdownPrefix, lang)
 
   return (
     <div
@@ -212,3 +207,4 @@ export function NavRouteDropdown({
     </div>
   )
 }
+

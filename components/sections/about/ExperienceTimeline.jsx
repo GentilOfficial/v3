@@ -4,7 +4,9 @@ import ContentEmptyState from "@/components/feedback/ContentEmptyState"
 import ContentNotice from "@/components/feedback/ContentNotice"
 import { SectionIntro } from "@/components/ui/SectionIntro"
 import SurfacePanel from "@/components/ui/SurfacePanel"
+import { experiencesPage } from "@/content/site"
 import { getEmptyStateCopy, getIssueNotice } from "@/lib/content/feedback"
+import { getLocalizedValue } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
 import dayjs from "dayjs"
 import "dayjs/locale/en"
@@ -15,40 +17,21 @@ import Image from "next/image"
 
 dayjs.extend(relativeTime)
 
-const copy = {
-  en: {
-    eyebrow: "Experience",
-    title: "Work history",
-    subtitle: "Roles, companies and ongoing growth",
-    description:
-      "A concise timeline of the teams and environments that shaped how I design and build products.",
-    present: "Present",
-  },
-  it: {
-    eyebrow: "Esperienza",
-    title: "Percorso professionale",
-    subtitle: "Ruoli, aziende e crescita continua",
-    description:
-      "Una timeline essenziale dei contesti e dei team che hanno influenzato il mio modo di progettare e sviluppare prodotti.",
-    present: "Presente",
-  },
-}
-
-function formatDate(date, lang) {
+function formatDate(date, presentLabel, lang) {
   if (!date) {
-    return copy[lang]?.present ?? copy.en.present
+    return presentLabel
   }
 
   return dayjs(date).locale(lang).format("MMM YYYY")
 }
 
-export default function Experiences({
+export default function ExperienceTimeline({
   experiences = [],
   source = "database",
   issue = null,
 }) {
   const { lang } = useLanguage()
-  const localizedCopy = copy[lang] ?? copy.en
+  const localizedCopy = getLocalizedValue(experiencesPage, lang)
   const notice = getIssueNotice(issue, lang)
   const emptyState = getEmptyStateCopy("experiences", lang)
 
@@ -87,7 +70,7 @@ export default function Experiences({
                   {experience.companyIconUrl ? (
                     <Image
                       src={experience.companyIconUrl}
-                      alt={`${experience.company} logo`}
+                      alt={`${experience.company} ${localizedCopy.companyLogoAltSuffix}`}
                       width={64}
                       height={64}
                       className="size-12 rounded-xl border border-border bg-background object-contain p-1"
@@ -115,8 +98,8 @@ export default function Experiences({
                   </div>
 
                   <div className="text-sm text-foreground/45 md:text-right">
-                    {formatDate(experience.startedAt, lang)} -{" "}
-                    {formatDate(experience.endedAt, lang)}
+                    {formatDate(experience.startedAt, localizedCopy.present, lang)} -{" "}
+                    {formatDate(experience.endedAt, localizedCopy.present, lang)}
                   </div>
                 </SurfacePanel>
               </motion.div>
@@ -132,3 +115,5 @@ export default function Experiences({
     </section>
   )
 }
+
+

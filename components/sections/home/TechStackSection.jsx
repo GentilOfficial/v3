@@ -1,7 +1,7 @@
 "use client"
 import { SpotlightInfoCard } from "@/components/ui/SpotlightInfoCard"
 import { SectionIntro } from "@/components/ui/SectionIntro"
-import { techStack } from "@/config/content.config"
+import { techStack } from "@/content/site"
 import { getLocalizedValue } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
 import { motion } from "motion/react"
@@ -42,7 +42,7 @@ const cardItem = {
   },
 }
 
-export default function TechStack() {
+export default function TechStackSection() {
   const { lang } = useLanguage()
   const localizedTechStack = getLocalizedValue(techStack, lang)
   const { title, subtitle, description, tools } = localizedTechStack
@@ -102,3 +102,5 @@ export default function TechStack() {
     </section>
   )
 }
+
+

@@ -1,50 +1,52 @@
-# Portfolio — Next.js App
+# Portfolio - Next.js App
 
-This is my personal **portfolio web application** built with [Next.js](https://nextjs.org/) and deployed on the [Vercel](https://vercel.com/) platform.
-It showcases my projects, skills, and experiments in modern web development.
+Personal portfolio built with Next.js App Router, React, Tailwind, and Supabase.
 
-## Overview
+## Project Structure
 
-The portfolio is designed to be fast, accessible, and visually engaging, leveraging the latest features of Next.js such as the App Router, server components, and optimized asset loading.
+```text
+app/                  Next.js routes and pages
+components/
+  layout/             navbar, footer, and global layout components
+  pages/              full page-specific views
+  sections/
+    about/            sections used by the About page
+    home/             sections used by the homepage
+  ui/                 reusable UI components
+  feedback/           empty states and fallback notices
+content/
+  site/               static and localized site content
+  fallback/           local content used when Supabase is unavailable
+lib/
+  content/            loaders and helpers for dynamic/local content
+  supabase/           server-side Supabase client and utilities
+  i18n.js             localization and route helpers
+  utils.js            shared utilities
+providers/            global React providers
+hooks/                custom hooks
+config/               remaining technical config (for example i18n)
+supabase/             SQL schema and database setup
+public/               static assets
+fonts/                local fonts used by the project
+```
 
-## Getting Started
+## Conventions
 
-Run the development server:
+- Editorial content lives in `content/site/`.
+- Local fallback content lives in `content/fallback/`.
+- Data loaders live in `lib/content/`.
+- Homepage sections live in `components/sections/home/` with explicit names such as `HeroSection.jsx`.
+- Full page views live in `components/pages/`.
+
+## Local Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Then open [http://localhost:3000](http://localhost:3000) in your browser.
+## Verification
 
-## Font
-
-This project uses **DM Sans** as the primary font, optimized via `next/font` for performance and automatic loading.
-
-## Tech Stack & Libraries
-
-### UI & Styling
-
-* **[shadcn/ui](https://ui.shadcn.com/)** — accessible and customizable UI components
-* **[Magic UI](https://magicui.design/)** — prebuilt UI patterns and visual effects
-* **[React Bits](https://reactbits.dev/)** — reusable React components and utilities
-* **[Motion](https://motion.dev/)** — animation library for fluid interactions
-
-### Backend & Database
-
-* **[Supabase](https://supabase.com/)** — PostgreSQL database, authentication, and backend services
-
-## Features
-
-* Responsive and modern UI
-* Animated interactions and transitions
-* Project showcase with dynamic content
-* Integration with Supabase for data
-* Optimized performance with Next.js and Vercel
-
+```bash
+npm run lint
+npm run build
+```

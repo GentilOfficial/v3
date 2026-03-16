@@ -22,52 +22,16 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.65, ease, delay },
 })
 
-const statsCopy = {
-  en: [
-    { label: "Published projects", getValue: (projects) => projects.length },
-    {
-      label: "Live projects",
-      getValue: (projects) =>
-        projects.filter((project) => project.statusKey === "live").length,
-    },
-    {
-      label: "Laravel builds",
-      getValue: (projects) =>
-        projects.filter((project) => project.stack.includes("Laravel")).length,
-    },
-  ],
-  it: [
-    { label: "Progetti pubblicati", getValue: (projects) => projects.length },
-    {
-      label: "Progetti live",
-      getValue: (projects) =>
-        projects.filter((project) => project.statusKey === "live").length,
-    },
-    {
-      label: "Applicazioni Laravel",
-      getValue: (projects) =>
-        projects.filter((project) => project.stack.includes("Laravel")).length,
-    },
-  ],
-}
+function getStatValue(statKey, projects) {
+  if (statKey === "published") return projects.length
+  if (statKey === "live") {
+    return projects.filter((project) => project.statusKey === "live").length
+  }
+  if (statKey === "laravel") {
+    return projects.filter((project) => project.stack.includes("Laravel")).length
+  }
 
-const filterCopy = {
-  en: {
-    label: "Filter by stack",
-    all: "All",
-    results: (count) => `${count} project${count === 1 ? "" : "s"}`,
-    emptyTitle: "No projects match this stack yet",
-    emptyDescription:
-      "Try another filter to explore the rest of the published work.",
-  },
-  it: {
-    label: "Filtra per stack",
-    all: "Tutti",
-    results: (count) => `${count} progett${count === 1 ? "o" : "i"}`,
-    emptyTitle: "Nessun progetto corrisponde a questo stack",
-    emptyDescription:
-      "Prova un altro filtro per esplorare il resto dei progetti pubblicati.",
-  },
+  return 0
 }
 
 export default function ProjectsPageView({
@@ -82,7 +46,7 @@ export default function ProjectsPageView({
   const homeHref = localizePath("/", lang)
   const notice = getIssueNotice(issue, lang)
   const emptyState = getEmptyStateCopy("projects", lang)
-  const filters = filterCopy[lang] ?? filterCopy.en
+  const filters = content.page.filters
   const stackFilters = Array.from(
     new Set(projects.flatMap((project) => project.stack ?? [])),
   )
@@ -91,10 +55,14 @@ export default function ProjectsPageView({
       ? projects
       : projects.filter((project) => project.stack.includes(activeStack))
   const stats =
-    (statsCopy[lang] ?? statsCopy.en).map((item) => ({
+    (content.page.stats ?? []).map((item) => ({
       label: item.label,
-      value: String(item.getValue(filteredProjects)),
+      value: String(getStatValue(item.key, filteredProjects)),
     })) ?? []
+  const resultLabel =
+    filteredProjects.length === 1
+      ? filters.resultSingular
+      : filters.resultPlural
 
   return (
     <section className="relative py-6 md:py-10">
@@ -153,7 +121,7 @@ export default function ProjectsPageView({
                           {filters.label}
                         </p>
                         <p className="mt-1 text-sm text-foreground/55">
-                          {filters.results(filteredProjects.length)}
+                          {filteredProjects.length} {resultLabel}
                         </p>
                       </div>
                     </div>
@@ -235,23 +203,23 @@ export default function ProjectsPageView({
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl">
               <h2 className="text-2xl font-semibold sm:text-3xl">
-                {content.cta.title}
+                {content.page.cta.title}
               </h2>
               <p className="mt-2 text-sm text-foreground/55 sm:text-base">
-                {content.cta.description}
+                {content.page.cta.description}
               </p>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg">
                 <Link href={contactsHref}>
-                  {content.cta.primary}
+                  {content.page.cta.primary}
                   <ArrowRight className="size-4" />
                 </Link>
               </Button>
 
               <Button asChild size="lg" variant="outline">
-                <Link href={homeHref}>{content.cta.secondary}</Link>
+                <Link href={homeHref}>{content.page.cta.secondary}</Link>
               </Button>
             </div>
           </div>
@@ -260,3 +228,4 @@ export default function ProjectsPageView({
     </section>
   )
 }
+

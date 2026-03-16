@@ -1,10 +1,14 @@
 "use client"
 
+import {
+  contact,
+  contactEmail,
+  contactSocials,
+} from "@/content/site"
 import { SectionIntro } from "@/components/ui/SectionIntro"
 import { SpotlightInfoCard } from "@/components/ui/SpotlightInfoCard"
 import SurfacePanel from "@/components/ui/SurfacePanel"
 import { Button } from "@/components/ui/button"
-import { contact, contactEmail, contactSocials } from "@/config/content.config"
 import { getLocalizedValue } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
 import { Check, Copy, ExternalLink, Mail, Send } from "lucide-react"
@@ -20,7 +24,7 @@ const SOCIAL_ICON_MAP = {
   telegram: SiTelegram,
 }
 
-export default function Contact() {
+export default function ContactsPage() {
   const { lang } = useLanguage()
   const [emailCopied, setEmailCopied] = useState(false)
   const localizedContact = getLocalizedValue(contact, lang)
@@ -113,8 +117,16 @@ export default function Contact() {
                   variant="outline"
                   size="icon-xs"
                   className="hover:cursor-pointer"
-                  aria-label={emailCopied ? "Email copied" : "Copy email"}
-                  title={emailCopied ? "Copied" : "Copy email"}
+                  aria-label={
+                    emailCopied
+                      ? localizedContact.actions.emailCopied
+                      : localizedContact.actions.copyEmail
+                  }
+                  title={
+                    emailCopied
+                      ? localizedContact.actions.copied
+                      : localizedContact.actions.copyEmail
+                  }
                 >
                   {emailCopied ? (
                     <Check className="size-3.5" />
@@ -131,8 +143,8 @@ export default function Contact() {
                   >
                     <Link
                       href={emailHref}
-                      aria-label="Open mail app"
-                      title="Open mail app"
+                      aria-label={localizedContact.actions.openMailApp}
+                      title={localizedContact.actions.openMailApp}
                     >
                       <Send className="size-3.5" />
                     </Link>

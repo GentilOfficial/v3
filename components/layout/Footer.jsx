@@ -1,7 +1,6 @@
-﻿"use client"
+"use client"
 
-import { footer, layout } from "@/config/content.config"
-import routes from "@/config/routes.config"
+import { footer, layout, routes } from "@/content/site"
 import { getLocalizedRoutes, getLocalizedValue } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
 import { Mail } from "lucide-react"
@@ -35,8 +34,9 @@ const SOCIAL_ICON_MAP = {
 export function Footer() {
   const { lang } = useLanguage()
   const localizedFooter = getLocalizedValue(footer, lang)
+  const localizedLayout = getLocalizedValue(layout, lang)
   const localizedRoutes = getLocalizedRoutes(routes, lang)
-  const { title: footerBottomTitle } = layout
+  const footerBottomTitle = localizedLayout.metadata.title
   const {
     tagline,
     socials,
@@ -64,7 +64,7 @@ export function Footer() {
               height={96}
               src="/logo.png"
               className="size-12"
-              alt="logo"
+              alt={localizedLayout.logoAlt}
               sizes="48px"
             />
             <p className="text-sm text-foreground/50 whitespace-pre-line leading-relaxed">

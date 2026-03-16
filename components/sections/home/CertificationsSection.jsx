@@ -4,26 +4,13 @@ import ContentEmptyState from "@/components/feedback/ContentEmptyState"
 import ContentNotice from "@/components/feedback/ContentNotice"
 import { CertificationCard } from "@/components/ui/CertificationCard"
 import { SectionIntro } from "@/components/ui/SectionIntro"
-import { certifications } from "@/config/content.config"
+import { certifications } from "@/content/site"
 import { getEmptyStateCopy, getIssueNotice } from "@/lib/content/feedback"
 import { getLocalizedValue } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
 import { motion } from "motion/react"
 
 const ease = [0.25, 0.75, 0.25, 1]
-
-const copy = {
-  en: {
-    issuer: "Issuer",
-    date: "Date",
-    credential: "View credential",
-  },
-  it: {
-    issuer: "Ente",
-    date: "Data",
-    credential: "Vedi credenziale",
-  },
-}
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20, filter: "blur(6px)" },
@@ -35,14 +22,13 @@ const cardVariants = {
   },
 }
 
-export default function Certifications({
+export default function CertificationsSection({
   items = [],
   source = "database",
   issue = null,
 }) {
   const { lang } = useLanguage()
   const localizedCertifications = getLocalizedValue(certifications, lang)
-  const localizedCopy = copy[lang] ?? copy.en
   const { title, subtitle, description } = localizedCertifications
   const notice = getIssueNotice(issue, lang)
   const emptyState = getEmptyStateCopy("certifications", lang)
@@ -92,7 +78,7 @@ export default function Certifications({
                 >
                   <CertificationCard
                     certification={item}
-                    labels={localizedCopy}
+                    labels={localizedCertifications.labels}
                   />
                 </motion.div>
               ))}
@@ -115,3 +101,5 @@ export default function Certifications({
     </section>
   )
 }
+
+

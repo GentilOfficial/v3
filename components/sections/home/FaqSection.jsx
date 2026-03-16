@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { SectionIntro } from "@/components/ui/SectionIntro"
-import { faq } from "@/config/content.config"
+import { faq } from "@/content/site"
 import { getLocalizedValue } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
 import { motion } from "motion/react"
@@ -21,7 +21,7 @@ const itemVariants = {
   },
 }
 
-export default function FAQ() {
+export default function FaqSection() {
   const { lang } = useLanguage()
   const localizedFaq = getLocalizedValue(faq, lang)
   const { title, subtitle, description, questions } = localizedFaq
@@ -73,3 +73,5 @@ export default function FAQ() {
     </section>
   )
 }
+
+

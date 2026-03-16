@@ -153,7 +153,7 @@ export const LogoLoop = memo(
          fadeOutColor,
          scaleOnHover = false,
          renderItem,
-         ariaLabel = 'Partner logos',
+         ariaLabel,
          className,
          style
      }) => {
@@ -314,7 +314,7 @@ export const LogoLoop = memo(
                             'focus-visible:outline focus-visible:outline-current focus-visible:outline-offset-2'
                         )}
                         href={item.href}
-                        aria-label={itemAriaLabel || 'logo link'}
+                        aria-label={itemAriaLabel ?? item.href}
                         target="_blank"
                         rel="noreferrer noopener"
                     >

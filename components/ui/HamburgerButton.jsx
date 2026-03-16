@@ -2,13 +2,14 @@
 import {motion} from "motion/react"
 import {Button} from "@/components/ui/button";
 
-export function HamburgerButton({open, setOpen}) {
+export function HamburgerButton({open, setOpen, title}) {
     return (
         <Button
             size="icon"
             variant="outline"
             className="md:hidden hover:cursor-pointer"
-            title="Toggle navigation links"
+            aria-label={title}
+            title={title}
             onClick={() => setOpen((prev) => !prev)}
         >
             <motion.span

@@ -4,8 +4,8 @@ import { DynamicGridPattern } from "@/components/layout/DynamicGridPattern"
 import { Footer } from "@/components/layout/Footer"
 import LayoutInner from "@/components/layout/LayoutInner"
 import Navbar from "@/components/layout/Navbar"
+import { layout } from "@/content/site"
 import CustomCursor from "@/components/ui/CustomCursor"
-import { layout } from "@/config/content.config"
 import { DEFAULT_LOCALE, isLocale } from "@/config/i18n.config"
 import { cn } from "@/lib/utils"
 import { LanguageProvider } from "@/providers/LanguageContext"
@@ -31,8 +31,8 @@ const monoFont = localFont({
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL),
-  title: layout.title,
-  description: layout.description,
+  title: layout.metadata.title,
+  description: layout.metadata.description,
 }
 
 export const viewport = {

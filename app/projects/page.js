@@ -1,5 +1,5 @@
 import ProjectsPageView from "@/components/pages/ProjectsPageView"
-import { projects } from "@/config/content.config"
+import { projects } from "@/content/site"
 import { getCurrentLang } from "@/lib/content/get-current-lang"
 import { getProjectsContent } from "@/lib/content/projects"
 import { getLocalizedValue } from "@/lib/i18n"

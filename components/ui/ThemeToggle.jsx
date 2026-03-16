@@ -4,6 +4,7 @@ import {useTheme} from "next-themes"
 import {useEffect, useState} from "react"
 import {Monitor, Moon, Sun} from "lucide-react"
 import {Button} from "@/components/ui/button"
+import { layout } from "@/content/site"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,18 +14,20 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {AnimatePresence, motion} from "motion/react"
 import {cn} from "@/lib/utils"
-
-const THEMES = [
-    {value: "light", label: "Light", icon: Sun},
-    {value: "dark", label: "Dark", icon: Moon},
-    {value: "system", label: "System", icon: Monitor},
-]
+import { getLocalizedValue } from "@/lib/i18n"
+import { useLanguage } from "@/providers/LanguageContext"
 
 const ICONS = {light: Sun, dark: Moon, system: Monitor}
 
 export function ThemeToggle({onOpenChange}) {
+    const {lang} = useLanguage()
     const {setTheme, theme} = useTheme()
     const [mounted, setMounted] = useState(false)
+    const localizedLayout = getLocalizedValue(layout, lang)
+    const themeOptions = localizedLayout.themeToggle.options.map((option) => ({
+        ...option,
+        icon: ICONS[option.value] ?? Monitor,
+    }))
 
     useEffect(() => {
         requestAnimationFrame(() => setMounted(true))
@@ -38,7 +41,7 @@ export function ThemeToggle({onOpenChange}) {
                 <Button
                     variant="outline"
                     size="icon"
-                    aria-label="Toggle theme"
+                    aria-label={localizedLayout.themeToggle.triggerAriaLabel}
                     className="hover:cursor-pointer relative overflow-hidden"
                 >
                     <AnimatePresence mode="wait" initial={false}>
@@ -64,7 +67,7 @@ export function ThemeToggle({onOpenChange}) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuGroup>
-                    {THEMES.map(({value, label, icon: ItemIcon}) => {
+                    {themeOptions.map(({value, label, icon: ItemIcon}) => {
                         const isActive = theme === value
                         return (
                             <DropdownMenuItem
@@ -97,3 +100,4 @@ export function ThemeToggle({onOpenChange}) {
         </DropdownMenu>
     )
 }
+

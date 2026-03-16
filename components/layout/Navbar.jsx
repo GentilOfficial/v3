@@ -4,8 +4,13 @@ import { HamburgerButton } from "@/components/ui/HamburgerButton"
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher"
 import { NavRouteDropdown } from "@/components/ui/NavRouteDropdown"
 import { ThemeToggle } from "@/components/ui/ThemeToggle"
-import routes from "@/config/routes.config"
-import { getLocalizedRoutes, localizePath, normalizePathname } from "@/lib/i18n"
+import { layout, routes } from "@/content/site"
+import {
+  getLocalizedRoutes,
+  getLocalizedValue,
+  localizePath,
+  normalizePathname,
+} from "@/lib/i18n"
 import { cn } from "@/lib/utils"
 import { useLanguage } from "@/providers/LanguageContext"
 import Logo from "@/public/logo.svg"
@@ -13,7 +18,7 @@ import { motion, useMotionValue, useSpring } from "motion/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { NavbarMobileMenu } from "../partials/NavbarMobileMenu"
+import { NavbarMobileMenu } from "@/components/layout/NavbarMobileMenu"
 
 const navVariants = {
   visible: { y: 0 },
@@ -37,6 +42,7 @@ export default function Navbar() {
     () => getLocalizedRoutes(routes, lang),
     [lang],
   )
+  const localizedLayout = useMemo(() => getLocalizedValue(layout, lang), [lang])
   const homeHref = localizePath("/", lang)
 
   const hasNavDropdownOpen = !!activeDropdown
@@ -139,7 +145,10 @@ export default function Navbar() {
       >
         <div className="flex items-center justify-between max-w-7xl mx-auto py-4 px-6">
           <div className="flex items-center gap-6">
-            <Link href={homeHref} aria-label="Go to homepage">
+            <Link
+              href={homeHref}
+              aria-label={localizedLayout.navigation.homeAriaLabel}
+            >
               <Logo className="size-8 transition-opacity duration-200 hover:opacity-70" />
             </Link>
             <Divider position="vertical" className="hidden md:block" />
@@ -195,7 +204,11 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
             <ThemeToggle onOpenChange={setDropdownOpen} />
-            <HamburgerButton open={open} setOpen={setOpen} />
+            <HamburgerButton
+              open={open}
+              setOpen={setOpen}
+              title={localizedLayout.navigation.toggleTitle}
+            />
           </div>
         </div>
 
@@ -213,3 +226,5 @@ export default function Navbar() {
     </motion.header>
   )
 }
+
+

@@ -5,7 +5,7 @@ import ContentNotice from "@/components/feedback/ContentNotice"
 import { ProjectCard } from "@/components/ui/ProjectCard"
 import { SectionIntro } from "@/components/ui/SectionIntro"
 import { Button } from "@/components/ui/button"
-import { projects } from "@/config/content.config"
+import { projects } from "@/content/site"
 import { getEmptyStateCopy, getIssueNotice } from "@/lib/content/feedback"
 import { getLocalizedValue, localizePath } from "@/lib/i18n"
 import { useLanguage } from "@/providers/LanguageContext"
@@ -15,23 +15,14 @@ import Link from "next/link"
 
 const ease = [0.25, 0.75, 0.25, 1]
 
-const copy = {
-  en: {
-    viewAll: "See all projects",
-  },
-  it: {
-    viewAll: "Vedi tutti i progetti",
-  },
-}
-
-export default function Projects({
+export default function ProjectsSection({
   items = [],
   source = "database",
   issue = null,
 }) {
   const { lang } = useLanguage()
   const localizedProjects = getLocalizedValue(projects, lang)
-  const { title, subtitle, description } = localizedProjects
+  const { title, subtitle, description, viewAll } = localizedProjects
   const topProjects = items.slice(0, 3)
   const projectsHref = localizePath("/projects", lang)
   const notice = getIssueNotice(issue, lang)
@@ -53,7 +44,7 @@ export default function Projects({
 
           <Button asChild variant="outline">
             <Link href={projectsHref}>
-              {copy[lang]?.viewAll ?? copy.en.viewAll}
+              {viewAll}
               <ArrowRight className="size-4" />
             </Link>
           </Button>
@@ -105,3 +96,5 @@ export default function Projects({
     </section>
   )
 }
+
+

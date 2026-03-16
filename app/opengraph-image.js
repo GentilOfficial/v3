@@ -1,6 +1,9 @@
+import { layout } from "@/content/site"
 import { ImageResponse } from "next/og"
 import { readFile } from "node:fs/promises"
 import { join } from "node:path"
+import { DEFAULT_LOCALE } from "@/config/i18n.config"
+import { getLocalizedValue } from "@/lib/i18n"
 
 export const size = {
   width: 1200,
@@ -11,6 +14,7 @@ export const contentType = "image/png"
 
 export default async function Image() {
   const DMSans = await readFile(join(process.cwd(), "fonts", "DMSans.ttf"))
+  const localizedOpenGraph = getLocalizedValue(layout.opengraph, DEFAULT_LOCALE)
 
   const icon = await readFile(join(process.cwd(), "public/logo.png"))
   const iconBase64 = `data:image/png;base64,${icon.toString("base64")}`
@@ -33,16 +37,16 @@ export default async function Image() {
       <img
         src={iconBase64}
         style={{ width: "128px", height: "128px" }}
-        alt="Logo"
+        alt={localizedOpenGraph.logoAlt}
       />
-      <span style={{ fontSize: 72 }}>Federico Gentili</span>
+      <span style={{ fontSize: 72 }}>{layout.opengraph.title}</span>
       <span
         style={{
           color: "#fe3908",
           textShadow: "4px 4px 18px rgba(254, 138, 0, 0.25)",
         }}
       >
-        Web Developer
+        {localizedOpenGraph.subtitle}
       </span>
     </div>,
     {
