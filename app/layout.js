@@ -6,9 +6,10 @@ import LayoutInner from "@/components/layout/LayoutInner"
 import Navbar from "@/components/layout/Navbar"
 import CustomCursor from "@/components/ui/CustomCursor"
 import { DEFAULT_LOCALE, isLocale } from "@/config/i18n.config"
+import { footer as footerContent, layout as layoutContent, routes } from "@/content/site"
 import { getLayoutMetadata } from "@/content/site/layout"
+import { getLocalizedRoutes, getLocalizedValue } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
-import { LanguageProvider } from "@/providers/LanguageContext"
 import LenisScroll from "@/providers/LenisScroll"
 import { ThemeProvider } from "@/providers/ThemeProvider"
 import localFont from "next/font/local"
@@ -56,6 +57,9 @@ export default async function RootLayout({ children }) {
   const requestHeaders = await headers()
   const headerLang = requestHeaders.get("x-lang")
   const currentLang = isLocale(headerLang) ? headerLang : DEFAULT_LOCALE
+  const localizedLayout = getLocalizedValue(layoutContent, currentLang)
+  const localizedFooter = getLocalizedValue(footerContent, currentLang)
+  const localizedRoutes = getLocalizedRoutes(routes, currentLang)
 
   return (
     <html
@@ -66,19 +70,25 @@ export default async function RootLayout({ children }) {
       <body className="font-sans antialiased flex flex-col min-h-screen">
         <ThemeProvider>
           <LenisScroll />
-          <LanguageProvider initialLang={currentLang}>
-            <LayoutInner>
-              <CustomCursor />
-              <Navbar />
-              <main className="relative mx-auto max-w-7xl px-8 pt-32 pb-16 flex-1 w-full">
-                <DynamicGridPattern />
-                {children}
-              </main>
-              <Footer />
-              <BottomBlur />
-              <ConsoleSignature />
-            </LayoutInner>
-          </LanguageProvider>
+          <LayoutInner>
+            <CustomCursor />
+            <Navbar
+              lang={currentLang}
+              localizedLayout={localizedLayout}
+              localizedRoutes={localizedRoutes}
+            />
+            <main className="relative mx-auto max-w-7xl px-8 pt-32 pb-16 flex-1 w-full">
+              <DynamicGridPattern />
+              {children}
+            </main>
+            <Footer
+              localizedFooter={localizedFooter}
+              localizedLayout={localizedLayout}
+              localizedRoutes={localizedRoutes}
+            />
+            <BottomBlur />
+            <ConsoleSignature signature={localizedLayout.console.signature} />
+          </LayoutInner>
         </ThemeProvider>
       </body>
     </html>

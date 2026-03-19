@@ -1,10 +1,7 @@
 "use client"
 
 import Divider from "@/components/ui/Divider"
-import { layout } from "@/content/site"
-import { getLocalizedValue } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
-import { useLanguage } from "@/providers/LanguageContext"
 import {
   BadgeCheck,
   ChevronDown,
@@ -34,11 +31,9 @@ export function NavRouteDropdown({
   onClose,
   onNavigate,
   variant = "desktop",
+  dropdownPrefix,
 }) {
-  const { lang } = useLanguage()
   const mobile = variant === "mobile"
-
-  const mainRoutePrefix = getLocalizedValue(layout.navigation.dropdownPrefix, lang)
 
   return (
     <div
@@ -110,7 +105,7 @@ export function NavRouteDropdown({
                   )}
                 >
                   <span className="text-xs font-semibold text-foreground/85 group-hover:text-foreground">
-                    {mainRoutePrefix} {route.name}
+                    {dropdownPrefix} {route.name}
                   </span>
                   <ChevronRight className="size-3.5 text-foreground/35 group-hover:text-foreground/60 transition-colors" />
                 </Link>

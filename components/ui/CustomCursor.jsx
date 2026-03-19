@@ -1,84 +1,124 @@
 "use client"
 
-import {motion, useMotionValue, useSpring} from "motion/react"
-import {useEffect, useRef, useState} from "react"
+import { motion, useMotionValue, useSpring } from "motion/react"
+import { useEffect, useRef, useState } from "react"
+
+const FINE_POINTER_MEDIA_QUERY = "(hover: hover) and (pointer: fine)"
 
 const CustomCursor = () => {
-    const hasMoved = useRef(false)
-    const [isPressed, setIsPressed] = useState(false)
+  const hasMoved = useRef(false)
+  const [enabled, setEnabled] = useState(false)
+  const [isPressed, setIsPressed] = useState(false)
 
-    const x = useMotionValue(0)
-    const y = useMotionValue(0)
-    const opacity = useMotionValue(0)
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const opacity = useMotionValue(0)
 
-    const springConfig = {
-        stiffness: 220,
-        damping: 28,
-        mass: 0.6,
+  const springConfig = {
+    stiffness: 220,
+    damping: 28,
+    mass: 0.6,
+  }
+
+  const springX = useSpring(x, springConfig)
+  const springY = useSpring(y, springConfig)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(FINE_POINTER_MEDIA_QUERY)
+
+    const syncEnabled = () => {
+      const nextEnabled = mediaQuery.matches
+
+      setEnabled(nextEnabled)
+
+      if (!nextEnabled) {
+        hasMoved.current = false
+        setIsPressed(false)
+        opacity.set(0)
+      }
     }
 
-    const springX = useSpring(x, springConfig)
-    const springY = useSpring(y, springConfig)
+    syncEnabled()
 
-    useEffect(() => {
-        const moveCursor = (e) => {
-            const isTouch = e.pointerType === "touch"
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", syncEnabled)
+      return () => mediaQuery.removeEventListener("change", syncEnabled)
+    }
 
-            if (isTouch) {
-                opacity.set(0)
-                return
-            }
+    mediaQuery.addListener(syncEnabled)
+    return () => mediaQuery.removeListener(syncEnabled)
+  }, [opacity])
 
-            if (!hasMoved.current) {
-                hasMoved.current = true
-                x.set(e.clientX)
-                y.set(e.clientY)
-                opacity.set(1)
-                return
-            }
+  useEffect(() => {
+    if (!enabled) {
+      return undefined
+    }
 
-            x.set(e.clientX)
-            y.set(e.clientY)
-            opacity.set(1)
-        }
+    const moveCursor = (event) => {
+      if (event.pointerType === "touch") {
+        opacity.set(0)
+        return
+      }
 
-        const onMouseDown = () => setIsPressed(true)
-        const onMouseUp = () => setIsPressed(false)
+      if (!hasMoved.current) {
+        hasMoved.current = true
+        x.set(event.clientX)
+        y.set(event.clientY)
+        opacity.set(1)
+        return
+      }
 
-        window.addEventListener("pointermove", moveCursor)
-        window.addEventListener("pointerdown", onMouseDown)
-        window.addEventListener("pointerup", onMouseUp)
+      x.set(event.clientX)
+      y.set(event.clientY)
+      opacity.set(1)
+    }
 
-        return () => {
-            window.removeEventListener("pointermove", moveCursor)
-            window.removeEventListener("pointerdown", onMouseDown)
-            window.removeEventListener("pointerup", onMouseUp)
-        }
-    }, [x, y, opacity])
+    const handlePointerDown = (event) => {
+      if (event.pointerType === "mouse" || event.pointerType === "pen") {
+        setIsPressed(true)
+      }
+    }
 
-    return (
-        <motion.div
-            className="pointer-events-none fixed top-0 left-0 -z-10"
-            style={{
-                x: springX,
-                y: springY,
-                opacity,
-            }}
-        >
-            <motion.div
-                animate={{
-                    scale: isPressed ? 0.5 : 1,
-                }}
-                transition={{
-                    type: isPressed ? "tween" : "spring",
-                    duration: isPressed ? 0.15 : undefined,
-                    stiffness: 300,
-                    damping: 20,
-                }}
-                className="size-3 rounded-full bg-foreground/20 mix-blend-difference -translate-x-3 -translate-y-3"
-            />
-        </motion.div>
-    )
+    const handlePointerUp = () => setIsPressed(false)
+
+    window.addEventListener("pointermove", moveCursor)
+    window.addEventListener("pointerdown", handlePointerDown)
+    window.addEventListener("pointerup", handlePointerUp)
+
+    return () => {
+      window.removeEventListener("pointermove", moveCursor)
+      window.removeEventListener("pointerdown", handlePointerDown)
+      window.removeEventListener("pointerup", handlePointerUp)
+    }
+  }, [enabled, opacity, x, y])
+
+  if (!enabled) {
+    return null
+  }
+
+  return (
+    <motion.div
+      className="pointer-events-none fixed top-0 left-0 -z-10"
+      style={{
+        x: springX,
+        y: springY,
+        opacity,
+      }}
+    >
+      <motion.div
+        animate={{
+          scale: isPressed ? 0.5 : 1,
+        }}
+        transition={{
+          type: isPressed ? "tween" : "spring",
+          duration: isPressed ? 0.15 : undefined,
+          stiffness: 300,
+          damping: 20,
+        }}
+        className="size-3 rounded-full bg-foreground/20 mix-blend-difference -translate-x-3 -translate-y-3"
+      />
+    </motion.div>
+  )
 }
 
 export default CustomCursor

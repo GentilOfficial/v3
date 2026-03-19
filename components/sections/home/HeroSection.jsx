@@ -2,12 +2,9 @@
 
 import Divider from "@/components/ui/Divider"
 import GradientText from "@/components/ui/GradientText"
-import { hero, routes } from "@/content/site"
-import { getLocalizedRoutes, getLocalizedValue } from "@/lib/i18n"
-import { useLanguage } from "@/providers/LanguageContext"
 import { motion, useInView } from "motion/react"
 import dynamic from "next/dynamic"
-import { useMemo, useRef } from "react"
+import { useRef } from "react"
 import {
   SiGithub,
   SiJavascript,
@@ -41,19 +38,13 @@ const TECH_ICON_MAP = {
 
 const ease = [0.25, 0.75, 0.25, 1]
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 28, filter: "blur(8px)" },
-  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-  transition: { duration: 0.9, ease, delay },
-})
+export default function HeroSection({ content, localizedRoutes }) {
+  const fadeUp = (delay = 0) => ({
+    initial: { opacity: 0, y: 28, filter: "blur(8px)" },
+    animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+    transition: { duration: 0.9, ease, delay },
+  })
 
-export default function HeroSection() {
-  const { lang } = useLanguage()
-  const localizedHero = getLocalizedValue(hero, lang)
-  const localizedRoutes = useMemo(
-    () => getLocalizedRoutes(routes, lang),
-    [lang],
-  )
   const {
     title,
     subtitle,
@@ -62,7 +53,7 @@ export default function HeroSection() {
     techStackIcons,
     availableForWork,
     techStackLoopAriaLabel,
-  } = localizedHero
+  } = content
   const renderedTechStackIcons = techStackIcons
     .map((item) => {
       const Icon = TECH_ICON_MAP[item.icon]

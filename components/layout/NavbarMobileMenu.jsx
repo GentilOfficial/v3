@@ -6,7 +6,13 @@ import { AnimatePresence, motion } from "motion/react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
-export function NavbarMobileMenu({ routes, pathname, open, setOpen }) {
+export function NavbarMobileMenu({
+  routes,
+  pathname,
+  open,
+  setOpen,
+  dropdownPrefix,
+}) {
   const [activeDropdown, setActiveDropdown] = useState(null)
 
   useEffect(() => {
@@ -100,6 +106,7 @@ export function NavbarMobileMenu({ routes, pathname, open, setOpen }) {
                         setActiveDropdown(null)
                       }}
                       variant="mobile"
+                      dropdownPrefix={dropdownPrefix}
                     />
                   )}
                 </motion.div>

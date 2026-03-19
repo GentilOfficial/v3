@@ -1,28 +1,7 @@
-"use client"
-
-import { footer, layout, routes } from "@/content/site"
-import { getLocalizedRoutes, getLocalizedValue } from "@/lib/i18n"
-import { useLanguage } from "@/providers/LanguageContext"
 import { Mail } from "lucide-react"
-import { motion } from "motion/react"
 import Image from "next/image"
 import Link from "next/link"
 import { SiGithub, SiInstagram, SiLinkedin, SiTelegram } from "react-icons/si"
-
-const colVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.06 } },
-}
-
-const rowItem = {
-  hidden: { opacity: 0, y: 10, filter: "blur(4px)" },
-  show: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.4, ease: [0.25, 0.75, 0.25, 1] },
-  },
-}
 
 const SOCIAL_ICON_MAP = {
   github: SiGithub,
@@ -31,12 +10,8 @@ const SOCIAL_ICON_MAP = {
   telegram: SiTelegram,
 }
 
-export function Footer() {
-  const { lang } = useLanguage()
-  const localizedFooter = getLocalizedValue(footer, lang)
-  const localizedLayout = getLocalizedValue(layout, lang)
-  const localizedRoutes = getLocalizedRoutes(routes, lang)
-  const footerBottomTitle = localizedLayout.metadata.title
+export function Footer({ localizedFooter, localizedLayout, localizedRoutes }) {
+  const footerBottomTitle = localizedLayout.opengraph.title
   const {
     tagline,
     socials,
@@ -52,13 +27,7 @@ export function Footer() {
     <footer className="border-t border-border bg-background/60 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.25, 0.75, 0.25, 1] }}
-            className="flex flex-col gap-5 lg:col-span-1"
-          >
+          <div className="flex flex-col gap-5 lg:col-span-1">
             <Image
               width={96}
               height={96}
@@ -70,45 +39,29 @@ export function Footer() {
             <p className="text-sm text-foreground/50 whitespace-pre-line leading-relaxed">
               {tagline}
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            variants={colVariants}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="flex flex-col gap-4"
-          >
-            <motion.span variants={rowItem} className="text-sm font-semibold">
-              {pagesLabel}
-            </motion.span>
+          <div className="flex flex-col gap-4">
+            <span className="text-sm font-semibold">{pagesLabel}</span>
             <ul className="flex flex-col gap-2.5">
               {localizedRoutes.map((route, index) => (
-                <motion.li key={`route-${index}`} variants={rowItem}>
+                <li key={`route-${index}`}>
                   <Link
                     href={route.href}
                     className="text-sm text-foreground/50 hover:text-foreground transition-colors duration-200"
                   >
                     {route.name}
                   </Link>
-                </motion.li>
+                </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
-          <motion.div
-            variants={colVariants}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="flex flex-col gap-4"
-          >
-            <motion.span variants={rowItem} className="text-sm font-semibold">
-              {socialLabel}
-            </motion.span>
+          <div className="flex flex-col gap-4">
+            <span className="text-sm font-semibold">{socialLabel}</span>
             <ul className="flex flex-col gap-2.5">
               {email?.href && email?.address ? (
-                <motion.li key="footer-email" variants={rowItem}>
+                <li key="footer-email">
                   <Link
                     href={email.href}
                     className="flex items-center gap-2 text-sm text-foreground/50 hover:text-foreground transition-colors duration-200 group w-fit"
@@ -116,14 +69,14 @@ export function Footer() {
                     <Mail className="size-3.5 shrink-0 transition-transform duration-200 group-hover:-translate-y-px group-hover:translate-x-px" />
                     {email.address}
                   </Link>
-                </motion.li>
+                </li>
               ) : null}
 
               {socials.map((social) => {
                 const Icon = SOCIAL_ICON_MAP[social.icon]
                 if (!Icon) return null
                 return (
-                  <motion.li key={social.label} variants={rowItem}>
+                  <li key={social.label}>
                     <Link
                       href={social.href}
                       target="_blank"
@@ -133,23 +86,13 @@ export function Footer() {
                       <Icon className="size-3.5 shrink-0 transition-transform duration-200 group-hover:-translate-y-px group-hover:translate-x-px" />
                       {social.label}
                     </Link>
-                  </motion.li>
+                  </li>
                 )
               })}
             </ul>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.6,
-              ease: [0.25, 0.75, 0.25, 1],
-              delay: 0.2,
-            }}
-            className="flex flex-col gap-3"
-          >
+          <div className="flex flex-col gap-3">
             <span className="text-sm font-semibold">{statsLabel}</span>
             <div className="rounded-xl border border-border bg-background/60 backdrop-blur-sm p-3 flex flex-col gap-1">
               <span className="text-sm text-foreground/50">{stat.label}:</span>
@@ -157,23 +100,17 @@ export function Footer() {
                 {stat.value}
               </span>
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-12 pt-6 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-3"
-        >
+        <div className="mt-12 pt-6 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span className="font-mono text-xs text-foreground/25 uppercase tracking-widest">
             {footerBottomTitle}
           </span>
           <span className="font-mono text-xs text-foreground/25 uppercase tracking-widest">
             {builtWith}
           </span>
-        </motion.div>
+        </div>
       </div>
     </footer>
   )

@@ -1,12 +1,6 @@
 export const faq = {
-  title: {
-    en: "Frequently",
-    it: "Domande",
-  },
-  subtitle: {
-    en: "Asked Questions",
-    it: "Frequenti",
-  },
+  title: "Frequently",
+  subtitle: "Asked Questions",
   description: {
     en: "Do you have any questions? The FAQ section provides quick answers to frequently asked questions.",
     it: "Hai qualche dubbio? La sezione FAQ raccoglie risposte rapide alle domande piu comuni.",

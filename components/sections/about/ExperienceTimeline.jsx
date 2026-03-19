@@ -1,19 +1,19 @@
 "use client"
 
-import ContentEmptyState from "@/components/feedback/ContentEmptyState"
-import ContentNotice from "@/components/feedback/ContentNotice"
+import RemoteContentState from "@/components/feedback/RemoteContentState"
 import { SectionIntro } from "@/components/ui/SectionIntro"
+import { Skeleton } from "@/components/ui/Skeleton"
 import SurfacePanel from "@/components/ui/SurfacePanel"
-import { experiencesPage } from "@/content/site"
+import { useExperiencesContent } from "@/hooks/useExperiencesContent"
+import { DEFERRED_CONTENT_VIEWPORT } from "@/lib/content/constants"
 import { getEmptyStateCopy, getIssueNotice } from "@/lib/content/feedback"
-import { getLocalizedValue } from "@/lib/i18n"
-import { useLanguage } from "@/providers/LanguageContext"
 import dayjs from "dayjs"
 import "dayjs/locale/en"
 import "dayjs/locale/it"
 import relativeTime from "dayjs/plugin/relativeTime"
-import { motion } from "motion/react"
+import { motion, useInView } from "motion/react"
 import Image from "next/image"
+import { useRef } from "react"
 
 dayjs.extend(relativeTime)
 
@@ -25,36 +25,74 @@ function formatDate(date, presentLabel, lang) {
   return dayjs(date).locale(lang).format("MMM YYYY")
 }
 
-export default function ExperienceTimeline({
-  experiences = [],
-  source = "database",
-  issue = null,
-}) {
-  const { lang } = useLanguage()
-  const localizedCopy = getLocalizedValue(experiencesPage, lang)
+function ExperienceTimelineSkeleton() {
+  return (
+    <div className="grid gap-4">
+      {Array.from({ length: 3 }, (_, index) => (
+        <SurfacePanel
+          key={`experience-skeleton-${index}`}
+          className="grid gap-5 p-5 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-start border-foreground/5"
+        >
+          <Skeleton className="size-12 rounded-xl" />
+
+          <div className="space-y-3">
+            <div className="space-y-2">
+              <Skeleton className="h-3 w-32" />
+              <Skeleton className="h-8 w-2/3" />
+            </div>
+
+            <Skeleton className="h-16 w-full" />
+          </div>
+
+          <div className="md:w-28 md:justify-self-end flex gap-2 items-center">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-20" />
+          </div>
+        </SurfacePanel>
+      ))}
+    </div>
+  )
+}
+
+export default function ExperienceTimeline({ lang, content }) {
+  const sectionRef = useRef(null)
+  const shouldLoadContent = useInView(sectionRef, DEFERRED_CONTENT_VIEWPORT)
+  const {
+    items: experiences,
+    source,
+    issue,
+    isLoading,
+  } = useExperiencesContent(lang, {
+    enabled: shouldLoadContent,
+  })
   const notice = getIssueNotice(issue, lang)
   const emptyState = getEmptyStateCopy("experiences", lang)
 
   return (
-    <section className="relative py-6 md:py-10">
+    <section ref={sectionRef} className="relative py-6 md:py-10">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
         <SectionIntro
-          eyebrow={localizedCopy.eyebrow}
-          title={localizedCopy.title}
-          subtitle={localizedCopy.subtitle}
-          description={localizedCopy.description}
+          eyebrow={content.eyebrow}
+          title={content.title}
+          subtitle={content.subtitle}
+          description={content.description}
           mode="enter"
           titleAs="h1"
           titleClassName="text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl"
         />
 
         <div className="grid gap-4">
-          {source === "fallback" && notice ? (
-            <ContentNotice title={notice.title} description={notice.description} />
-          ) : null}
-
-          {experiences.length ? (
-            experiences.map((experience, index) => (
+          <RemoteContentState
+            shouldLoad={shouldLoadContent}
+            source={source}
+            notice={notice}
+            isLoading={isLoading}
+            hasItems={experiences.length > 0}
+            skeleton={<ExperienceTimelineSkeleton />}
+            emptyTitle={emptyState?.title}
+            emptyDescription={emptyState?.description}
+          >
+            {experiences.map((experience, index) => (
               <motion.div
                 key={experience.slug ?? index}
                 initial={{ opacity: 0, y: 30, x: -24, filter: "blur(6px)" }}
@@ -70,7 +108,7 @@ export default function ExperienceTimeline({
                   {experience.companyIconUrl ? (
                     <Image
                       src={experience.companyIconUrl}
-                      alt={`${experience.company} ${localizedCopy.companyLogoAltSuffix}`}
+                      alt={`${experience.company} ${content.companyLogoAltSuffix}`}
                       width={64}
                       height={64}
                       className="size-12 rounded-xl border border-border bg-background object-contain p-1"
@@ -98,22 +136,24 @@ export default function ExperienceTimeline({
                   </div>
 
                   <div className="text-sm text-foreground/45 md:text-right">
-                    {formatDate(experience.startedAt, localizedCopy.present, lang)} -{" "}
-                    {formatDate(experience.endedAt, localizedCopy.present, lang)}
+                    {formatDate(
+                      experience.startedAt,
+                      content.present,
+                      lang,
+                    )}{" "}
+                    -{" "}
+                    {formatDate(
+                      experience.endedAt,
+                      content.present,
+                      lang,
+                    )}
                   </div>
                 </SurfacePanel>
               </motion.div>
-            ))
-          ) : (
-            <ContentEmptyState
-              title={emptyState?.title}
-              description={emptyState?.description}
-            />
-          )}
+            ))}
+          </RemoteContentState>
         </div>
       </div>
     </section>
   )
 }
-
-

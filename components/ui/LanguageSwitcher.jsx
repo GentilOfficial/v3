@@ -4,12 +4,10 @@ import { Button } from "@/components/ui/button"
 import { DEFAULT_LOCALE } from "@/config/i18n.config"
 import { localizePath } from "@/lib/i18n"
 import { getLocaleFromPathname } from "@/lib/i18n"
-import { useLanguage } from "@/providers/LanguageContext"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useTransition } from "react"
 
 export function LanguageSwitcher() {
-  const { setLang } = useLanguage()
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -24,7 +22,6 @@ export function LanguageSwitcher() {
     const nextUrl = `${localizedPath}${query ? `?${query}` : ""}${hash}`
 
     startTransition(() => {
-      setLang(nextLang)
       router.push(nextUrl)
       router.refresh()
     })

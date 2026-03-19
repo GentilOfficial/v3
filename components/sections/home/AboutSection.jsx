@@ -2,9 +2,6 @@
 
 import { SectionIntro } from "@/components/ui/SectionIntro"
 import SurfacePanel from "@/components/ui/SurfacePanel"
-import { about } from "@/content/site"
-import { getLocalizedValue } from "@/lib/i18n"
-import { useLanguage } from "@/providers/LanguageContext"
 import { motion } from "motion/react"
 import Image from "next/image"
 
@@ -36,11 +33,8 @@ const listItem = {
   },
 }
 
-export default function AboutSection() {
-  const { lang } = useLanguage()
-  const localizedAbout = getLocalizedValue(about, lang)
-  const { title, subtitle, description, image, badge, highlights } =
-    localizedAbout
+export default function AboutSection({ content }) {
+  const { title, subtitle, description, image, badge, highlights } = content
 
   return (
     <section className="py-20 md:py-24" id="about">

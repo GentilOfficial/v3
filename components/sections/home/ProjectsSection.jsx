@@ -1,35 +1,45 @@
 "use client"
 
-import ContentEmptyState from "@/components/feedback/ContentEmptyState"
-import ContentNotice from "@/components/feedback/ContentNotice"
+import RemoteContentState from "@/components/feedback/RemoteContentState"
 import { ProjectCard } from "@/components/ui/ProjectCard"
+import { ProjectCardSkeleton } from "@/components/ui/ProjectCardSkeleton"
 import { SectionIntro } from "@/components/ui/SectionIntro"
 import { Button } from "@/components/ui/button"
-import { projects } from "@/content/site"
+import { useProjectsContent } from "@/hooks/useProjectsContent"
+import { DEFERRED_CONTENT_VIEWPORT } from "@/lib/content/constants"
 import { getEmptyStateCopy, getIssueNotice } from "@/lib/content/feedback"
-import { getLocalizedValue, localizePath } from "@/lib/i18n"
-import { useLanguage } from "@/providers/LanguageContext"
+import { localizePath } from "@/lib/i18n"
 import { ArrowRight } from "lucide-react"
-import { motion } from "motion/react"
+import { motion, useInView } from "motion/react"
 import Link from "next/link"
+import { useRef } from "react"
 
 const ease = [0.25, 0.75, 0.25, 1]
 
-export default function ProjectsSection({
-  items = [],
-  source = "database",
-  issue = null,
-}) {
-  const { lang } = useLanguage()
-  const localizedProjects = getLocalizedValue(projects, lang)
-  const { title, subtitle, description, viewAll } = localizedProjects
+function ProjectsSectionSkeleton() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-3">
+      {Array.from({ length: 3 }, (_, index) => (
+        <ProjectCardSkeleton key={`project-skeleton-${index}`} compact />
+      ))}
+    </div>
+  )
+}
+
+export default function ProjectsSection({ lang, content }) {
+  const sectionRef = useRef(null)
+  const shouldLoadContent = useInView(sectionRef, DEFERRED_CONTENT_VIEWPORT)
+  const { items, source, issue, isLoading } = useProjectsContent(lang, {
+    enabled: shouldLoadContent,
+  })
+  const { title, subtitle, description, viewAll } = content
   const topProjects = items.slice(0, 3)
   const projectsHref = localizePath("/projects", lang)
   const notice = getIssueNotice(issue, lang)
   const emptyState = getEmptyStateCopy("projects", lang)
 
   return (
-    <section className="py-20 md:py-24" id="projects">
+    <section ref={sectionRef} className="py-20 md:py-24" id="projects">
       <div className="mb-8 flex flex-col gap-5 md:mb-10">
         <SectionIntro title={title} subtitle={subtitle} />
 
@@ -51,22 +61,17 @@ export default function ProjectsSection({
         </motion.div>
       </div>
 
-      {source === "fallback" && notice ? (
-        <motion.div
-          initial={{ opacity: 0, y: 18, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease }}
-          className="mb-4"
-        >
-          <ContentNotice
-            title={notice.title}
-            description={notice.description}
-          />
-        </motion.div>
-      ) : null}
-
-      {topProjects.length ? (
+      <RemoteContentState
+        shouldLoad={shouldLoadContent}
+        source={source}
+        notice={notice}
+        isLoading={isLoading}
+        hasItems={topProjects.length > 0}
+        skeleton={<ProjectsSectionSkeleton />}
+        emptyTitle={emptyState?.title}
+        emptyDescription={emptyState?.description}
+        noticeClassName="mb-4"
+      >
         <div className="grid gap-4 lg:grid-cols-3">
           {topProjects.map((project, index) => (
             <motion.div
@@ -80,21 +85,7 @@ export default function ProjectsSection({
             </motion.div>
           ))}
         </div>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0, y: 18, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease }}
-        >
-          <ContentEmptyState
-            title={emptyState?.title}
-            description={emptyState?.description}
-          />
-        </motion.div>
-      )}
+      </RemoteContentState>
     </section>
   )
 }
-
-

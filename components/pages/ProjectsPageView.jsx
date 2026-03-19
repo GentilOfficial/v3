@@ -1,20 +1,32 @@
 "use client"
 
 import ContentEmptyState from "@/components/feedback/ContentEmptyState"
-import ContentNotice from "@/components/feedback/ContentNotice"
+import RemoteContentState from "@/components/feedback/RemoteContentState"
 import { ProjectCard } from "@/components/ui/ProjectCard"
+import { ProjectCardSkeleton } from "@/components/ui/ProjectCardSkeleton"
 import { SectionIntro } from "@/components/ui/SectionIntro"
+import { Skeleton } from "@/components/ui/Skeleton"
 import SurfacePanel from "@/components/ui/SurfacePanel"
 import { Button } from "@/components/ui/button"
+import { useProjectsContent } from "@/hooks/useProjectsContent"
+import { DEFERRED_CONTENT_VIEWPORT } from "@/lib/content/constants"
 import { getEmptyStateCopy, getIssueNotice } from "@/lib/content/feedback"
 import { localizePath } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
-import { motion } from "motion/react"
+import { motion, useInView } from "motion/react"
 import Link from "next/link"
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 const ease = [0.25, 0.75, 0.25, 1]
+const projectCardMinHeightClass = "min-h-[28rem]"
+const PROJECT_STAT_RESOLVERS = {
+  published: (projects) => projects.length,
+  live: (projects) =>
+    projects.filter((project) => project.statusKey === "live").length,
+  laravel: (projects) =>
+    projects.filter((project) => project.stack.includes("Laravel")).length,
+}
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24, filter: "blur(6px)" },
@@ -23,25 +35,74 @@ const fadeUp = (delay = 0) => ({
 })
 
 function getStatValue(statKey, projects) {
-  if (statKey === "published") return projects.length
-  if (statKey === "live") {
-    return projects.filter((project) => project.statusKey === "live").length
-  }
-  if (statKey === "laravel") {
-    return projects.filter((project) => project.stack.includes("Laravel")).length
-  }
-
-  return 0
+  return PROJECT_STAT_RESOLVERS[statKey]?.(projects) ?? 0
 }
 
-export default function ProjectsPageView({
-  lang,
-  content,
-  projects,
-  source,
-  issue,
-}) {
+function ProjectsPageStatsSkeleton({ count = 3 }) {
+  return (
+    <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+      {Array.from({ length: count }, (_, index) => (
+        <SurfacePanel
+          key={`project-stat-skeleton-${index}`}
+          className="space-y-2 border-foreground/5 p-4"
+        >
+          <Skeleton className="h-8 w-16" />
+          <Skeleton className="h-4 w-24" />
+        </SurfacePanel>
+      ))}
+    </div>
+  )
+}
+
+function ProjectsPageFiltersSkeleton() {
+  return (
+    <SurfacePanel className="border-foreground/5 p-4 sm:p-5">
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-16" />
+            <Skeleton className="h-3 w-24" />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {Array.from({ length: 5 }, (_, index) => (
+            <Skeleton
+              key={`project-filter-skeleton-${index}`}
+              className="h-6 w-20 rounded-full"
+            />
+          ))}
+        </div>
+      </div>
+    </SurfacePanel>
+  )
+}
+
+function ProjectsPageGridSkeleton({ count = 6 }) {
+  return (
+    <div className="grid gap-4 lg:auto-rows-fr lg:grid-cols-3">
+      {Array.from({ length: count }, (_, index) => (
+        <ProjectCardSkeleton
+          key={`project-page-skeleton-${index}`}
+          className={projectCardMinHeightClass}
+        />
+      ))}
+    </div>
+  )
+}
+
+export default function ProjectsPageView({ lang, content }) {
+  const sectionRef = useRef(null)
+  const shouldLoadContent = useInView(sectionRef, DEFERRED_CONTENT_VIEWPORT)
   const [activeStack, setActiveStack] = useState("all")
+  const {
+    items: projects,
+    source,
+    issue,
+    isLoading,
+  } = useProjectsContent(lang, {
+    enabled: shouldLoadContent,
+  })
   const contactsHref = localizePath("/contacts", lang)
   const homeHref = localizePath("/", lang)
   const notice = getIssueNotice(issue, lang)
@@ -54,23 +115,23 @@ export default function ProjectsPageView({
     activeStack === "all"
       ? projects
       : projects.filter((project) => project.stack.includes(activeStack))
-  const stats =
-    (content.page.stats ?? []).map((item) => ({
-      label: item.label,
-      value: String(getStatValue(item.key, filteredProjects)),
-    })) ?? []
+  const stats = (content.page.stats ?? []).map((item) => ({
+    label: item.label,
+    value: String(getStatValue(item.key, filteredProjects)),
+  }))
   const resultLabel =
     filteredProjects.length === 1
       ? filters.resultSingular
       : filters.resultPlural
+  const showLoadingState = shouldLoadContent && isLoading && !projects.length
 
   return (
-    <section className="relative py-6 md:py-10">
+    <section ref={sectionRef} className="relative py-6 md:py-10">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.1, ease }}
-        className="pointer-events-none absolute left-1/2 top-2 md:left-16 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/10 blur-[90px]"
+        className="pointer-events-none absolute left-1/2 top-2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/10 blur-[90px] md:left-16"
       />
 
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
@@ -88,28 +149,41 @@ export default function ProjectsPageView({
             titleClassName="text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl"
           />
 
-          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-            {stats.map((item) => (
-              <SurfacePanel key={item.label} className="p-4">
-                <p className="text-2xl font-semibold sm:text-3xl">
-                  {item.value}
-                </p>
-                <p className="mt-1 text-sm text-foreground/50">{item.label}</p>
-              </SurfacePanel>
-            ))}
-          </div>
+          {showLoadingState ? (
+            <ProjectsPageStatsSkeleton count={content.page.stats?.length ?? 3} />
+          ) : shouldLoadContent && stats.length ? (
+            <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+              {stats.map((item) => (
+                <SurfacePanel key={item.label} className="p-4">
+                  <p className="text-2xl font-semibold sm:text-3xl">
+                    {item.value}
+                  </p>
+                  <p className="mt-1 text-sm text-foreground/50">
+                    {item.label}
+                  </p>
+                </SurfacePanel>
+              ))}
+            </div>
+          ) : null}
         </motion.div>
 
-        {source === "fallback" && notice ? (
-          <motion.div {...fadeUp(0.05)}>
-            <ContentNotice
-              title={notice.title}
-              description={notice.description}
-            />
-          </motion.div>
-        ) : null}
-
-        {projects.length ? (
+        <RemoteContentState
+          shouldLoad={shouldLoadContent}
+          source={source}
+          notice={notice}
+          isLoading={isLoading}
+          hasItems={projects.length > 0}
+          skeleton={
+            <>
+              <motion.div {...fadeUp(0.08)}>
+                <ProjectsPageFiltersSkeleton />
+              </motion.div>
+              <ProjectsPageGridSkeleton />
+            </>
+          }
+          emptyTitle={emptyState?.title}
+          emptyDescription={emptyState?.description}
+        >
           <>
             {stackFilters.length ? (
               <motion.div {...fadeUp(0.08)}>
@@ -160,7 +234,7 @@ export default function ProjectsPageView({
             ) : null}
 
             {filteredProjects.length ? (
-              <div className="grid gap-4 lg:grid-cols-3">
+              <div className="grid gap-4 lg:auto-rows-fr lg:grid-cols-3">
                 {filteredProjects.map((project, index) => {
                   return (
                     <motion.div
@@ -172,6 +246,7 @@ export default function ProjectsPageView({
                         ease,
                         delay: 0.12 + index * 0.08,
                       }}
+                      className={projectCardMinHeightClass}
                     >
                       <ProjectCard project={project} index={index} />
                     </motion.div>
@@ -187,14 +262,7 @@ export default function ProjectsPageView({
               </motion.div>
             )}
           </>
-        ) : (
-          <motion.div {...fadeUp(0.1)}>
-            <ContentEmptyState
-              title={emptyState?.title}
-              description={emptyState?.description}
-            />
-          </motion.div>
-        )}
+        </RemoteContentState>
 
         <motion.div
           {...fadeUp(0.2)}
@@ -228,4 +296,3 @@ export default function ProjectsPageView({
     </section>
   )
 }
-

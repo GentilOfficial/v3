@@ -4,20 +4,13 @@ import { HamburgerButton } from "@/components/ui/HamburgerButton"
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher"
 import { NavRouteDropdown } from "@/components/ui/NavRouteDropdown"
 import { ThemeToggle } from "@/components/ui/ThemeToggle"
-import { layout, routes } from "@/content/site"
-import {
-  getLocalizedRoutes,
-  getLocalizedValue,
-  localizePath,
-  normalizePathname,
-} from "@/lib/i18n"
+import { localizePath, normalizePathname } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
-import { useLanguage } from "@/providers/LanguageContext"
 import Logo from "@/public/logo.svg"
 import { motion, useMotionValue, useSpring } from "motion/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { NavbarMobileMenu } from "@/components/layout/NavbarMobileMenu"
 
 const navVariants = {
@@ -25,8 +18,7 @@ const navVariants = {
   hidden: { y: "-100%" },
 }
 
-export default function Navbar() {
-  const { lang } = useLanguage()
+export default function Navbar({ lang, localizedRoutes, localizedLayout }) {
   const scrollY = useMotionValue(0)
   const scrollYProgress = useMotionValue(0)
   const [hidden, setHidden] = useState(false)
@@ -38,11 +30,6 @@ export default function Navbar() {
   const navRef = useRef(null)
   const hiddenRef = useRef(hidden)
   const scrolledRef = useRef(scrolled)
-  const localizedRoutes = useMemo(
-    () => getLocalizedRoutes(routes, lang),
-    [lang],
-  )
-  const localizedLayout = useMemo(() => getLocalizedValue(layout, lang), [lang])
   const homeHref = localizePath("/", lang)
 
   const hasNavDropdownOpen = !!activeDropdown
@@ -195,6 +182,7 @@ export default function Navbar() {
                       )
                     }
                     onNavigate={() => setActiveDropdown(null)}
+                    dropdownPrefix={localizedLayout.navigation.dropdownPrefix}
                   />
                 )
               })}
@@ -203,7 +191,11 @@ export default function Navbar() {
 
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
-            <ThemeToggle onOpenChange={setDropdownOpen} />
+            <ThemeToggle
+              onOpenChange={setDropdownOpen}
+              triggerAriaLabel={localizedLayout.themeToggle.triggerAriaLabel}
+              themeOptions={localizedLayout.themeToggle.options}
+            />
             <HamburgerButton
               open={open}
               setOpen={setOpen}
@@ -217,6 +209,7 @@ export default function Navbar() {
           pathname={pathname}
           open={open}
           setOpen={setOpen}
+          dropdownPrefix={localizedLayout.navigation.dropdownPrefix}
         />
         <motion.div
           style={{ scaleX }}

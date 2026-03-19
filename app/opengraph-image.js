@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+
 import { layout } from "@/content/site"
 import { ImageResponse } from "next/og"
 import { readFile } from "node:fs/promises"
