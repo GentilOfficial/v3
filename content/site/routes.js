@@ -5,6 +5,7 @@ const routes = [
       it: "Home",
     },
     href: "/",
+    metadataKey: "home",
     items: [
       {
         name: {
@@ -74,6 +75,7 @@ const routes = [
       it: "Chi sono",
     },
     href: "/about",
+    metadataKey: "about",
   },
   {
     name: {
@@ -81,6 +83,7 @@ const routes = [
       it: "Progetti",
     },
     href: "/projects",
+    metadataKey: "projects",
   },
   {
     name: {
@@ -88,6 +91,7 @@ const routes = [
       it: "Contatti",
     },
     href: "/contacts",
+    metadataKey: "contact",
   },
 ]
 

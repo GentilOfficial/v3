@@ -4,9 +4,9 @@ import { DynamicGridPattern } from "@/components/layout/DynamicGridPattern"
 import { Footer } from "@/components/layout/Footer"
 import LayoutInner from "@/components/layout/LayoutInner"
 import Navbar from "@/components/layout/Navbar"
-import { layout } from "@/content/site"
 import CustomCursor from "@/components/ui/CustomCursor"
 import { DEFAULT_LOCALE, isLocale } from "@/config/i18n.config"
+import { getLayoutMetadata } from "@/content/site/layout"
 import { cn } from "@/lib/utils"
 import { LanguageProvider } from "@/providers/LanguageContext"
 import LenisScroll from "@/providers/LenisScroll"
@@ -29,10 +29,18 @@ const monoFont = localFont({
   preload: true,
 })
 
-export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL),
-  title: layout.metadata.title,
-  description: layout.metadata.description,
+export async function generateMetadata() {
+  const requestHeaders = await headers()
+  const pathname = requestHeaders.get("x-pathname")
+  const headerLang = requestHeaders.get("x-lang")
+  const currentLang = isLocale(headerLang) ? headerLang : DEFAULT_LOCALE
+  const pageMetadata = getLayoutMetadata(pathname, currentLang)
+
+  return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL),
+    title: pageMetadata.title,
+    description: pageMetadata.description,
+  }
 }
 
 export const viewport = {

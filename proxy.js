@@ -31,6 +31,10 @@ export function proxy(request) {
 
     const requestHeaders = new Headers(request.headers)
     requestHeaders.set("x-lang", pathnameLocale)
+    requestHeaders.set(
+      "x-pathname",
+      pathWithoutLocale === "/" ? "/" : pathWithoutLocale,
+    )
 
     const response = NextResponse.rewrite(rewriteUrl, {
       request: { headers: requestHeaders },
@@ -41,6 +45,7 @@ export function proxy(request) {
 
   const requestHeaders = new Headers(request.headers)
   requestHeaders.set("x-lang", DEFAULT_LOCALE)
+  requestHeaders.set("x-pathname", pathname)
 
   return NextResponse.next({
     request: { headers: requestHeaders },
