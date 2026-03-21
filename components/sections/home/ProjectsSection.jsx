@@ -33,10 +33,11 @@ export default function ProjectsSection({ lang, content }) {
     enabled: shouldLoadContent,
   })
   const { title, subtitle, description, viewAll } = content
-  const topProjects = items.slice(0, 3)
+  const topProjects = items.filter((project) => project.featured).slice(0, 3)
   const projectsHref = localizePath("/projects", lang)
   const notice = getIssueNotice(issue, lang)
-  const emptyState = getEmptyStateCopy("projects", lang)
+  const hasHiddenProjects = items.length > 0 && topProjects.length === 0
+  const emptyState = getEmptyStateCopy("projects", lang, hasHiddenProjects)
 
   return (
     <section ref={sectionRef} className="py-20 md:py-24" id="projects">

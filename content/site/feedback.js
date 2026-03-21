@@ -7,7 +7,7 @@ export const feedback = {
       },
       description: {
         en: "The database configuration is missing. Showing local fallback content.",
-        it: "La configurazione del database non è disponibile. Sto mostrando contenuti locali di fallback.",
+        it: "La configurazione del database non e disponibile. Sto mostrando contenuti locali di fallback.",
       },
     },
     db_unavailable: {
@@ -17,7 +17,7 @@ export const feedback = {
       },
       description: {
         en: "A database or network issue occurred. Showing local fallback content.",
-        it: "Si è verificato un problema di rete o database. Sto mostrando contenuti locali di fallback.",
+        it: "Si e verificato un problema di rete o database. Sto mostrando contenuti locali di fallback.",
       },
     },
     invalid_data: {
@@ -38,8 +38,18 @@ export const feedback = {
         it: "Nessun progetto pubblicato",
       },
       description: {
-        en: "Projects will appear here as soon as they are published in the database.",
-        it: "I progetti appariranno qui non appena saranno pubblicati nel database.",
+        en: "Projects will appear here as soon as they are published.",
+        it: "I progetti appariranno qui non appena saranno pubblicati.",
+      },
+      featured: {
+        title: {
+          en: "No featured projects yet",
+          it: "Nessun progetto in evidenza",
+        },
+        description: {
+          en: "Published projects will appear in this homepage section once they are marked as featured.",
+          it: "I progetti pubblicati appariranno in questa sezione della home quando saranno segnati come evidenti.",
+        },
       },
     },
     certifications: {
@@ -48,8 +58,18 @@ export const feedback = {
         it: "Nessuna certificazione disponibile",
       },
       description: {
-        en: "Certifications will appear here once they are published in the database.",
-        it: "Le certificazioni appariranno qui una volta pubblicate nel database.",
+        en: "Certifications will appear here once they are published.",
+        it: "Le certificazioni appariranno qui una volta pubblicate.",
+      },
+      featured: {
+        title: {
+          en: "No featured certifications yet",
+          it: "Nessuna certificazione in evidenza",
+        },
+        description: {
+          en: "Published certifications will appear in this homepage section once they are marked as featured.",
+          it: "Le certificazioni pubblicate appariranno in questa sezione della home quando saranno segnate come evitendi.",
+        },
       },
     },
     experiences: {
@@ -58,8 +78,8 @@ export const feedback = {
         it: "Nessuna esperienza disponibile",
       },
       description: {
-        en: "Experiences will appear here once they are published in the database.",
-        it: "Le esperienze appariranno qui una volta pubblicate nel database.",
+        en: "Experiences will appear here once they are published.",
+        it: "Le esperienze appariranno qui una volta pubblicate.",
       },
     },
   },

@@ -57,8 +57,14 @@ export default function CertificationsSection({ lang, content }) {
     enabled: shouldLoadContent,
   })
   const { title, subtitle, description } = content
+  const featuredItems = items.filter((item) => item.featured)
   const notice = getIssueNotice(issue, lang)
-  const emptyState = getEmptyStateCopy("certifications", lang)
+  const hasHiddenCertifications = items.length > 0 && featuredItems.length === 0
+  const emptyState = getEmptyStateCopy(
+    "certifications",
+    lang,
+    hasHiddenCertifications,
+  )
 
   return (
     <section ref={sectionRef} className="py-20 md:py-24" id="certifications">
@@ -78,7 +84,7 @@ export default function CertificationsSection({ lang, content }) {
             source={source}
             notice={notice}
             isLoading={isLoading}
-            hasItems={items.length > 0}
+            hasItems={featuredItems.length > 0}
             skeleton={<CertificationsSectionSkeleton />}
             emptyTitle={emptyState?.title}
             emptyDescription={emptyState?.description}
@@ -93,7 +99,7 @@ export default function CertificationsSection({ lang, content }) {
               viewport={{ once: true, margin: "-60px" }}
               className="grid grid-cols-1 gap-4 sm:grid-cols-2"
             >
-              {items.map((item, index) => (
+              {featuredItems.map((item, index) => (
                 <motion.div
                   key={item.slug ?? `cert-${index}`}
                   variants={cardVariants}
