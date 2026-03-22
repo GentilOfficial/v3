@@ -1,6 +1,5 @@
 "use client"
 
-import Divider from "@/components/ui/Divider"
 import { cn } from "@/lib/utils"
 import {
   BadgeCheck,
@@ -110,8 +109,6 @@ export function NavRouteDropdown({
                   <ChevronRight className="size-3.5 text-foreground/35 group-hover:text-foreground/60 transition-colors" />
                 </Link>
 
-                <Divider className="w-full my-1.5" />
-
                 {route.items.map((item) => {
                   const Icon = itemIconMap[item.icon] ?? CircleHelp
                   return (
@@ -160,13 +157,11 @@ export function NavRouteDropdown({
                   >
                     <div className="flex items-center gap-2.5">
                       <span className="text-sm font-medium text-foreground/85 group-hover:text-foreground">
-                        {route.name}
+                        {dropdownPrefix} {route.name}
                       </span>
                       <ChevronRight className="size-3.5 text-foreground/35 group-hover:text-foreground/60 transition-colors" />
                     </div>
                   </Link>
-
-                  <Divider className="w-full my-0" />
 
                   {route.items.map((item) => {
                     const Icon = itemIconMap[item.icon] ?? CircleHelp
@@ -202,4 +197,3 @@ export function NavRouteDropdown({
     </div>
   )
 }
-

@@ -8,6 +8,7 @@ export default function NavigationScrollToTop() {
 
   useEffect(() => {
     if (!pathname) return
+    if (window.location.hash && window.location.hash !== "#") return
 
     const scrollToTop = () => {
       window.scrollTo({ top: 0, left: 0, behavior: "auto" })

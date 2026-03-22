@@ -51,7 +51,7 @@ export function NavbarMobileMenu({
           exit={{ height: 0, opacity: 0 }}
           transition={{
             type: "tween",
-            duration: 0.4,
+            duration: 0.25,
             ease: [0.25, 0.5, 0.75, 1],
           }}
           className="md:hidden overflow-hidden"
@@ -73,8 +73,8 @@ export function NavbarMobileMenu({
                   initial={{ x: -12, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{
-                    delay: i * 0.06,
-                    duration: 0.3,
+                    delay: i * 0.035,
+                    duration: 0.2,
                     ease: [0.25, 0.75, 0.25, 1],
                   }}
                 >
@@ -83,7 +83,7 @@ export function NavbarMobileMenu({
                       href={route.href}
                       onClick={() => setOpen(false)}
                       className={cn(
-                        "w-full inline-flex items-center justify-between rounded-lg border px-3 py-2 text-sm transition-colors duration-300",
+                        "w-full inline-flex items-center justify-between rounded-lg border px-3 py-2 text-sm transition-colors duration-200",
                         isActive
                           ? "border-border bg-sidebar/75 text-foreground"
                           : "border-transparent text-foreground/55 hover:text-foreground/80 hover:bg-sidebar/45",

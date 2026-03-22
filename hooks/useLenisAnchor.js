@@ -1,77 +1,113 @@
 "use client"
-import {useEffect} from "react"
+import { usePathname } from "next/navigation"
+import { useEffect } from "react"
 
 export function useLenisAnchor() {
-    useEffect(() => {
-        const normalizePath = (path) => {
-            const normalized = path.replace(/\/+$/, "")
-            return normalized || "/"
+  const pathname = usePathname()
+
+  useEffect(() => {
+    let isCancelled = false
+    const timeoutIds = new Set()
+
+    const scheduleRetry = (callback, delay) => {
+      const timeoutId = window.setTimeout(() => {
+        timeoutIds.delete(timeoutId)
+        callback()
+      }, delay)
+
+      timeoutIds.add(timeoutId)
+    }
+
+    const normalizePath = (path) => {
+      const normalized = path.replace(/\/+$/, "")
+      return normalized || "/"
+    }
+
+    const findTarget = (hash) => {
+      if (!hash || hash === "#") return null
+
+      const decodedId = decodeURIComponent(hash.slice(1))
+      if (decodedId) {
+        const byId = document.getElementById(decodedId)
+        if (byId) return byId
+
+        const byName = document.getElementsByName(decodedId)[0]
+        if (byName) return byName
+      }
+
+      try {
+        return document.querySelector(hash)
+      } catch {
+        return null
+      }
+    }
+
+    const smoothScrollToHash = (hash, attempt = 0) => {
+      if (isCancelled || !hash || hash === "#") return
+
+      const target = findTarget(hash)
+      if (!target) {
+        if (attempt < 20) {
+          scheduleRetry(() => smoothScrollToHash(hash, attempt + 1), 50)
         }
+        return
+      }
 
-        const smoothScrollToHash = (hash) => {
-            if (!hash || hash === "#") return
+      if (window.lenis) {
+        window.lenis.scrollTo(target, {
+          offset: -80,
+          duration: 1.4,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        })
+        return
+      }
 
-            const target = document.querySelector(hash)
-            if (!target) return
+      target.scrollIntoView({ behavior: "smooth", block: "start" })
+    }
 
-            const run = (attempt = 0) => {
-                if (window.lenis) {
-                    window.lenis.scrollTo(target, {
-                        offset: -80,
-                        duration: 1.4,
-                        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                    })
-                    return
-                }
+    const handleClick = (e) => {
+      const anchor = e.target.closest("a")
+      if (!anchor) return
 
-                if (attempt < 8) {
-                    setTimeout(() => run(attempt + 1), 50)
-                    return
-                }
+      const href = anchor.getAttribute("href")
+      if (!href || !href.includes("#")) return
 
-                target.scrollIntoView({behavior: "smooth", block: "start"})
-            }
+      const url = new URL(href, window.location.href)
+      const hash = url.hash
+      if (!hash) return
 
-            run()
-        }
+      const currentPath = normalizePath(window.location.pathname)
+      const targetPath = normalizePath(url.pathname)
+      if (currentPath !== targetPath) return
 
-        const handleClick = (e) => {
-            const anchor = e.target.closest("a")
-            if (!anchor) return
+      e.preventDefault()
+      smoothScrollToHash(hash)
 
-            const href = anchor.getAttribute("href")
-            if (!href || !href.includes("#")) return
+      if (window.location.hash !== hash) {
+        window.history.pushState(
+          null,
+          "",
+          `${window.location.pathname}${window.location.search}${hash}`,
+        )
+      }
+    }
 
-            const url = new URL(href, window.location.href)
-            const hash = url.hash
-            if (!hash) return
+    const handleHashChange = () => {
+      smoothScrollToHash(window.location.hash)
+    }
 
-            const currentPath = normalizePath(window.location.pathname)
-            const targetPath = normalizePath(url.pathname)
-            if (currentPath !== targetPath) return
+    document.addEventListener("click", handleClick)
+    window.addEventListener("hashchange", handleHashChange)
 
-            e.preventDefault()
-            smoothScrollToHash(hash)
+    if (window.location.hash) {
+      smoothScrollToHash(window.location.hash)
+    }
 
-            if (window.location.hash !== hash) {
-                window.history.pushState(null, "", `${window.location.pathname}${window.location.search}${hash}`)
-            }
-        }
-
-        const handleHashChange = () => {
-            smoothScrollToHash(window.location.hash)
-        }
-
-        document.addEventListener("click", handleClick)
-        window.addEventListener("hashchange", handleHashChange)
-
-        if (window.location.hash) {
-            setTimeout(() => smoothScrollToHash(window.location.hash), 0)
-        }
-
-        return () => {
-            document.removeEventListener("click", handleClick)
-            window.removeEventListener("hashchange", handleHashChange)
-        }
-    }, [])
+    return () => {
+      isCancelled = true
+      timeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId))
+      document.removeEventListener("click", handleClick)
+      window.removeEventListener("hashchange", handleHashChange)
+    }
+  }, [pathname])
 }
