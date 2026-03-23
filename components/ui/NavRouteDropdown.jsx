@@ -141,7 +141,7 @@ export function NavRouteDropdown({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 6, scale: 0.98 }}
               transition={{ duration: 0.18, ease: [0.25, 0.75, 0.25, 1] }}
-              className="absolute z-10 left-0 top-full pt-3 w-90"
+              className="absolute z-10 left-0 top-full pt-1 w-90"
             >
               <div className="rounded-lg border border-border bg-background p-2 shadow-md shadow-black/5">
                 <div className="flex flex-col gap-1">

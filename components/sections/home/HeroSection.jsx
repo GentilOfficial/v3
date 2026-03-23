@@ -14,9 +14,7 @@ import {
   SiTailwindcss,
 } from "react-icons/si"
 
-const TechStackLoop = dynamic(
-  () => import("@/components/ui/TechStackLoop"),
-)
+const TechStackLoop = dynamic(() => import("@/components/ui/TechStackLoop"))
 const Terminal = dynamic(() =>
   import("@/components/ui/terminal").then((mod) => mod.Terminal),
 )
@@ -176,6 +174,3 @@ export default function HeroSection({ content, localizedRoutes }) {
     </section>
   )
 }
-
-
-

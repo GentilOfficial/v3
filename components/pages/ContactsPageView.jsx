@@ -114,7 +114,9 @@ export default function ContactsPageView({ content, emailAddress, socials }) {
                       : content.actions.copyEmail
                   }
                   title={
-                    emailCopied ? content.actions.copied : content.actions.copyEmail
+                    emailCopied
+                      ? content.actions.copied
+                      : content.actions.copyEmail
                   }
                 >
                   {emailCopied ? (

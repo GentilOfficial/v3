@@ -19,10 +19,12 @@ export function DynamicGridPattern() {
       transition={{ duration: 1.2, ease: "easeOut" }}
     >
       <GridPattern
-        strokeDasharray="4 2"
+        strokeDasharray="8 2"
+        width={45}
+        height={45}
         className={cn(
           "-z-50 opacity-30 mask-intersect",
-          "mask-[linear-gradient(to_right,transparent,white,transparent),linear-gradient(to_bottom,transparent,white_25%,white_75%,transparent)]",
+          "mask-[linear-gradient(to_right,transparent,white,transparent),linear-gradient(to_bottom,transparent,white_300px,white_calc(100%-300px),transparent)]",
         )}
       />
     </motion.div>

@@ -128,10 +128,10 @@ export default function ProjectsPageView({ lang, content }) {
   return (
     <section ref={sectionRef} className="relative py-6 md:py-10">
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, scale: 0.85 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.1, ease }}
-        className="pointer-events-none absolute left-1/2 top-2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/10 blur-[90px] md:left-16"
+        transition={{ duration: 1.1, ease: [0.25, 0.75, 0.25, 1] }}
+        className="pointer-events-none absolute -top-16 md:top-6 -left-6 h-72 w-72 rounded-full bg-primary/5 blur-[90px]"
       />
 
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
@@ -150,7 +150,9 @@ export default function ProjectsPageView({ lang, content }) {
           />
 
           {showLoadingState ? (
-            <ProjectsPageStatsSkeleton count={content.page.stats?.length ?? 3} />
+            <ProjectsPageStatsSkeleton
+              count={content.page.stats?.length ?? 3}
+            />
           ) : shouldLoadContent && stats.length ? (
             <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
               {stats.map((item) => (

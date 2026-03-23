@@ -1,4 +1,5 @@
 "use client"
+import { NavbarMobileMenu } from "@/components/layout/NavbarMobileMenu"
 import Divider from "@/components/ui/Divider"
 import { HamburgerButton } from "@/components/ui/HamburgerButton"
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher"
@@ -11,7 +12,6 @@ import { motion, useMotionValue, useSpring } from "motion/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
-import { NavbarMobileMenu } from "@/components/layout/NavbarMobileMenu"
 
 export default function Navbar({ lang, localizedRoutes, localizedLayout }) {
   const scrollY = useMotionValue(0)
@@ -89,10 +89,7 @@ export default function Navbar({ lang, localizedRoutes, localizedLayout }) {
   }, [open, activeDropdown])
 
   return (
-    <motion.header
-      ref={navRef}
-      className="fixed top-0 w-full z-50"
-    >
+    <motion.header ref={navRef} className="fixed top-0 w-full z-50">
       <div
         className={cn(
           "relative border-b transition-colors duration-300",
@@ -166,7 +163,6 @@ export default function Navbar({ lang, localizedRoutes, localizedLayout }) {
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
             <ThemeToggle
-              onOpenChange={setDropdownOpen}
               triggerAriaLabel={localizedLayout.themeToggle.triggerAriaLabel}
               themeOptions={localizedLayout.themeToggle.options}
             />
