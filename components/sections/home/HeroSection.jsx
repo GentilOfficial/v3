@@ -4,6 +4,7 @@ import Divider from "@/components/ui/Divider"
 import GradientText from "@/components/ui/GradientText"
 import { motion, useInView } from "motion/react"
 import dynamic from "next/dynamic"
+import { useLoading } from "@/providers/LoadingProvider"
 import { useRef } from "react"
 import {
   SiGithub,
@@ -37,9 +38,10 @@ const TECH_ICON_MAP = {
 const ease = [0.25, 0.75, 0.25, 1]
 
 export default function HeroSection({ content, localizedRoutes }) {
+  const { isLoading } = useLoading()
   const fadeUp = (delay = 0) => ({
     initial: { opacity: 0, y: 28, filter: "blur(8px)" },
-    animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+    animate: isLoading ? {} : { opacity: 1, y: 0, filter: "blur(0px)" },
     transition: { duration: 0.9, ease, delay },
   })
 
@@ -115,7 +117,7 @@ export default function HeroSection({ content, localizedRoutes }) {
 
         <motion.div
           initial={{ opacity: 0, scaleX: 0.4 }}
-          animate={{ opacity: 1, scaleX: 1 }}
+          animate={isLoading ? {} : { opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.9, ease, delay: 0.48 }}
           style={{ originX: 0 }}
         >
@@ -136,7 +138,7 @@ export default function HeroSection({ content, localizedRoutes }) {
           ref={terminalRef}
           initial={{ opacity: 0, y: 32, filter: "blur(10px)" }}
           animate={
-            terminalInView
+            !isLoading && terminalInView
               ? { opacity: 1, y: 0, filter: "blur(0px)" }
               : { opacity: 0, y: 32, filter: "blur(10px)" }
           }
